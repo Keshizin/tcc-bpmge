@@ -2,3 +2,4 @@ docs/diagrams/*.drawio
 bin/*.exe
 bin/*.out
 obj/*.o
+obj/*.d

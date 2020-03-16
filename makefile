@@ -47,10 +47,51 @@ var-teste:
 	@echo $(DIRLIB_FLAG)
 	@echo $(INC_FLAGS)
 
+-include $(DFILES)
+
+$(OBJ_DIR)/%.d: $(SRC_DIR)/%.cpp
+# 	@echo . Gerando arquivos .d (dependencias - GCC) $<
+	@g++ -c $< -MM -MT 'obj/$*.o obj/$*.d ' -MD $(INC_FLAGS) -o $@
+
+#
+# UNIT TEST COMPILATION
+#
+
+# DIR PATH
+UT_SRC_DIR=tests
+INC_DIR=inc
+
+# COMPILATION FLAGS
+INC_FLAGS=-I$(INC_DIR)
+
+# BUILD NAMES
+UT_OUTPUT_NAME=unit-test.exe
+UTCPPSOURCES=$(wildcard $(UT_SRC_DIR)/*.cpp)
+UTOBJFILES=$(patsubst $(UT_SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(UTCPPSOURCES))
+
+# TARGETS
+unit-test: $(BIN_DIR)/$(UT_OUTPUT_NAME)
+	@$(MAKE) --no-print-directory clean-obj
+	@$(MAKE) --no-print-directory clean-d
+
+# LINKING PHASE
+$(BIN_DIR)/$(UT_OUTPUT_NAME): $(UTOBJFILES) $(OBJFILES)
+	@echo . Gerando executavel final: $@
+	@g++ $^ -o $@ $(OBJRESFILES) $(DIRLIB_FLAGS) $(LIB_FLAGS) -Wall
+
+# COMPILATION PHASE
+$(OBJ_DIR)/%.o: $(UT_SRC_DIR)/%.cpp
+	@echo . Compilando $<
+	@g++ -c $< $(INC_FLAGS) -o $@
+
+#
+# CLEANING EVERYTHING!
+#
 clean-exe:
 	@echo . Deletando o executavel
 # Para o Microsoft Windows!
 	@del $(BIN_DIR)\$(OUTPUT_NAME)
+	@del $(BIN_DIR)\$(UT_OUTPUT_NAME)
 # Para o UNIX!
 #	rm bin/teste.exe
 
@@ -78,36 +119,3 @@ remade:
 	@echo REMADE
 	@$(MAKE) --no-print-directory clean-all
 	@$(MAKE) --no-print-directory all
-
--include $(DFILES)
-
-$(OBJ_DIR)/%.d: $(SRC_DIR)/%.cpp
-	@echo . Gerando arquivos .d (dependencias - GCC) $<
-	@g++ -c $< -MM -MT 'obj/$*.o obj/$*.d ' -MD $(INC_FLAGS) -o $@
-
-#
-# UNIT TEST COMPILATION
-#
-
-# DIR PATH
-UT_SRC_DIR=tests
-
-# BUILD NAMES
-UT_OUTPUT_NAME=unit_test.exe
-UTCPPSOURCES=$(wildcard $(UT_SRC_DIR)/*.cpp)
-UTOBJFILES=$(patsubst $(UT_SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(UTCPPSOURCES))
-
-# TARGETS
-all-ut: $(BIN_DIR)/$(UT_OUTPUT_NAME)
-	@$(MAKE) --no-print-directory clean-obj
-	@$(MAKE) --no-print-directory clean-d
-
-# LINKING PHASE
-$(BIN_DIR)/$(UT_OUTPUT_NAME): $(UTOBJFILES) $(OBJFILES)
-	@echo . Gerando executavel final: $@
-	@g++ $^ -o $@ $(OBJRESFILES) $(DIRLIB_FLAGS) $(LIB_FLAGS) -Wall
-
-# COMPILATION PHASE
-$(OBJ_DIR)/%.o: $(UT_SRC_DIR)/%.cpp
-	@echo . Compilando $<
-	@g++ -c $< $(INC_FLAGS) -o $@
