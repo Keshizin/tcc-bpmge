@@ -10,7 +10,8 @@ int main(int argc, char **argv)
 
 	std::cout << "Teste de Unidade para " << projectName << "\n" << std::endl;
 
-	if(testWindow())
+	// Case test #1 | Window System
+	if(testInstanceWindow())
 		std::cout << "> TESTE | GEWindow Class | SUCCESS\n" << std::endl;
 	else
 		std::cout << "> TESTE | GEWindow Class | FAIL\n" << std::endl;

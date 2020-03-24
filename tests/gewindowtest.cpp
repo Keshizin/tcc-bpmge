@@ -2,9 +2,10 @@
 #include <gewindow.h>
 #include <iostream>
 
-int testWindow()
+int testInstanceWindow()
 {
-	GEWindow test;
+	GEApiWrapper *apiWrapper = new GEApiWrapper();
+	GEWindow test(apiWrapper);
 
 	// Teste GETTERS and SETTERS
 	test.setName("teste window");
@@ -50,5 +51,6 @@ int testWindow()
 		return 0;
 	}
 
+	delete apiWrapper;
 	return 1;
 }

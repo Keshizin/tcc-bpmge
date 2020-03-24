@@ -1,8 +1,8 @@
 #include <gewindow.h>
 
-GEWindow::GEWindow()
+GEWindow::GEWindow(GEApiWrapper *apiWrapper)
 {
-
+	this->apiWrapper = apiWrapper;
 }
 
 int GEWindow::createWindow()
@@ -14,7 +14,6 @@ int GEWindow::destroyWindow()
 {
 	return 1;
 }
-
 
 void GEWindow::setName(std::string name)
 {
@@ -46,6 +45,11 @@ void GEWindow::setYPosition(int yPosition)
 	this->yPosition = yPosition;
 }
 
+void GEWindow::setApiWrapper(GEApiWrapper *apiWrapper)
+{
+	this->apiWrapper = apiWrapper;
+}
+
 std::string GEWindow::getName()
 {
 	return name;
@@ -74,4 +78,9 @@ int GEWindow::getXPosition()
 int GEWindow::getYPosition()
 {
 	return yPosition;
+}
+
+GEApiWrapper *GEWindow::getApiWrapper()
+{
+	return apiWrapper;
 }
