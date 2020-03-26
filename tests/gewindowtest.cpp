@@ -1,6 +1,8 @@
 #include "gewindowtest.hpp"
+
 #include <gewindow.h>
 #include <iostream>
+#include <gewinapiwrapper.h>
 
 int testInstanceWindow()
 {
@@ -8,14 +10,14 @@ int testInstanceWindow()
 	GEWindow test(apiWrapper);
 
 	// Teste GETTERS and SETTERS
-	test.setName("teste window");
+	test.setName("Test - CASE #1");
 	test.setWidth(800);
 	test.setHeight(600);
 	test.setStyle(1);
 	test.setXPosition(10);
 	test.setYPosition(20);
 
-	if(test.getName().compare("teste window"))
+	if(test.getName().compare("Test - CASE #1"))
 	{
 		std::cout << "> Wrong name: " << test.getName() << std::endl;
 		return 0;
@@ -53,4 +55,28 @@ int testInstanceWindow()
 
 	delete apiWrapper;
 	return 1;
+}
+
+int testCreateWindow()
+{
+	GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
+	winApiWrapper->setWindowClassName("TESTWINDOWCLASS");
+	GEApiWrapper *apiWrapper = winApiWrapper;
+	
+	GEWindow test(apiWrapper);
+	test.setName("Test - CASE #2");
+	test.setWidth(1400);
+	test.setHeight(750);
+	test.setStyle(1);
+	test.setXPosition(5);
+	test.setYPosition(5);
+
+	int ret = test.createWindow();
+
+	delete winApiWrapper;
+
+	if(ret)
+		return 1;
+	else
+		return 0;
 }

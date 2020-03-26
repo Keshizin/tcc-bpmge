@@ -7,11 +7,26 @@ GEWindow::GEWindow(GEApiWrapper *apiWrapper)
 
 int GEWindow::createWindow()
 {
+	if(!apiWrapper->initializeWindow())
+		return 0;
+
+	if(!apiWrapper->createWindow(getXPosition(), getYPosition(), getWidth(), getHeight(), getName()))
+		return 0;
+
 	return 1;
 }
 
 int GEWindow::destroyWindow()
 {
+	if(!apiWrapper->destroyWindow())
+		return 0;
+
+	return 1;
+}
+
+int GEWindow::showWindow()
+{
+	apiWrapper->showWindow();
 	return 1;
 }
 

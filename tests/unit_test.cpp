@@ -10,11 +10,17 @@ int main(int argc, char **argv)
 
 	std::cout << "Teste de Unidade para " << projectName << "\n" << std::endl;
 
-	// Case test #1 | Window System
+	// Case test #1 | Instanciar um objeto da classe GEWindow
 	if(testInstanceWindow())
-		std::cout << "> TESTE | GEWindow Class | SUCCESS\n" << std::endl;
+		std::cout << "> CASE #1 | GEWindow Class | SUCCESS\n" << std::endl;
 	else
-		std::cout << "> TESTE | GEWindow Class | FAIL\n" << std::endl;
+		std::cout << "> CASE #1 | GEWindow Class | FAIL\n" << std::endl;
+
+	// Case test #2 | Criar uma janela de aplicação (Windows) com um objeto da classe GEWindow
+	if(testCreateWindow())
+		std::cout << "> CASE #2 | GEWindow Class | SUCCESS\n" << std::endl;
+	else
+		std::cout << "> CASE #2 | GEWindow Class | FAIL\n" << std::endl;
 
 	// EVENT HANDLER TEST
 	if(eventHandlerTest())

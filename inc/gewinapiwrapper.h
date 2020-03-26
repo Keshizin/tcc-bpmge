@@ -10,7 +10,7 @@ class GEWinApiWrapper : public GEApiWrapper
 public:
 	int initializeWindow();
 	int initializeRenderingSystem();
-	int createWindow(int width, int height, std::string name);
+	int createWindow(int xPostion, int yPostion, int width, int height, std::string name);
 	int destroyWindow();
 	int showWindow();
 
@@ -21,6 +21,7 @@ public:
 private:
 	static LRESULT CALLBACK windowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	std::string windowClassName;
+	HWND hWindow;
 };
 
 #endif

@@ -11,6 +11,7 @@ public:
 
 	int createWindow();
 	int destroyWindow();
+	int showWindow();
 
 	// Getters and Setters
 	void setName(std::string name);
