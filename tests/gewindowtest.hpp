@@ -3,5 +3,6 @@
 
 int testInstanceWindow();
 int testCreateWindow();
+int testDestroyWindow();
 
 #endif

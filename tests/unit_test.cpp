@@ -22,11 +22,17 @@ int main(int argc, char **argv)
 	else
 		std::cout << "> CASE #2 | GEWindow Class | FAIL\n" << std::endl;
 
-	// EVENT HANDLER TEST
-	if(eventHandlerTest())
-		std::cout << "> TESTE | EVENT HANDLER | SUCCESS\n" << std::endl;
+	// Case test #3 | Destruir uma janela de aplicação (Windows) com um objeto da classe GEWindow
+	if(testDestroyWindow())
+		std::cout << "> CASE #3 | GEWindow Class | SUCCESS\n" << std::endl;
 	else
-		std::cout << "> TESTE | EVENT HANDLER | FAIL\n" << std::endl;
+		std::cout << "> CASE #3 | GEWindow Class | FAIL\n" << std::endl;
+
+	// // EVENT HANDLER TEST
+	// if(eventHandlerTest())
+	// 	std::cout << "> TESTE | EVENT HANDLER | SUCCESS\n" << std::endl;
+	// else
+	// 	std::cout << "> TESTE | EVENT HANDLER | FAIL\n" << std::endl;
 
 	return 0;
 }
