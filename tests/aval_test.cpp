@@ -6,6 +6,7 @@
 #define SIZE 10
 
 void pure();
+void withWinApiWrapper();
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -57,7 +58,6 @@ void pure()
 
 			numberOfFrames = 0;
 			timer.QuadPart = 0;
-			timer.QuadPart = 0;
 
 			seconds++;
 
@@ -78,5 +78,80 @@ void pure()
 
 	std::cout << "> end main loop..." << std::endl;
 
+	for(int i = 0; i < SIZE; i++)
+	{
+		std::cout << "--- frame time: " << store_frameTime[i] << std::endl;
+		std::cout << "--- FPS: " << store_numberOfFrames[i] << std::endl;
+	}
+
 	std::cout << "Bye BPM Game Engine!" << std::endl;	
+}
+
+void withWinApiWrapper()
+{
+int isRunning;
+
+	GEWinApiWrapper winApiWrapper;
+
+	unsigned long long startTime;
+	unsigned long long endTime;
+	unsigned long long frameTime = 0;
+	unsigned long long frequency;
+	unsigned long long timer = 0;
+	
+	unsigned long long store_startTime[SIZE] = {0};
+	unsigned long long store_endTime[SIZE] = {0};
+	unsigned long long store_frameTime[SIZE] = {0};
+	unsigned long long store_numberOfFrames[SIZE] = {0};
+
+	unsigned long long numberOfFrames = 0;
+	int seconds = 0;
+	
+	std::cout << "Hello BPM Game Engine!" << std::endl;
+	std::cout << "> start main loop..." << std::endl;
+
+	endTime = winApiWrapper.getHighResolutionTimerCounter();
+
+	while(isRunning)
+	{
+		startTime = winApiWrapper.getHighResolutionTimerCounter();
+
+		// ********************************************************************
+		// GAME LOOP EXECUTION HERE
+		// ********************************************************************
+		timer += frameTime;
+		frequency = winApiWrapper.getHighResolutionTimerFrequency();
+
+		if(timer >= frequency)
+		{
+			store_frameTime[seconds] = frameTime;
+			store_numberOfFrames[seconds] = numberOfFrames;
+
+			numberOfFrames = 0;
+			timer = 0;
+
+			seconds++;
+
+			if(seconds == SIZE)
+				isRunning = 0;
+		}
+
+		numberOfFrames++;
+		// ********************************************************************
+		// GAME LOOP EXECUTION HERE
+		// ********************************************************************
+		frameTime = startTime - endTime; // armazenando o tempo restante do quadro anterior
+		endTime = winApiWrapper.getHighResolutionTimerCounter();
+		frameTime += endTime - startTime;
+	}
+
+	std::cout << "> end main loop..." << std::endl;
+
+	for(int i = 0; i < SIZE; i++)
+	{
+		std::cout << "--- frame time: " << store_frameTime[i] << std::endl;
+		std::cout << "--- FPS: " << store_numberOfFrames[i] << std::endl;
+	}
+
+	std::cout << "Bye BPM Game Engine!" << std::endl; 	
 }
