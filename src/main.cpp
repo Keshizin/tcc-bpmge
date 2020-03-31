@@ -3,6 +3,6 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	std::cout << "Hello BPM Game Engine!" << std::endl;
-	return 0;
+	std::cout << "HELLO BPM Game Engine!" << std::endl;
+	return 1;
 }

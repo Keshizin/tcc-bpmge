@@ -6,7 +6,7 @@
 class UserEventHandler : public GEEventHandler
 {
 public:
-	void drawFrame();
+	void frameEvent();
 	void mouseEvent(int button, int state, int x, int y);
 	void mouseMotionEvent(int x, int y);
 	void resizeWindow(int width, int height);

@@ -1,9 +1,9 @@
 #include "geevthandlertest.hpp"
 #include <iostream>
 
-void UserEventHandler::drawFrame()
+void UserEventHandler::frameEvent()
 	{
-		std::cout << "\t# Draw Frame Event\n" << std::endl;
+		std::cout << "\t# Frame Event\n" << std::endl;
 	}
 
 void UserEventHandler::mouseEvent(int button, int state, int x, int y)
@@ -35,7 +35,7 @@ void UserEventHandler::resizeWindow(int width, int height)
 int eventHandlerTest()
 {
 	UserEventHandler *userEventHandler = new UserEventHandler();
-	userEventHandler->drawFrame();
+	userEventHandler->frameEvent();
 	userEventHandler->mouseEvent(0, 0, 1920, 1080);
 	userEventHandler->mouseMotionEvent(1, 1);
 	userEventHandler->resizeWindow(1920, 1080);

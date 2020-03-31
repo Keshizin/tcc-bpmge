@@ -20,7 +20,7 @@ INC_FLAGS=-I$(INC_DIR)
 
 # TARGETS
 all: $(BIN_DIR)/$(OUTPUT_NAME)
-	@$(MAKE) --no-print-directory clean-obj
+# 	@$(MAKE) --no-print-directory clean-obj
 	@$(MAKE) --no-print-directory clean-d
 
 # LINKING PHASE
@@ -71,7 +71,6 @@ UTOBJFILES=$(patsubst $(UT_SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(UTCPPSOURCES))
 
 # TARGETS
 unit-test: $(BIN_DIR)/$(UT_OUTPUT_NAME)
-	@$(MAKE) --no-print-directory clean-obj
 	@$(MAKE) --no-print-directory clean-d
 
 # LINKING PHASE

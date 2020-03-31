@@ -103,6 +103,31 @@ int GEWinApiWrapper::showWindow()
 	return 1;
 }
 
+unsigned long long GEWinApiWrapper::getHighResolutionTimerCounter()
+{
+	LARGE_INTEGER time;
+	QueryPerformanceCounter(&time);
+	return time.QuadPart;
+}
+
+unsigned long long GEWinApiWrapper::getHighResolutionTimerFrequency()
+{
+	LARGE_INTEGER frequency;
+	QueryPerformanceFrequency(&frequency);
+	return frequency.QuadPart;
+}
+
+// void GEWinApiWrapper::handleMessages()
+// {
+// 	MSG msg;
+
+// 	while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+// 	{
+// 		TranslateMessage(&msg);
+// 		DispatchMessage(&msg);
+// 	}
+// }
+
 void GEWinApiWrapper::setWindowClassName(std::string windowClassName)
 {
 	this->windowClassName = windowClassName;

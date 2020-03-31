@@ -13,8 +13,12 @@ public:
 	virtual int createWindow(int xPostion, int yPostion, int width, int height, std::string name) {return 1;}
 	virtual int destroyWindow() {return 1;}
 	virtual int showWindow() {return 1;}
+	virtual unsigned long long getHighResolutionTimerCounter() { return 0; }
+	virtual unsigned long long getHighResolutionTimerFrequency() { return 0; }
 
-	// Getters and Setters
+	// virtual void handleMessages() {}
+
+	// GETTERS AND SETTERS
 	void setEventHandler(GEEventHandler *eventHandler);
 	GEEventHandler * getEventHandler();
 

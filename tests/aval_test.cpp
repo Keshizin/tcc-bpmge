@@ -8,12 +8,12 @@
 void pure();
 void withWinApiWrapper();
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-{
-	// Avaliação #1
-	pure();
-	return 1;
-}
+// int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+// {
+// 	// Avaliação #1
+// 	pure();
+// 	return 1;
+// }
 
 void pure()
 {
@@ -89,7 +89,7 @@ void pure()
 
 void withWinApiWrapper()
 {
-int isRunning;
+	int isRunning;
 
 	GEWinApiWrapper winApiWrapper;
 

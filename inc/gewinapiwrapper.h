@@ -14,7 +14,11 @@ public:
 	int destroyWindow();
 	int showWindow();
 
-	// Getters and Setters
+	unsigned long long getHighResolutionTimerCounter();
+	unsigned long long getHighResolutionTimerFrequency();
+	// void handleMessages();
+
+	// GETTERS AND SETTERS
 	void setWindowClassName(std::string windowClassName);
 	std::string getWindowClassName();
 
