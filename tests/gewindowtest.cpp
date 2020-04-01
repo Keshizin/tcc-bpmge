@@ -137,7 +137,7 @@ void T1EventHandler::frameEvent()
 void T1EventHandler::finishEvent()
 {
 	std::cout << "@deb | finish event: " << isDone << std::endl;
-	//isDone = 1;
+	isDone = 1;
 }
 
 int testShowWindow()
