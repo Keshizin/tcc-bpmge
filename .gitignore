@@ -4,3 +4,4 @@ bin/*.exe
 bin/*.out
 obj/*.o
 obj/*.d
+*.log
