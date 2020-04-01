@@ -24,12 +24,17 @@ void UserEventHandler::mouseMotionEvent(int x, int y)
 		<< "\n" << std::endl;
 }
 
-void UserEventHandler::resizeWindow(int width, int height)
+void UserEventHandler::resizeWindowEvent(int width, int height)
 {
 	std::cout << "\t# Resize Window Event"
 		<< "\n\t\twidth: " << width
 		<< "\n\t\theight: " << height
 		<< "\n" << std::endl;
+}
+
+void UserEventHandler::finishEvent()
+{
+	std::cout << "\t# Finish Event" << "\n" << std::endl;
 }
 
 int eventHandlerTest()
@@ -38,6 +43,7 @@ int eventHandlerTest()
 	userEventHandler->frameEvent();
 	userEventHandler->mouseEvent(0, 0, 1920, 1080);
 	userEventHandler->mouseMotionEvent(1, 1);
-	userEventHandler->resizeWindow(1920, 1080);
+	userEventHandler->resizeWindowEvent(1920, 1080);
+	userEventHandler->finishEvent();
 	return 1;
 }

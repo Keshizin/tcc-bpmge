@@ -103,6 +103,22 @@ int GEWinApiWrapper::showWindow()
 	return 1;
 }
 
+void GEWinApiWrapper::handleSystemMessages()
+{
+	MSG msg;
+
+	while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+	{
+		if(msg.message == WM_QUIT)
+		{
+			eventHandler->finishEvent();
+		}
+
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+}
+
 unsigned long long GEWinApiWrapper::getHighResolutionTimerCounter()
 {
 	LARGE_INTEGER time;
@@ -117,17 +133,6 @@ unsigned long long GEWinApiWrapper::getHighResolutionTimerFrequency()
 	return frequency.QuadPart;
 }
 
-// void GEWinApiWrapper::handleMessages()
-// {
-// 	MSG msg;
-
-// 	while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-// 	{
-// 		TranslateMessage(&msg);
-// 		DispatchMessage(&msg);
-// 	}
-// }
-
 void GEWinApiWrapper::setWindowClassName(std::string windowClassName)
 {
 	this->windowClassName = windowClassName;
@@ -140,5 +145,36 @@ std::string GEWinApiWrapper::getWindowClassName()
 
 LRESULT CALLBACK GEWinApiWrapper::windowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	switch(uMsg)
+	{
+		// --------------------------------------------------------------------
+		//    Application Messages
+		// --------------------------------------------------------------------
+		// case WM_QUIT:
+		// 	break;
+
+		// ----------------------------------------------------------------------
+		//    Window Messages
+		// ----------------------------------------------------------------------
+		// case WM_CREATE:
+		// 	break;
+
+		case WM_DESTROY:
+			PostQuitMessage(0);
+			break;
+
+		case WM_MOVE:
+			break;
+
+		case WM_SIZE:
+			break;
+
+		case WM_CLOSE:
+			break;
+
+		default:
+		break;
+	}
+
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);	
 }

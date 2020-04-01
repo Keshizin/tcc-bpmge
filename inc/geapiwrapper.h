@@ -15,8 +15,7 @@ public:
 	virtual int showWindow() {return 1;}
 	virtual unsigned long long getHighResolutionTimerCounter() { return 0; }
 	virtual unsigned long long getHighResolutionTimerFrequency() { return 0; }
-
-	// virtual void handleMessages() {}
+	virtual void handleSystemMessages() {}
 
 	// GETTERS AND SETTERS
 	void setEventHandler(GEEventHandler *eventHandler);

@@ -7,6 +7,7 @@ class TestEventHandler : public GEEventHandler
 {
 public:
 	void frameEvent();
+	void finishEvent();
 };
 
 int testInstanceGameEngine();

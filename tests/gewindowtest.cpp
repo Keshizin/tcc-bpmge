@@ -1,8 +1,9 @@
 #include "gewindowtest.hpp"
 
 #include <gewindow.h>
-#include <iostream>
 #include <gewinapiwrapper.h>
+
+#include <iostream>
 
 int testInstanceWindow()
 {
@@ -60,7 +61,7 @@ int testInstanceWindow()
 int testCreateWindow()
 {
 	GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
-	winApiWrapper->setWindowClassName("TEST1WINDOWCLASS");
+	winApiWrapper->setWindowClassName("T1WINDOWCLASS");
 	GEApiWrapper *apiWrapper = winApiWrapper;
 	
 	GEWindow test(apiWrapper);
@@ -79,14 +80,15 @@ int testCreateWindow()
 		return 0;
 	}
 
-	winApiWrapper->setWindowClassName("TESTWINDOWCLASS");
-
-	// Criar uma segunda janela de aplicação com diferente nome de WindowClass
+	// Criar uma terceira janela de aplicação com diferente nome de WindowClass
+	winApiWrapper->setWindowClassName("T2WINDOWCLASS");
 	if(!test.createWindow())
 	{
 		delete winApiWrapper;
 		return 0;
 	}
+
+	// (!) VERIFICAR AQUI A QUESTÃO DE LIBERAÇÃO DAS JANELAS CRIADAS ACIMA!!!
 
 	delete winApiWrapper;
 	return 1;
@@ -95,7 +97,7 @@ int testCreateWindow()
 int testDestroyWindow()
 {
 	GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
-	winApiWrapper->setWindowClassName("TEST2WINDOWCLASS");
+	winApiWrapper->setWindowClassName("T3WINDOWCLASS");
 	GEApiWrapper *apiWrapper = winApiWrapper;
 
 	GEWindow test(apiWrapper);
@@ -120,6 +122,54 @@ int testDestroyWindow()
 	if(!test.destroyWindow())
 	{
 		return 0;
+	}
+
+	delete winApiWrapper;
+	return 1;
+}
+
+int isDone = 0;
+
+void T1EventHandler::frameEvent()
+{
+}
+
+void T1EventHandler::finishEvent()
+{
+	std::cout << "@deb | finish event: " << isDone << std::endl;
+	//isDone = 1;
+}
+
+int testShowWindow()
+{
+	std::cout << "@deb | u(1)" << std::endl;
+
+	GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
+	winApiWrapper->setWindowClassName("T4WINDOWCLASS");
+	GEApiWrapper *apiWrapper = winApiWrapper;
+
+	T1EventHandler *windowTestEventHandler = new T1EventHandler();
+	apiWrapper->setEventHandler(windowTestEventHandler);
+	
+	GEWindow test(apiWrapper);
+	test.setName("Unit Test - Show Window");
+	test.setWidth(800);
+	test.setHeight(600);
+	test.setStyle(1);
+	test.setXPosition(10);
+	test.setYPosition(20);
+
+	if(!test.createWindow())
+	{
+		delete winApiWrapper;
+		return 0;
+	}
+
+	test.showWindow();
+
+	while(!isDone)
+	{
+		apiWrapper->handleSystemMessages();
 	}
 
 	delete winApiWrapper;

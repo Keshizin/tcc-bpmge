@@ -16,7 +16,11 @@ void TestEventHandler::frameEvent()
 
 	if(timer >= frequency)
 	{
-		std::cout << "FPS: " << numberOfFrames << std::endl;
+		std::cout
+			<< "FPS: " << numberOfFrames
+			<< " | frame time: " << gameEngine->getTimeHandler()->getFrameTime()
+			<< std::endl;
+
 		numberOfFrames = 0;
 		timer = 0;
 
@@ -27,6 +31,11 @@ void TestEventHandler::frameEvent()
 	}
 
 	numberOfFrames++;
+}
+
+void TestEventHandler::finishEvent()
+{
+	// gameEngine->stopLoop();
 }
 
 int testInstanceGameEngine()
@@ -49,6 +58,7 @@ int testMainLoop()
 
 	TestEventHandler *testEventHandler = new TestEventHandler();
 	gameEngine->setEventHandler(testEventHandler);
+	apiWrapper->setEventHandler(testEventHandler);
 
 	std::cout << "> start main loop (for 5 seconds)..." << std::endl;
 	gameEngine->mainLoop();

@@ -9,7 +9,8 @@ public:
 	void frameEvent();
 	void mouseEvent(int button, int state, int x, int y);
 	void mouseMotionEvent(int x, int y);
-	void resizeWindow(int width, int height);
+	void resizeWindowEvent(int width, int height);
+	void finishEvent();
 };
 
 int eventHandlerTest();

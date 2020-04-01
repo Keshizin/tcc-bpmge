@@ -13,10 +13,11 @@ public:
 	int createWindow(int xPostion, int yPostion, int width, int height, std::string name);
 	int destroyWindow();
 	int showWindow();
+	void handleSystemMessages();
 
 	unsigned long long getHighResolutionTimerCounter();
 	unsigned long long getHighResolutionTimerFrequency();
-	// void handleMessages();
+	
 
 	// GETTERS AND SETTERS
 	void setWindowClassName(std::string windowClassName);
