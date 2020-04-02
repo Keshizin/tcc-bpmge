@@ -179,7 +179,7 @@ LRESULT CALLBACK GEWinApiWrapper::windowProcedure(HWND hWnd, UINT uMsg, WPARAM w
 			eventHandler->mouseEvent(0, 1, LOWORD(lParam), HIWORD(lParam));
 			break;
 
-		case WM_LBUTTONDOWN:
+		case WM_LBUTTONUP:
 			eventHandler->mouseEvent(0, 0, LOWORD(lParam), HIWORD(lParam));
 			break;
 
@@ -193,7 +193,7 @@ LRESULT CALLBACK GEWinApiWrapper::windowProcedure(HWND hWnd, UINT uMsg, WPARAM w
 			eventHandler->mouseEvent(1, 1, LOWORD(lParam), HIWORD(lParam));
 			break;
 
-		case WM_MBUTTONDOWN:
+		case WM_MBUTTONUP:
 			eventHandler->mouseEvent(1, 0, LOWORD(lParam), HIWORD(lParam));
 			break;
 
@@ -207,7 +207,7 @@ LRESULT CALLBACK GEWinApiWrapper::windowProcedure(HWND hWnd, UINT uMsg, WPARAM w
 			eventHandler->mouseEvent(1, 1, LOWORD(lParam), HIWORD(lParam));
 			break;
 
-		case WM_RBUTTONDOWN:
+		case WM_RBUTTONUP:
 			eventHandler->mouseEvent(1, 0, LOWORD(lParam), HIWORD(lParam));
 			break;
 

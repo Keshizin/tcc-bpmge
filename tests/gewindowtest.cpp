@@ -136,14 +136,11 @@ void T1EventHandler::frameEvent()
 
 void T1EventHandler::finishEvent()
 {
-	std::cout << "@deb | finish event: " << isDone << std::endl;
 	isDone = 1;
 }
 
 int testShowWindow()
 {
-	std::cout << "@deb | u(1)" << std::endl;
-
 	GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
 	winApiWrapper->setWindowClassName("T4WINDOWCLASS");
 	GEApiWrapper *apiWrapper = winApiWrapper;
