@@ -14,6 +14,15 @@ GEWindow::GEWindow()
 	this->yPosition = 1;
 }
 
+GEWindow::GEWindow(GEApiWrapper *apiWrapper)
+{
+	this->apiWrapper = apiWrapper;
+	this->width = 640;
+	this->height = 480;
+	this->xPosition = 1;
+	this->yPosition = 1;
+}
+
 GEWindow::~GEWindow()
 {
 	// destroyWindow();
@@ -103,4 +112,9 @@ int GEWindow::getXPosition()
 int GEWindow::getYPosition()
 {
 	return yPosition;
+}
+
+GEApiWrapper *GEWindow::getApiWrapper()
+{
+	return apiWrapper;	
 }

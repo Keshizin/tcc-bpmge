@@ -12,6 +12,7 @@ public:
 	int createWindow(int xPostion, int yPostion, int width, int height, std::string name);
 	int destroyWindow();
 	void handleSystemMessages();
+	int showWindow();
 
 
 
@@ -22,7 +23,6 @@ public:
 
 	
 	int initializeRenderingSystem();
-	int showWindow();
 
 	unsigned long long getHighResolutionTimerCounter();
 	unsigned long long getHighResolutionTimerFrequency();

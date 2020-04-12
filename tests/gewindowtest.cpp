@@ -91,7 +91,10 @@ int testDestroyWindow()
 		return 0;
 	}
 
-	testWindow.createWindow();
+	if(!testWindow.createWindow())
+	{
+		return 0;
+	}
 
 	// Destruir uma janela de aplicação após ter criado uma
 	if(!testWindow.destroyWindow())
@@ -103,46 +106,65 @@ int testDestroyWindow()
 }
 
 int isDone = 0;
+GEApiWrapper *apiWrapperPtr;
 
-void T1EventHandler::frameEvent()
-{
-}
-
-void T1EventHandler::finishEvent()
+void WindowTestEventHandler::finishAfterEvent()
 {
 	isDone = 1;
 }
 
+void WindowTestEventHandler::finishBeforeEvent()
+{
+	apiWrapperPtr->destroyWindow();
+}
+
+
 int testShowWindow()
 {
-	// GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
-	// winApiWrapper->setWindowClassName("T4WINDOWCLASS");
-	// GEApiWrapper *apiWrapper = winApiWrapper;
+	GEWindow testWindow;
 
-	// T1EventHandler *windowTestEventHandler = new T1EventHandler();
-	// apiWrapper->setEventHandler(windowTestEventHandler);
-	
-	// GEWindow test(apiWrapper);
-	// test.setName("Unit Test - Show Window");
-	// test.setWidth(800);
-	// test.setHeight(600);
-	// test.setStyle(1);
-	// test.setXPosition(10);
-	// test.setYPosition(20);
+	WindowTestEventHandler *windowTestEventHandler = new WindowTestEventHandler();
+	testWindow.getApiWrapper()->setEventHandler(windowTestEventHandler);
 
-	// if(!test.createWindow())
-	// {
-	// 	delete winApiWrapper;
-	// 	return 0;
-	// }
+	// Tentativa de exibir uma janela sem ter criada antes
+	// Deve ocorrer um erro
+	if(!testWindow.showWindow())
+	{
+		return 0;
+	}
 
-	// test.showWindow();
+	testWindow.setName("TESTE SHOW WINDOW - 1");
 
-	// while(!isDone)
-	// {
-	// 	apiWrapper->handleSystemMessages();
-	// }
+	if(!testWindow.createWindow())
+	{
+		delete windowTestEventHandler;
+		return 0;
+	}
 
-	// delete winApiWrapper;
+	testWindow.showWindow();
+	apiWrapperPtr = testWindow.getApiWrapper();
+
+	while(!isDone)
+	{
+		testWindow.getApiWrapper()->handleSystemMessages();
+	}
+
+	isDone = 0;
+	testWindow.setName("TESTE SHOW WINDOW - 2");
+
+	if(!testWindow.createWindow())
+	{
+		delete windowTestEventHandler;
+		return 0;
+	}
+
+	testWindow.showWindow();
+
+	while(!isDone)
+	{
+		testWindow.getApiWrapper()->handleSystemMessages();
+	}
+
+	delete windowTestEventHandler;
 	return 1;
 }

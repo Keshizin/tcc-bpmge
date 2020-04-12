@@ -8,7 +8,8 @@ public:
 	virtual void mouseEvent(int button, int state, int x, int y) {}
 	virtual void mouseMotionEvent(int x, int y) {}
 	virtual void resizeWindowEvent(int width, int height) {}
-	virtual void finishEvent() {}
+	virtual void finishAfterEvent() {}
+	virtual void finishBeforeEvent() {}
 };
 
 #endif

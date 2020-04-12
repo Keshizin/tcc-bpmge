@@ -31,9 +31,16 @@ int main(int argc, char **argv)
 
 	// Case teste #4 | Handles Microsoft Windows Messages
 	if(testWinApiWrapper())
-		std::cout << "> CASE #4 | GEWinApiWrapper: SUCCESS\n" << std::endl;
+		std::cout << "> CASE #4 | GEApiWrapper: SUCCESS\n" << std::endl;
 	else
-		std::cout << "> CASE #4 | GEWinApiWrapper: FAIL\n" << std::endl;
+		std::cout << "> CASE #4 | GEApiWrapper: FAIL\n" << std::endl;
+
+	// Case test #5 | Exibir uma janela de aplicação na tela
+	if(testShowWindow())
+		std::cout << "> CASE #5 | GEWindow Class | SUCCESS\n" << std::endl;
+	else
+		std::cout << "> CASE #5 | GEWindow Class | FAIL\n" << std::endl;
+
 
 	// // Case test #4 | Instanciar um objeto Game Engine
 	// if(testInstanceGameEngine())
@@ -59,11 +66,6 @@ int main(int argc, char **argv)
 	// else
 	// 	std::cout << "> CASE #7 | ApiWrapper Class | FAIL\n" << std::endl;
 
-	// Case test #8 | Exibir uma janela de aplicação previamente criada
-	// if(testShowWindow())
-	// 	std::cout << "> CASE #8 | GEWindow Class | SUCCESS\n" << std::endl;
-	// else
-	// 	std::cout << "> CASE #8 | GEWindow Class | FAIL\n" << std::endl;
 
 	std::cout << "> (!) FIM DOS TESTES" << std::endl;
 	return 0;

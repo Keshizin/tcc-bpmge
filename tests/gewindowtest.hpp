@@ -3,11 +3,11 @@
 
 #include <geevthandler.h>
 
-class T1EventHandler : public GEEventHandler
+class WindowTestEventHandler : public GEEventHandler
 {
 public:
-	void frameEvent();
-	void finishEvent();
+	void finishAfterEvent();
+	void finishBeforeEvent();
 };
 
 int testInstanceWindow();

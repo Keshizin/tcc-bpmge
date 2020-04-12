@@ -78,7 +78,7 @@ int GEWinApiWrapper::createWindow(int xPostion, int yPostion, int width, int hei
 int GEWinApiWrapper::destroyWindow()
 {
 	int ret;
-	int error = 1;
+	int err = 1;
 
 	ret = DestroyWindow(hWindow);
 
@@ -87,7 +87,7 @@ int GEWinApiWrapper::destroyWindow()
 		// (!) Gravar o erro no componente de LOG
 		DWORD error = GetLastError();
 		std::cout << "(!) ERROR - It was not possible to destroy a window application: " << error << "\n" << std::endl;
-		return 0;
+		err = 0;
 	}
 
 	ret = UnregisterClass(LPCSTR(windowClassName.c_str()), GetModuleHandle(NULL));
@@ -96,10 +96,10 @@ int GEWinApiWrapper::destroyWindow()
 	{
 		DWORD error = GetLastError();
 		std::cout << "(!) ERROR - It was not possible to unregister a class window: " << error << "\n" << std::endl;
-		error = 0;
+		err = 0;
 	}
 
-	return error;
+	return err;
 }
 
 void GEWinApiWrapper::handleSystemMessages()
@@ -110,12 +110,23 @@ void GEWinApiWrapper::handleSystemMessages()
 	{
 		if(msg.message == WM_QUIT)
 		{
-			eventHandler->finishEvent();
+			eventHandler->finishAfterEvent();
 		}
 
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
+}
+
+int GEWinApiWrapper::showWindow()
+{
+	if(hWindow)
+	{
+		ShowWindow(hWindow, SW_SHOW);
+		return 1;
+	}
+
+	return 0;
 }
 
 
@@ -140,14 +151,6 @@ void GEWinApiWrapper::handleSystemMessages()
 
 int GEWinApiWrapper::initializeRenderingSystem()
 {
-	return 1;
-}
-
-int GEWinApiWrapper::showWindow()
-{
-	if(hWindow)
-		ShowWindow(hWindow, SW_SHOW);
-
 	return 1;
 }
 
@@ -179,17 +182,11 @@ LRESULT CALLBACK GEWinApiWrapper::windowProcedure(HWND hWnd, UINT uMsg, WPARAM w
 {
 	switch(uMsg)
 	{
-		// --------------------------------------------------------------------
-		//    Application Messages
-		// --------------------------------------------------------------------
-		// case WM_QUIT:
-		// 	break;
-
 		// ----------------------------------------------------------------------
-		//    Window Messages
+		//    WINDOW MESSAGES
 		// ----------------------------------------------------------------------
-		// case WM_CREATE:
-		// 	break;
+		case WM_CREATE:
+			break;
 
 		case WM_DESTROY:
 			PostQuitMessage(0);
@@ -202,7 +199,14 @@ LRESULT CALLBACK GEWinApiWrapper::windowProcedure(HWND hWnd, UINT uMsg, WPARAM w
 			break;
 
 		case WM_CLOSE:
+			eventHandler->finishBeforeEvent();
 			break;
+
+		// case WM_ACTIVATE:
+		// 	break;
+
+		// case WM_SHOWWINDOW:
+		// 	break;
 
 		// ----------------------------------------------------------------------
 		//    Mouse Messages

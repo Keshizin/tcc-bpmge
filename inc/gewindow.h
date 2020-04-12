@@ -8,6 +8,7 @@ class GEWindow
 {
 public:
 	GEWindow();
+	GEWindow(GEApiWrapper *apiWrapper);
 	~GEWindow();
 
 	int createWindow();
@@ -28,6 +29,7 @@ public:
 	int getStyle();
 	int getXPosition();
 	int getYPosition();
+	GEApiWrapper *getApiWrapper();
 
 private:
 	std::string name;
