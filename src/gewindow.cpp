@@ -1,8 +1,23 @@
 #include <gewindow.h>
+#include <GEWinApiWrapper.h>
 
-GEWindow::GEWindow(GEApiWrapper *apiWrapper)
+#include <iostream>
+
+GEWindow::GEWindow()
 {
-	this->apiWrapper = apiWrapper;
+	GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
+	winApiWrapper->setWindowClassName("GEWINDOWCLASS");
+	this->apiWrapper = winApiWrapper;
+	this->width = 640;
+	this->height = 480;
+	this->xPosition = 1;
+	this->yPosition = 1;
+}
+
+GEWindow::~GEWindow()
+{
+	// destroyWindow();
+	delete this->apiWrapper;
 }
 
 int GEWindow::createWindow()
@@ -60,11 +75,6 @@ void GEWindow::setYPosition(int yPosition)
 	this->yPosition = yPosition;
 }
 
-void GEWindow::setApiWrapper(GEApiWrapper *apiWrapper)
-{
-	this->apiWrapper = apiWrapper;
-}
-
 std::string GEWindow::getName()
 {
 	return name;
@@ -93,9 +103,4 @@ int GEWindow::getXPosition()
 int GEWindow::getYPosition()
 {
 	return yPosition;
-}
-
-GEApiWrapper *GEWindow::getApiWrapper()
-{
-	return apiWrapper;
 }

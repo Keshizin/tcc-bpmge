@@ -5,9 +5,6 @@ int GEWinApiWrapper::initializeWindow()
 {
 	WNDCLASSEX windowClass;
 
-	if(windowClassName.empty())
-		windowClassName = "customwindowclass";
-
 	windowClass.cbSize = sizeof(WNDCLASSEX);
 	windowClass.style = CS_DBLCLKS | CS_HREDRAW | CS_OWNDC | CS_VREDRAW;
 	windowClass.lpfnWndProc = windowProcedure;
@@ -25,15 +22,10 @@ int GEWinApiWrapper::initializeWindow()
 	{
 		// (!) Gravar o erro no componente de LOG
 		DWORD error = GetLastError();
-		std::cout << "(!) Nao foi possivel registrar uma Window Class: " << error << "\n" << std::endl;
+		std::cout << "(!) ERROR - It was not possible to register a class window: " << error << "\n" << std::endl;
 		return 0;
 	}
 
-	return 1;
-}
-
-int GEWinApiWrapper::initializeRenderingSystem()
-{
 	return 1;
 }
 
@@ -67,18 +59,34 @@ int GEWinApiWrapper::createWindow(int xPostion, int yPostion, int width, int hei
 	if(hWindow != NULL)
 		return 1;
 	else
+	{
+		DWORD error = GetLastError();
+		std::cout << "(!) ERROR - It was not possible to create the window: " << error << "\n" << std::endl;
+
+		int ret = UnregisterClass(LPCSTR(windowClassName.c_str()), GetModuleHandle(NULL));
+
+		if(ret == 0)
+		{
+			DWORD error = GetLastError();
+			std::cout << "(!) ERROR - It was not possible to unregister a class window: " << error << "\n" << std::endl;
+		}
+
 		return 0;
+	}
 }
 
 int GEWinApiWrapper::destroyWindow()
 {
-	BOOL ret = DestroyWindow(hWindow);
+	int ret;
+	int error = 1;
+
+	ret = DestroyWindow(hWindow);
 
 	if(ret == 0)
 	{
 		// (!) Gravar o erro no componente de LOG
 		DWORD error = GetLastError();
-		std::cout << "(!) Nao foi possivel destruir a janela: " << error << "\n" << std::endl;
+		std::cout << "(!) ERROR - It was not possible to destroy a window application: " << error << "\n" << std::endl;
 		return 0;
 	}
 
@@ -86,21 +94,12 @@ int GEWinApiWrapper::destroyWindow()
 
 	if(ret == 0)
 	{
-		// (!) Gravar o erro no componente de LOG
 		DWORD error = GetLastError();
-		std::cout << "(!) Nao foi possivel desregistrar a janela: " << error << "\n" << std::endl;
-		return 0;
+		std::cout << "(!) ERROR - It was not possible to unregister a class window: " << error << "\n" << std::endl;
+		error = 0;
 	}
 
-	return 1;
-}
-
-int GEWinApiWrapper::showWindow()
-{
-	if(hWindow)
-		ShowWindow(hWindow, SW_SHOW);
-
-	return 1;
+	return error;
 }
 
 void GEWinApiWrapper::handleSystemMessages()
@@ -117,6 +116,39 @@ void GEWinApiWrapper::handleSystemMessages()
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int GEWinApiWrapper::initializeRenderingSystem()
+{
+	return 1;
+}
+
+int GEWinApiWrapper::showWindow()
+{
+	if(hWindow)
+		ShowWindow(hWindow, SW_SHOW);
+
+	return 1;
 }
 
 unsigned long long GEWinApiWrapper::getHighResolutionTimerCounter()

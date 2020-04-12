@@ -20,7 +20,6 @@ INC_FLAGS=-I$(INC_DIR)
 
 # TARGETS
 all: $(BIN_DIR)/$(OUTPUT_NAME)
-# 	@$(MAKE) --no-print-directory clean-obj
 	@$(MAKE) --no-print-directory clean-d
 
 # LINKING PHASE
@@ -58,28 +57,24 @@ $(OBJ_DIR)/%.d: $(SRC_DIR)/%.cpp
 #
 
 # DIR PATH
-UT_SRC_DIR=tests
-INC_DIR=inc
-
-# COMPILATION FLAGS
-INC_FLAGS=-I$(INC_DIR)
+UNIT_TEST_SRC_DIR=tests
 
 # BUILD NAMES
-UT_OUTPUT_NAME=unit-test.exe
-UTCPPSOURCES=$(wildcard $(UT_SRC_DIR)/*.cpp)
-UTOBJFILES=$(patsubst $(UT_SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(UTCPPSOURCES))
+UNIT_TEST_OUTPUT_NAME=unit-test.exe
+UNIT_TEST_CPPSOURCES=$(wildcard $(UNIT_TEST_SRC_DIR)/*.cpp)
+UNIT_TEST_OBJFILES=$(patsubst $(UNIT_TEST_SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(UNIT_TEST_CPPSOURCES))
 
 # TARGETS
-unit-test: $(BIN_DIR)/$(UT_OUTPUT_NAME)
+unit-test: $(BIN_DIR)/$(UNIT_TEST_OUTPUT_NAME)
 	@$(MAKE) --no-print-directory clean-d
 
 # LINKING PHASE
-$(BIN_DIR)/$(UT_OUTPUT_NAME): $(UTOBJFILES) $(OBJFILES)
+$(BIN_DIR)/$(UNIT_TEST_OUTPUT_NAME): $(UNIT_TEST_OBJFILES) $(OBJFILES)
 	@echo . Gerando executavel final: $@
 	@g++ $^ -o $@ $(OBJRESFILES) $(DIRLIB_FLAGS) $(LIB_FLAGS) -Wall
 
 # COMPILATION PHASE
-$(OBJ_DIR)/%.o: $(UT_SRC_DIR)/%.cpp
+$(OBJ_DIR)/%.o: $(UNIT_TEST_SRC_DIR)/%.cpp
 	@echo . Compilando $<
 	@g++ -c $< $(INC_FLAGS) -o $@
 
@@ -90,7 +85,7 @@ clean-exe:
 	@echo . Deletando o executavel
 # Para o Microsoft Windows!
 	@del $(BIN_DIR)\$(OUTPUT_NAME)
-	@del $(BIN_DIR)\$(UT_OUTPUT_NAME)
+	@del $(BIN_DIR)\$(UNIT_TEST_OUTPUT_NAME)
 # Para o UNIX!
 #	rm bin/teste.exe
 

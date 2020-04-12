@@ -1,130 +1,104 @@
 #include "gewindowtest.hpp"
 
-#include <gewindow.h>
-#include <gewinapiwrapper.h>
-
 #include <iostream>
+
+#include <gewindow.h>
 
 int testInstanceWindow()
 {
-	GEApiWrapper *apiWrapper = new GEApiWrapper();
-	GEWindow test(apiWrapper);
+	GEWindow testWindow;
 
 	// Teste GETTERS and SETTERS
-	test.setName("Test - CASE #1");
-	test.setWidth(800);
-	test.setHeight(600);
-	test.setStyle(1);
-	test.setXPosition(10);
-	test.setYPosition(20);
+	testWindow.setName("TEST - CASE #1");
+	testWindow.setWidth(800);
+	testWindow.setHeight(600);
+	testWindow.setStyle(1);
+	testWindow.setXPosition(10);
+	testWindow.setYPosition(20);
 
-	if(test.getName().compare("Test - CASE #1"))
+	if(testWindow.getName().compare("TEST - CASE #1"))
 	{
-		std::cout << "> Wrong name: " << test.getName() << std::endl;
+		std::cout << "> Wrong name: " << testWindow.getName() << std::endl;
 		return 0;
 	}
 
-	if(!(test.getWidth() == 800))
+	if(!(testWindow.getWidth() == 800))
 	{
-		std::cout << "> Wrong width: " << test.getWidth() << std::endl;
+		std::cout << "> Wrong width: " << testWindow.getWidth() << std::endl;
 		return 0;
 	}
 
-	if(!(test.getHeight() == 600))
+	if(!(testWindow.getHeight() == 600))
 	{
-		std::cout << "> Wrong height: " << test.getHeight() << std::endl;
+		std::cout << "> Wrong height: " << testWindow.getHeight() << std::endl;
 		return 0;
 	}
 
-	if(!(test.getStyle() == 1))
+	if(!(testWindow.getStyle() == 1))
 	{
-		std::cout << "> Wrong style: " << test.getStyle() << std::endl;
+		std::cout << "> Wrong style: " << testWindow.getStyle() << std::endl;
 		return 0;
 	}
 
-	if(!(test.getXPosition() == 10))
+	if(!(testWindow.getXPosition() == 10))
 	{
-		std::cout << "> Wrong x position: " << test.getXPosition() << std::endl;
+		std::cout << "> Wrong x position: " << testWindow.getXPosition() << std::endl;
 		return 0;
 	}
 
-	if(!(test.getYPosition() == 20))
+	if(!(testWindow.getYPosition() == 20))
 	{
-		std::cout << "> Wrong y position: " << test.getYPosition() << std::endl;
+		std::cout << "> Wrong y position: " << testWindow.getYPosition() << std::endl;
 		return 0;
 	}
 
-	delete apiWrapper;
 	return 1;
 }
 
 int testCreateWindow()
 {
-	GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
-	winApiWrapper->setWindowClassName("T1WINDOWCLASS");
-	GEApiWrapper *apiWrapper = winApiWrapper;
-	
-	GEWindow test(apiWrapper);
+	GEWindow testWindow;
 
 	// Criar uma janela de aplicação sem configurar os atributos da janela
-	if(!test.createWindow())
+	if(!testWindow.createWindow())
 	{
-		delete winApiWrapper;
 		return 0;
 	}
 
-	// Criar uma segunda janela de aplicação com o mesmo nome de WindowClass - deve retornar um erro
-	if(test.createWindow())
+	// Criar uma segunda janela de aplicação com o mesmo nome de WindowClass
+	// Deve apresentar um erro
+	if(testWindow.createWindow())
 	{
-		delete winApiWrapper;
 		return 0;
 	}
 
-	// Criar uma terceira janela de aplicação com diferente nome de WindowClass
-	winApiWrapper->setWindowClassName("T2WINDOWCLASS");
-	if(!test.createWindow())
+	if(!testWindow.destroyWindow())
 	{
-		delete winApiWrapper;
 		return 0;
 	}
 
-	// (!) VERIFICAR AQUI A QUESTÃO DE LIBERAÇÃO DAS JANELAS CRIADAS ACIMA!!!
-
-	delete winApiWrapper;
 	return 1;
 }
 
 int testDestroyWindow()
 {
-	GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
-	winApiWrapper->setWindowClassName("T3WINDOWCLASS");
-	GEApiWrapper *apiWrapper = winApiWrapper;
+	GEWindow testWindow;
 
-	GEWindow test(apiWrapper);
-
-	// Destruir uma janela de aplicação sem ter criado uma - deve retornar um erro
-	if(test.destroyWindow())
+	// Destruir uma janela de aplicação sem ter criado uma
+	// Deve retornar um erro
+	if(testWindow.destroyWindow())
 	{
 		return 0;
 	}
 
-	test.createWindow();
+	testWindow.createWindow();
 
 	// Destruir uma janela de aplicação após ter criado uma
-	if(!test.destroyWindow())
+	if(!testWindow.destroyWindow())
 	{
 		return 0;
 	}
 
-	// Destruir novamente uma janela para ter certeza que a primeira janela foi destruida corretamente
-	test.createWindow();
-
-	if(!test.destroyWindow())
-	{
-		return 0;
-	}
-
-	delete winApiWrapper;
 	return 1;
 }
 
@@ -141,34 +115,34 @@ void T1EventHandler::finishEvent()
 
 int testShowWindow()
 {
-	GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
-	winApiWrapper->setWindowClassName("T4WINDOWCLASS");
-	GEApiWrapper *apiWrapper = winApiWrapper;
+	// GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
+	// winApiWrapper->setWindowClassName("T4WINDOWCLASS");
+	// GEApiWrapper *apiWrapper = winApiWrapper;
 
-	T1EventHandler *windowTestEventHandler = new T1EventHandler();
-	apiWrapper->setEventHandler(windowTestEventHandler);
+	// T1EventHandler *windowTestEventHandler = new T1EventHandler();
+	// apiWrapper->setEventHandler(windowTestEventHandler);
 	
-	GEWindow test(apiWrapper);
-	test.setName("Unit Test - Show Window");
-	test.setWidth(800);
-	test.setHeight(600);
-	test.setStyle(1);
-	test.setXPosition(10);
-	test.setYPosition(20);
+	// GEWindow test(apiWrapper);
+	// test.setName("Unit Test - Show Window");
+	// test.setWidth(800);
+	// test.setHeight(600);
+	// test.setStyle(1);
+	// test.setXPosition(10);
+	// test.setYPosition(20);
 
-	if(!test.createWindow())
-	{
-		delete winApiWrapper;
-		return 0;
-	}
+	// if(!test.createWindow())
+	// {
+	// 	delete winApiWrapper;
+	// 	return 0;
+	// }
 
-	test.showWindow();
+	// test.showWindow();
 
-	while(!isDone)
-	{
-		apiWrapper->handleSystemMessages();
-	}
+	// while(!isDone)
+	// {
+	// 	apiWrapper->handleSystemMessages();
+	// }
 
-	delete winApiWrapper;
+	// delete winApiWrapper;
 	return 1;
 }

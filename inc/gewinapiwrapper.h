@@ -9,15 +9,23 @@ class GEWinApiWrapper : public GEApiWrapper
 {
 public:
 	int initializeWindow();
-	int initializeRenderingSystem();
 	int createWindow(int xPostion, int yPostion, int width, int height, std::string name);
 	int destroyWindow();
-	int showWindow();
 	void handleSystemMessages();
+
+
+
+
+
+
+
+
+	
+	int initializeRenderingSystem();
+	int showWindow();
 
 	unsigned long long getHighResolutionTimerCounter();
 	unsigned long long getHighResolutionTimerFrequency();
-	
 
 	// GETTERS AND SETTERS
 	void setWindowClassName(std::string windowClassName);

@@ -2,32 +2,38 @@
 #include <string>
 
 #include "gewindowtest.hpp"
-#include "geevthandlertest.hpp"
-#include "getest.hpp"
 #include "geapiwrappertest.hpp"
+// #include "geevthandlertest.hpp"
+// #include "getest.hpp"
 
 int main(int argc, char **argv)
 {
 	std::string projectName = "BPM Game Engine";
-	std::cout << "Teste de Unidade para " << projectName << "\n" << std::endl;
+	std::cout << "Teste de Unidade para " << projectName << std::endl;
 
-	// Case test #1 | Criar uma janela de aplicação
+	// Case test #1 | Instanciar um objeto da classe GEWindow e configurar todos os seus atributos.
 	if(testInstanceWindow())
-		std::cout << "> CASE #1 | GEWindow Class   | SUCCESS\n" << std::endl;
+		std::cout << "> CASE #1 | GEWindow Class: SUCCESS" << std::endl;
 	else
-		std::cout << "> CASE #1 | GEWindow Class   | FAIL\n" << std::endl;
+		std::cout << "> CASE #1 | GEWindow Class: FAIL" << std::endl;
 
 	// Case test #2 | Criar uma janela de aplicação
 	if(testCreateWindow())
-		std::cout << "> CASE #2 | GEWindow Class   | SUCCESS\n" << std::endl;
+		std::cout << "> CASE #2 | GEWindow Class: SUCCESS" << std::endl;
 	else
-		std::cout << "> CASE #2 | GEWindow Class   | FAIL\n" << std::endl;
+		std::cout << "> CASE #2 | GEWindow Class: FAIL" << std::endl;
 
-	// // Case test #3 | Destruir uma janela de aplicação
-	// if(testDestroyWindow())
-	// 	std::cout << "> CASE #3 | GEWindow Class   | SUCCESS\n" << std::endl;
-	// else
-	// 	std::cout << "> CASE #3 | GEWindow Class   | FAIL\n" << std::endl;
+	// Case test #3 | Destruir uma janela de aplicação
+	if(testDestroyWindow())
+		std::cout << "> CASE #3 | GEWindow Class: SUCCESS\n" << std::endl;
+	else
+		std::cout << "> CASE #3 | GEWindow Class: FAIL\n" << std::endl;
+
+	// Case teste #4 | Handles Microsoft Windows Messages
+	if(testWinApiWrapper())
+		std::cout << "> CASE #4 | GEWinApiWrapper: SUCCESS\n" << std::endl;
+	else
+		std::cout << "> CASE #4 | GEWinApiWrapper: FAIL\n" << std::endl;
 
 	// // Case test #4 | Instanciar um objeto Game Engine
 	// if(testInstanceGameEngine())
@@ -54,10 +60,10 @@ int main(int argc, char **argv)
 	// 	std::cout << "> CASE #7 | ApiWrapper Class | FAIL\n" << std::endl;
 
 	// Case test #8 | Exibir uma janela de aplicação previamente criada
-	if(testShowWindow())
-		std::cout << "> CASE #8 | GEWindow Class | SUCCESS\n" << std::endl;
-	else
-		std::cout << "> CASE #8 | GEWindow Class | FAIL\n" << std::endl;
+	// if(testShowWindow())
+	// 	std::cout << "> CASE #8 | GEWindow Class | SUCCESS\n" << std::endl;
+	// else
+	// 	std::cout << "> CASE #8 | GEWindow Class | FAIL\n" << std::endl;
 
 	std::cout << "> (!) FIM DOS TESTES" << std::endl;
 	return 0;
