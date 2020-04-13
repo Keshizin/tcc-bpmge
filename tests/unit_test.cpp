@@ -37,10 +37,15 @@ int main(int argc, char **argv)
 
 	// Case test #5 | Exibir uma janela de aplicação na tela
 	if(testShowWindow())
-		std::cout << "> CASE #5 | GEWindow Class | SUCCESS\n" << std::endl;
+		std::cout << "> CASE #5 | GEWindow Class: SUCCESS\n" << std::endl;
 	else
-		std::cout << "> CASE #5 | GEWindow Class | FAIL\n" << std::endl;
+		std::cout << "> CASE #5 | GEWindow Class: FAIL\n" << std::endl;
 
+	// Case test #6 | Exibir uma janela de aplicação na tela
+	if(testWindowStyles())
+		std::cout << "> CASE #6 | GEWindow Class: SUCCESS\n" << std::endl;
+	else
+		std::cout << "> CASE #6 | GEWindow Class: FAIL\n" << std::endl;
 
 	// // Case test #4 | Instanciar um objeto Game Engine
 	// if(testInstanceGameEngine())

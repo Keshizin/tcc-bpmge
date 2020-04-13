@@ -4,6 +4,13 @@
 #include <geapiwrapper.h>
 #include <string>
 
+// Window Styles
+#define GE_WIN_SPLASH               1
+#define GE_WIN_DEFAULT              2
+#define GE_WIN_DEFAULT_NO_SYS       3
+#define GE_WIN_WINDOWED_FULLSCREEN  4
+#define GE_WIN_COMPLETE             5
+
 class GEWindow
 {
 public:
@@ -42,4 +49,4 @@ private:
 	GEApiWrapper *apiWrapper;
 };
 
-#endif
+#endif 

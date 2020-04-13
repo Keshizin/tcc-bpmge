@@ -9,7 +9,7 @@ class GEWinApiWrapper : public GEApiWrapper
 {
 public:
 	int initializeWindow();
-	int createWindow(int xPostion, int yPostion, int width, int height, std::string name);
+	int createWindow(int xPostion, int yPostion, int width, int height, std::string name, unsigned int style);
 	int destroyWindow();
 	void handleSystemMessages();
 	int showWindow();

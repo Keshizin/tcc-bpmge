@@ -24,7 +24,7 @@ int testWinApiWrapper()
 	}
 
 
-	if(!apiWrapper->createWindow(0, 0, 100, 100, "api-test-class"))
+	if(!apiWrapper->createWindow(0, 0, 100, 100, "api-test-class", 1))
 	{
 		delete winApiWrapper;
 		return 0;

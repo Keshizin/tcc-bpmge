@@ -1,5 +1,6 @@
 #include <gewinapiwrapper.h>
 #include <iostream>
+#include <gewindow.h>
 
 int GEWinApiWrapper::initializeWindow()
 {
@@ -29,7 +30,7 @@ int GEWinApiWrapper::initializeWindow()
 	return 1;
 }
 
-int GEWinApiWrapper::createWindow(int xPostion, int yPostion, int width, int height, std::string name)
+int GEWinApiWrapper::createWindow(int xPostion, int yPostion, int width, int height, std::string name, unsigned int style) 
 {
 	RECT windowSize;
 	windowSize.left = (LONG)0;
@@ -38,7 +39,31 @@ int GEWinApiWrapper::createWindow(int xPostion, int yPostion, int width, int hei
 	windowSize.bottom = (LONG)height;
 
 	DWORD dwExStyle = WS_EX_APPWINDOW;
-	DWORD dwStyle = WS_OVERLAPPEDWINDOW;
+	DWORD dwStyle = 0;
+
+	switch(style)
+	{
+		case GE_WIN_SPLASH:
+			dwStyle = WS_POPUP | WS_BORDER;
+			break;
+
+		case GE_WIN_DEFAULT_NO_SYS:
+			dwStyle = WS_POPUP | WS_BORDER | WS_CAPTION;
+			break;
+
+		case GE_WIN_WINDOWED_FULLSCREEN:
+			dwStyle = WS_POPUP | WS_BORDER | WS_MAXIMIZE;
+			break;
+
+		case GE_WIN_COMPLETE:
+			dwStyle = WS_POPUP | WS_BORDER | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_SIZEBOX;
+			break;
+
+		case GE_WIN_DEFAULT:
+		default:
+			dwStyle = WS_POPUP | WS_BORDER | WS_CAPTION | WS_SYSMENU;
+			break;
+	}
 
 	AdjustWindowRectEx(&windowSize, dwStyle, FALSE, dwExStyle);
 

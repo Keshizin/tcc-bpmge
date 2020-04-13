@@ -34,7 +34,7 @@ int GEWindow::createWindow()
 	if(!apiWrapper->initializeWindow())
 		return 0;
 
-	if(!apiWrapper->createWindow(getXPosition(), getYPosition(), getWidth(), getHeight(), getName()))
+	if(!apiWrapper->createWindow(getXPosition(), getYPosition(), getWidth(), getHeight(), getName(), getStyle()))
 		return 0;
 
 	return 1;

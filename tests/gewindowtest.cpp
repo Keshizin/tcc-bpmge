@@ -12,7 +12,7 @@ int testInstanceWindow()
 	testWindow.setName("TEST - CASE #1");
 	testWindow.setWidth(800);
 	testWindow.setHeight(600);
-	testWindow.setStyle(1);
+	testWindow.setStyle(GE_WIN_SPLASH);
 	testWindow.setXPosition(10);
 	testWindow.setYPosition(20);
 
@@ -34,7 +34,7 @@ int testInstanceWindow()
 		return 0;
 	}
 
-	if(!(testWindow.getStyle() == 1))
+	if(!(testWindow.getStyle() == GE_WIN_SPLASH))
 	{
 		std::cout << "> Wrong style: " << testWindow.getStyle() << std::endl;
 		return 0;
@@ -108,6 +108,10 @@ int testDestroyWindow()
 int isDone = 0;
 GEApiWrapper *apiWrapperPtr;
 
+void WindowTestEventHandler::keyboardEvent(unsigned char key, int state)
+{
+}
+
 void WindowTestEventHandler::finishAfterEvent()
 {
 	isDone = 1;
@@ -133,7 +137,7 @@ int testShowWindow()
 		return 0;
 	}
 
-	testWindow.setName("TESTE SHOW WINDOW - 1");
+	testWindow.setName("TEST SHOW WINDOW - 1");
 
 	if(!testWindow.createWindow())
 	{
@@ -150,7 +154,7 @@ int testShowWindow()
 	}
 
 	isDone = 0;
-	testWindow.setName("TESTE SHOW WINDOW - 2");
+	testWindow.setName("TEST SHOW WINDOW - 2");
 
 	if(!testWindow.createWindow())
 	{
@@ -162,9 +166,117 @@ int testShowWindow()
 
 	while(!isDone)
 	{
-		testWindow.getApiWrapper()->handleSystemMessages();
+		apiWrapperPtr->handleSystemMessages();
 	}
 
 	delete windowTestEventHandler;
 	return 1;
+}
+
+int testWindowStyles()
+{
+	GEWindow testWindow;
+
+	WindowTestEventHandler *windowTestEventHandler = new WindowTestEventHandler();
+	testWindow.getApiWrapper()->setEventHandler(windowTestEventHandler);
+
+	testWindow.setName("BPM Game Engine - TEST STYLE - DEFAULT");
+	testWindow.setStyle(GE_WIN_DEFAULT);
+
+	if(!testWindow.createWindow())
+	{
+		delete windowTestEventHandler;
+		return 0;
+	}
+
+	testWindow.showWindow();
+	apiWrapperPtr = testWindow.getApiWrapper();
+
+	isDone = 0;
+
+	while(!isDone)
+	{
+		testWindow.getApiWrapper()->handleSystemMessages();
+	}
+
+	testWindow.setName("BPM Game Engine - TEST STYLE - DEFAULT NO SYS");
+	testWindow.setStyle(GE_WIN_DEFAULT_NO_SYS);
+
+	if(!testWindow.createWindow())
+	{
+		delete windowTestEventHandler;
+		return 0;
+	}
+
+	testWindow.showWindow();
+	apiWrapperPtr = testWindow.getApiWrapper();
+
+	isDone = 0;
+
+	while(!isDone)
+	{
+		testWindow.getApiWrapper()->handleSystemMessages();
+	}
+
+	testWindow.setName("BPM Game Engine - TEST STYLE - SPLASH SCREEN");
+	testWindow.setStyle(GE_WIN_SPLASH);
+	testWindow.setXPosition(960 - (testWindow.getWidth() / 2));
+	testWindow.setYPosition(540 - (testWindow.getHeight() / 2));
+
+	if(!testWindow.createWindow())
+	{
+		delete windowTestEventHandler;
+		return 0;
+	}
+
+	testWindow.showWindow();
+	apiWrapperPtr = testWindow.getApiWrapper();
+
+	isDone = 0;
+
+	while(!isDone)
+	{
+		testWindow.getApiWrapper()->handleSystemMessages();
+	}
+
+	testWindow.setName("BPM Game Engine - TEST STYLE - WINDOWED FULLSCREEN");
+	testWindow.setStyle(GE_WIN_WINDOWED_FULLSCREEN);
+
+	if(!testWindow.createWindow())
+	{
+		delete windowTestEventHandler;
+		return 0;
+	}
+
+	testWindow.showWindow();
+	apiWrapperPtr = testWindow.getApiWrapper();
+
+	isDone = 0;
+
+	while(!isDone)
+	{
+		testWindow.getApiWrapper()->handleSystemMessages();
+	}
+
+	testWindow.setName("BPM Game Engine - TEST STYLE - COMPLETE");
+	testWindow.setStyle(GE_WIN_COMPLETE);
+
+	if(!testWindow.createWindow())
+	{
+		delete windowTestEventHandler;
+		return 0;
+	}
+
+	testWindow.showWindow();
+	apiWrapperPtr = testWindow.getApiWrapper();
+
+	isDone = 0;
+
+	while(!isDone)
+	{
+		testWindow.getApiWrapper()->handleSystemMessages();
+	}
+
+	delete windowTestEventHandler;
+	return 1;	
 }
