@@ -108,10 +108,6 @@ int testDestroyWindow()
 int isDone = 0;
 GEApiWrapper *apiWrapperPtr;
 
-void WindowTestEventHandler::keyboardEvent(unsigned char key, int state)
-{
-}
-
 void WindowTestEventHandler::finishAfterEvent()
 {
 	isDone = 1;
@@ -121,7 +117,6 @@ void WindowTestEventHandler::finishBeforeEvent()
 {
 	apiWrapperPtr->destroyWindow();
 }
-
 
 int testShowWindow()
 {

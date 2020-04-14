@@ -1,7 +1,7 @@
 #ifndef GAME_ENGINE_API_WRAPPER_H
 #define GAME_ENGINE_API_WRAPPER_H
 
-#include <geevthandler.h>
+#include <geeventhandler.h>
 #include <string>
 
 class GEApiWrapper

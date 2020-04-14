@@ -1,12 +1,11 @@
 #ifndef GAME_ENGINE_WINDOW_TEST
 #define GAME_ENGINE_WINDOW_TEST
 
-#include <geevthandler.h>
+#include <geeventhandler.h>
 
 class WindowTestEventHandler : public GEEventHandler
 {
 public:
-	void keyboardEvent(unsigned char key, int state);
 	void finishAfterEvent();
 	void finishBeforeEvent();
 };

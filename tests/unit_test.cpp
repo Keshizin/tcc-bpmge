@@ -3,7 +3,7 @@
 
 #include "gewindowtest.hpp"
 #include "geapiwrappertest.hpp"
-// #include "geevthandlertest.hpp"
+#include "geevthandlertest.hpp"
 // #include "getest.hpp"
 
 int main(int argc, char **argv)
@@ -41,11 +41,29 @@ int main(int argc, char **argv)
 	else
 		std::cout << "> CASE #5 | GEWindow Class: FAIL\n" << std::endl;
 
-	// Case test #6 | Exibir uma janela de aplicação na tela
+	// Case test #6 | Testar todos os estilos de janela disponíveis
 	if(testWindowStyles())
 		std::cout << "> CASE #6 | GEWindow Class: SUCCESS\n" << std::endl;
 	else
 		std::cout << "> CASE #6 | GEWindow Class: FAIL\n" << std::endl;
+
+	// Case test #7 | Definir funções de eventos globais
+	if(eventHandlerTest())
+		std::cout << "> CASE #7 | GEEventHandler Class: SUCCESS\n" << std::endl;
+	else
+		std::cout << "> CASE #7 | GEEventHandler Class: FAIL\n" << std::endl;
+
+	// Case test #8 | Capturar eventos de mouse
+	if(testWinMouseEvent())
+		std::cout << "> CASE #8 | GEApiWrapper Class: SUCCESS\n" << std::endl;
+	else
+		std::cout << "> CASE #8 | GEApiWrapper Class: FAIL\n" << std::endl;
+
+	// Case test #9 | Capturar eventos do teclado
+	if(testWinKeyboardEvent())
+		std::cout << "> CASE #9 | GEApiWrapper Class: SUCCESS\n" << std::endl;
+	else
+		std::cout << "> CASE #9 | GEApiWrapper Class: FAIL\n" << std::endl;
 
 	// // Case test #4 | Instanciar um objeto Game Engine
 	// if(testInstanceGameEngine())
@@ -53,11 +71,7 @@ int main(int argc, char **argv)
 	// else
 	// 	std::cout << "> CASE #4 | GameEngine Class | FAIL\n" << std::endl;
 
-	// // Case test #5 | Definir funções de eventos globais
-	// if(eventHandlerTest())
-	// 	std::cout << "> CASE #5 | GEEventHandler | SUCCESS\n" << std::endl;
-	// else
-	// 	std::cout << "> CASE #5 | GEEventHandler | FAIL\n" << std::endl;
+
 
 	// // Case test #6 | Iniciar o loop principal da Game Engine
 	// if(testMainLoop())

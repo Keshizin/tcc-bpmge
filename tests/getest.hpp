@@ -3,14 +3,14 @@
 
 #include <ge.h>
 
-class TestEventHandler : public GEEventHandler
-{
-public:
-	void frameEvent();
-	void finishEvent();
-};
+// class TestEventHandler : public GEEventHandler
+// {
+// public:
+// 	void frameEvent();
+// 	void finishEvent();
+// };
 
-int testInstanceGameEngine();
-int testMainLoop();
+// int testInstanceGameEngine();
+// int testMainLoop();
 
 #endif

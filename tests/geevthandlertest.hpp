@@ -1,16 +1,19 @@
 #ifndef GAME_ENGINE_EVENT_HANDLER_TEST
 #define GAME_ENGINE_EVENT_HANDLER_TEST
 
-#include <geevthandler.h>
+#include <geeventhandler.h>
 
-class UserEventHandler : public GEEventHandler
+class TestEventHandler : public GEEventHandler
 {
 public:
 	void frameEvent();
 	void mouseEvent(int button, int state, int x, int y);
 	void mouseMotionEvent(int x, int y);
+	void keyboardEvent(unsigned char key, int state);
+	void keyboardSpecialEvent(unsigned char key, int state);
 	void resizeWindowEvent(int width, int height);
-	void finishEvent();
+	void finishAfterEvent();
+	void finishBeforeEvent();
 };
 
 int eventHandlerTest();

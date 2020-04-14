@@ -1,12 +1,12 @@
 #include "geevthandlertest.hpp"
 #include <iostream>
 
-void UserEventHandler::frameEvent()
-	{
-		std::cout << "\t# Frame Event\n" << std::endl;
-	}
+void TestEventHandler::frameEvent()
+{
+	std::cout << "\t# Frame Event\n" << std::endl;
+}
 
-void UserEventHandler::mouseEvent(int button, int state, int x, int y)
+void TestEventHandler::mouseEvent(int button, int state, int x, int y)
 {
 	std::cout << "\t# Mouse Event"
 		<< "\n\t\tbutton: " << button
@@ -16,7 +16,7 @@ void UserEventHandler::mouseEvent(int button, int state, int x, int y)
 		<< "\n" << std::endl;
 }
 
-void UserEventHandler::mouseMotionEvent(int x, int y)
+void TestEventHandler::mouseMotionEvent(int x, int y)
 {
 	std::cout << "\t# Mouse Motion Event"
 		<< "\n\t\tx: " << x
@@ -24,7 +24,23 @@ void UserEventHandler::mouseMotionEvent(int x, int y)
 		<< "\n" << std::endl;
 }
 
-void UserEventHandler::resizeWindowEvent(int width, int height)
+void TestEventHandler::keyboardEvent(unsigned char key, int state)
+{
+	std::cout << "\t# Keyboard Event"
+		<< "\n\t\tkey: " << key
+		<< "\n\t\tstate: " << state
+		<< "\n" << std::endl;
+}
+
+void TestEventHandler::keyboardSpecialEvent(unsigned char key, int state)
+{
+	std::cout << "\t# Keyboard Special Event"
+		<< "\n\t\tkey: " << key
+		<< "\n\t\tstate: " << state
+		<< "\n" << std::endl;
+}
+
+void TestEventHandler::resizeWindowEvent(int width, int height)
 {
 	std::cout << "\t# Resize Window Event"
 		<< "\n\t\twidth: " << width
@@ -32,18 +48,28 @@ void UserEventHandler::resizeWindowEvent(int width, int height)
 		<< "\n" << std::endl;
 }
 
-void UserEventHandler::finishEvent()
+void TestEventHandler::finishAfterEvent()
 {
-	std::cout << "\t# Finish Event" << "\n" << std::endl;
+	std::cout << "\t# Finish After Event" << "\n" << std::endl;
+}
+
+void TestEventHandler::finishBeforeEvent()
+{
+	std::cout << "\t# Finish Before Event" << "\n" << std::endl;
 }
 
 int eventHandlerTest()
 {
-	UserEventHandler *userEventHandler = new UserEventHandler();
-	userEventHandler->frameEvent();
-	userEventHandler->mouseEvent(0, 0, 1920, 1080);
-	userEventHandler->mouseMotionEvent(1, 1);
-	userEventHandler->resizeWindowEvent(1920, 1080);
-	userEventHandler->finishEvent();
+	TestEventHandler *testEventHandler = new TestEventHandler();
+
+	testEventHandler->frameEvent();
+	testEventHandler->mouseEvent(0, 0, 1920, 1080);
+	testEventHandler->mouseMotionEvent(1, 1);
+	testEventHandler->keyboardEvent('Q', 1);
+	testEventHandler->keyboardSpecialEvent(125, 1);
+	testEventHandler->resizeWindowEvent(1920, 1080);
+	testEventHandler->finishAfterEvent();
+	testEventHandler->finishBeforeEvent();
+
 	return 1;
 }

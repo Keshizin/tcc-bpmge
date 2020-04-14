@@ -244,12 +244,6 @@ LRESULT CALLBACK GEWinApiWrapper::windowProcedure(HWND hWnd, UINT uMsg, WPARAM w
 			eventHandler->mouseEvent(0, 0, LOWORD(lParam), HIWORD(lParam));
 			break;
 
-		// case WM_LBUTTONDBLCLK:
-		// case WM_NCLBUTTONDOWN:
-		// case WM_NCLBUTTONUP:
-		// case WM_NCLBUTTONDBLCLK:
-		// 	break;
-
 		case WM_MBUTTONDOWN:
 			eventHandler->mouseEvent(1, 1, LOWORD(lParam), HIWORD(lParam));
 			break;
@@ -258,37 +252,36 @@ LRESULT CALLBACK GEWinApiWrapper::windowProcedure(HWND hWnd, UINT uMsg, WPARAM w
 			eventHandler->mouseEvent(1, 0, LOWORD(lParam), HIWORD(lParam));
 			break;
 
-		// case WM_MBUTTONDBLCLK:
-		// case WM_NCMBUTTONDOWN:
-		// case WM_NCMBUTTONUP:
-		// case WM_NCMBUTTONDBLCLK:
-		// 	break;
-
 		case WM_RBUTTONDOWN:
-			eventHandler->mouseEvent(1, 1, LOWORD(lParam), HIWORD(lParam));
+			eventHandler->mouseEvent(2, 1, LOWORD(lParam), HIWORD(lParam));
 			break;
 
 		case WM_RBUTTONUP:
-			eventHandler->mouseEvent(1, 0, LOWORD(lParam), HIWORD(lParam));
+			eventHandler->mouseEvent(2, 0, LOWORD(lParam), HIWORD(lParam));
 			break;
-
-		// case WM_RBUTTONDBLCLK:
-		// case WM_NCRBUTTONDOWN:
-		// case WM_NCRBUTTONUP:
-		// case WM_NCRBUTTONDBLCLK:
-		// 	break;
 
 		case WM_MOUSEMOVE:
 			eventHandler->mouseMotionEvent(LOWORD(lParam), HIWORD(lParam));
 			break;
 
-		// case WM_MOUSEHOVER:
-		// case WM_NCMOUSEHOVER:
-		// case WM_MOUSELEAVE:
-		// case WM_NCMOUSELEAVE:
-		// case WM_MOUSEWHEEL:
-		// case WM_MOUSEACTIVATE:
-		// 	break;
+		// ----------------------------------------------------------------------
+		//    Keyboard Messages
+		// ----------------------------------------------------------------------
+		case WM_SYSKEYDOWN:
+			eventHandler->keyboardSpecialEvent(wParam, 1);
+			break;
+
+		case WM_SYSKEYUP:
+			eventHandler->keyboardSpecialEvent(wParam, 0);
+			break;
+
+		case WM_KEYDOWN:
+			eventHandler->keyboardEvent(wParam, 1);
+			break;
+
+		case WM_KEYUP:
+			eventHandler->keyboardEvent(wParam, 0);
+			break;
 
 		default:
 			break;
