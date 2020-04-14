@@ -7,7 +7,12 @@ GEWindow::GEWindow()
 {
 	GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
 	winApiWrapper->setWindowClassName("GEWINDOWCLASS");
+
 	this->apiWrapper = winApiWrapper;
+	
+	this->renderingSystem = new GERenderingSystem();
+	this->renderingSystem->setViewportWidth(640);
+	this->renderingSystem->setViewportHeight(480);
 	this->width = 640;
 	this->height = 480;
 	this->xPosition = 1;
@@ -25,7 +30,7 @@ GEWindow::GEWindow(GEApiWrapper *apiWrapper)
 
 GEWindow::~GEWindow()
 {
-	// destroyWindow();
+	delete this->renderingSystem;
 	delete this->apiWrapper;
 }
 
@@ -35,6 +40,9 @@ int GEWindow::createWindow()
 		return 0;
 
 	if(!apiWrapper->createWindow(getXPosition(), getYPosition(), getWidth(), getHeight(), getName(), getStyle()))
+		return 0;
+
+	if(!apiWrapper->initializeRenderingSystem(renderingSystem))
 		return 0;
 
 	return 1;
@@ -117,4 +125,9 @@ int GEWindow::getYPosition()
 GEApiWrapper *GEWindow::getApiWrapper()
 {
 	return apiWrapper;	
+}
+
+GERenderingSystem *GEWindow::getRenderingSystem()
+{
+	return renderingSystem;
 }

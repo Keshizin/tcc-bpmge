@@ -37,6 +37,7 @@ public:
 	int getXPosition();
 	int getYPosition();
 	GEApiWrapper *getApiWrapper();
+	GERenderingSystem *getRenderingSystem();
 
 private:
 	std::string name;
@@ -47,6 +48,7 @@ private:
 	unsigned int style;
 
 	GEApiWrapper *apiWrapper;
+	GERenderingSystem *renderingSystem;
 };
 
 #endif 

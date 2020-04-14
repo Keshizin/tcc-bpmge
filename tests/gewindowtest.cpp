@@ -59,9 +59,13 @@ int testCreateWindow()
 {
 	GEWindow testWindow;
 
+	WindowTestEventHandler *windowTestEventHandler = new WindowTestEventHandler();
+	testWindow.getApiWrapper()->setEventHandler(windowTestEventHandler);
+
 	// Criar uma janela de aplicação sem configurar os atributos da janela
 	if(!testWindow.createWindow())
 	{
+		delete windowTestEventHandler;
 		return 0;
 	}
 
@@ -69,20 +73,26 @@ int testCreateWindow()
 	// Deve apresentar um erro
 	if(testWindow.createWindow())
 	{
+		delete windowTestEventHandler;
 		return 0;
 	}
 
 	if(!testWindow.destroyWindow())
 	{
+		delete windowTestEventHandler;
 		return 0;
 	}
 
+	delete windowTestEventHandler;
 	return 1;
 }
 
 int testDestroyWindow()
 {
 	GEWindow testWindow;
+
+	WindowTestEventHandler *windowTestEventHandler = new WindowTestEventHandler();
+	testWindow.getApiWrapper()->setEventHandler(windowTestEventHandler);
 
 	// Destruir uma janela de aplicação sem ter criado uma
 	// Deve retornar um erro

@@ -32,9 +32,18 @@ int testWinApiWrapper()
 		return 0;
 	}
 
+	GERenderingSystem * renderingSystem = new GERenderingSystem();
+
+	if(!apiWrapper->initializeRenderingSystem(renderingSystem))
+	{
+		delete renderingSystem;
+		delete winApiWrapper;
+		return 0;
+	}
 
 	if(!apiWrapper->destroyWindow())
 	{
+		delete renderingSystem;
 		delete winApiWrapper;
 		return 0;
 	}
@@ -42,19 +51,12 @@ int testWinApiWrapper()
 	GEEventHandler *eventHandler = new GEEventHandler();
 	winApiWrapper->setEventHandler(eventHandler);
 	winApiWrapper->handleSystemMessages();
-
-	// if(!apiWrapper->initializeRenderingSystem())
-	// {
-	// 	delete winApiWrapper;
-	// 	return 0;
-	// }
 	
 	// if(!apiWrapper->showWindow())
 	// {
 	// 	delete winApiWrapper;
 	// 	return 0;
 	// }
-
 
 	// if(!apiWrapper->getHighResolutionTimerCounter())
 	// {
@@ -68,6 +70,7 @@ int testWinApiWrapper()
 	// 	return 0;
 	// }
 
+	delete renderingSystem;
 	delete eventHandler;
 	delete winApiWrapper;
 	return 1;
