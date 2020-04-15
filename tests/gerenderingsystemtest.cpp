@@ -26,6 +26,7 @@ void RenderingTestEventHandler::resizeWindowEvent(int width, int height)
 	testWindow->setHeight(width);
 	renderingSystem->setViewportWidth(width);
 	renderingSystem->setViewportHeight(width);
+	renderingSystem->setRenderingSystem();
 }
 
 void RenderingTestEventHandler::finishAfterEvent()

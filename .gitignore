@@ -1,4 +1,3 @@
-docs/diagrams/*.drawio
 docs/*.pdf
 bin/*.exe
 bin/*.out

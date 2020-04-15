@@ -1,6 +1,12 @@
 #ifndef GAME_ENGINE_RENDERING_SYSTEM_H
 #define GAME_ENGINE_RENDERING_SYSTEM_H
 
+#define GE_BKG_COLOR_WHITE 1
+#define GE_BKG_COLOR_BLACK 2
+#define GE_BKG_COLOR_RED   3
+#define GE_BKG_COLOR_GREEN 4
+#define GE_BKG_COLOR_BLUE  5
+
 class GERenderingSystem
 {
 public:
@@ -8,19 +14,19 @@ public:
 	void renderFrame();
 
 	// Getters and Setters
-	void setDoubleBufferMode(int bufferMode);
-	int isDoubleBufferMode();
-
 	void setViewportWidth(int viewportWidth);
 	int getViewportWidth();
 
 	void setViewportHeight(int viewportHeight);
 	int getViewportHeight();
 
+	void setBackgroundColor(int backgroundColor);
+	int getBackgroundColor();
+
 private:
-	int doubleBufferMode; // IS DOUBLE BUFFERED MODE
 	int viewportWidth;
 	int viewportHeight;
+	int backgroundColor;
 
 	// int renderAPI; // OPENGL, VULKAN, DIRECTX
 	// int pixelType; // RGBA or Color Index
