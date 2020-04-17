@@ -59,6 +59,7 @@ int testRenderingSystem()
 	}
 
 	testWindow->showWindow();
+	renderingSystem->setBackgroundColor(GE_BKG_COLOR_BLUE);
 	renderingSystem->setRenderingSystem();
 
 	while(!isRenderingTestDone)

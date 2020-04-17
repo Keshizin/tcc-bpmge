@@ -7,16 +7,17 @@
 class GameEngine
 {
 public:
-	GameEngine(GEApiWrapper *apiWrapper);
-	void mainLoop();
-	void stopLoop();
+	GameEngine();
+	~GameEngine();
+
+	void startMainLoop();
+	void stopMainLoop();
 
 	// GETTERS AND SETTERS
 	void setEventHandler(GEEventHandler *eventHandler);
-	void setTimeHandler(GETimeHandler *timeHandler);
 
-	GETimeHandler * getTimeHandler();
 	GEApiWrapper * getApiWrapper();
+	GETimeHandler * getTimeHandler();
 
 private:
 	int isRunning;

@@ -9,7 +9,6 @@
 class GEApiWrapper
 {
 public:
-	// Common methods for all OS and Rendering APIs that must redefined.
 	virtual int initializeWindow() {return 1;}
 	virtual int initializeRenderingSystem(GERenderingSystem *renderingSystem) {return 1;}
 	virtual int createWindow(int xPostion, int yPostion, int width, int height, std::string name, unsigned int style) {return 1;}

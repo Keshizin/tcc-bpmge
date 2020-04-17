@@ -52,23 +52,23 @@ int testWinApiWrapper()
 	winApiWrapper->setEventHandler(eventHandler);
 	winApiWrapper->handleSystemMessages();
 	
-	// if(!apiWrapper->showWindow())
-	// {
-	// 	delete winApiWrapper;
-	// 	return 0;
-	// }
+	if(!apiWrapper->showWindow())
+	{
+		delete winApiWrapper;
+		return 0;
+	}
 
-	// if(!apiWrapper->getHighResolutionTimerCounter())
-	// {
-	// 	delete winApiWrapper;
-	// 	return 0;
-	// }
+	if(!apiWrapper->getHighResolutionTimerCounter())
+	{
+		delete winApiWrapper;
+		return 0;
+	}
 
-	// if(!apiWrapper->getHighResolutionTimerFrequency())
-	// {
-	// 	delete apiWrapper;
-	// 	return 0;
-	// }
+	if(!apiWrapper->getHighResolutionTimerFrequency())
+	{
+		delete apiWrapper;
+		return 0;
+	}
 
 	delete renderingSystem;
 	delete eventHandler;

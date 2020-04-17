@@ -4,6 +4,7 @@
 class GEEventHandler
 {
 public:
+	virtual ~GEEventHandler() {}
 	virtual void frameEvent() {}
 	virtual void mouseEvent(int button, int state, int x, int y) {}
 	virtual void mouseMotionEvent(int x, int y) {}
