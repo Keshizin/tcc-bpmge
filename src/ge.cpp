@@ -22,14 +22,18 @@ void GameEngine::startMainLoop()
 	unsigned long long startTime = 0;
 	unsigned long long endTime = 0;
 	unsigned long long frameTime = 0;
+	unsigned long long frames = 0;
 
 	isRunning = 1;
+	timeHandler->setTimer(0);
 
 	endTime = apiWrapper->getHighResolutionTimerCounter();
 
 	while(isRunning)
 	{
 		startTime = apiWrapper->getHighResolutionTimerCounter();
+		timeHandler->updateTimer();
+		frames++;
 		// ********************************************************************
 		// START GAME LOOP EXECUTION
 		// ********************************************************************

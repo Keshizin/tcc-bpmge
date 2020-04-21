@@ -84,11 +84,17 @@ int main(int argc, char **argv)
 	else
 		std::cout << "> CASE #12 | GameEngine Class | FAIL\n" << std::endl;
 
-	// Case test #13 | Iniciar o loop principal da Game Engine
+	// Case test #13 | Teste da classe TimeHandler
 	if(testTimeHandler())
 		std::cout << "> CASE #13 | TimeHandler Class | SUCCESS\n" << std::endl;
 	else
 		std::cout << "> CASE #13 | TimeHandler Class | FAIL\n" << std::endl;
+
+	// Case test #14 | Teste do timer
+	if(testTimer())
+		std::cout << "> CASE #14 | TimeHandler Class | SUCCESS\n" << std::endl;
+	else
+		std::cout << "> CASE #14 | TimeHandler Class | FAIL\n" << std::endl;
 
 	std::cout << "> (!) FIM DOS TESTES" << std::endl;
 	return 0;

@@ -19,5 +19,6 @@ public:
 int testInstanceGameEngine();
 int testMainLoop();
 int testTimeHandler();
+int testTimer();
 
 #endif

@@ -19,6 +19,9 @@ public:
 	GEApiWrapper * getApiWrapper();
 	GETimeHandler * getTimeHandler();
 
+	void setFramesPerSecond(unsigned long long framesPerSecond);
+	unsigned long long getFramesPerSecond();
+
 private:
 	int isRunning;
 	GEApiWrapper *apiWrapper;

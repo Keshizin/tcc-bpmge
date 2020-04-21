@@ -35,6 +35,8 @@ public:
 		timer += frameTime;
 		frameTimeTotal += frameTime;
 
+		std::cout << "timer: " << timer << std::endl;
+
 		if(frameTime > storeMaxFrameTime[seconds])
 			storeMaxFrameTime[seconds] = frameTime;
 

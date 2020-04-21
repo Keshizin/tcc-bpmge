@@ -1,10 +1,6 @@
 #include "getest.hpp"
 #include <iostream>
-
-// GameEngine *gameEngine = 0;
-// unsigned long long timer = 0;
-// unsigned long long numberOfFrames = 0;
-// int seconds = 0;
+#include <getimer.h>
 
 int testInstanceGameEngine()
 {
@@ -18,20 +14,14 @@ int testMainLoop()
 {
 	singletonGameEngine = new GameEngine();
 
-	// GETimeHandler *timeHandler = new GETimeHandler();
-	// gameEngine->setTimeHandler(timeHandler);
-
 	TestGEEventHandler *testGEEventHandler = new TestGEEventHandler();
 	singletonGameEngine->setEventHandler(testGEEventHandler);
 
 	std::cout << "> start main loop..." << std::endl;
 	singletonGameEngine->startMainLoop();
 	std::cout << "> end main loop...\n" << std::endl;
-	// seconds = 0;
 
-	// delete winApiWrapper;
-	// delete timeHandler;
-	// delete testEventHandler;
+	delete testGEEventHandler;
 	delete singletonGameEngine;
 	return 1;
 }
@@ -51,32 +41,50 @@ int testTimeHandler()
 	return 1;
 }
 
+int hasTimer = 0;
+int seconds = 0;
+
+GETimer *timer;
+
+int testTimer()
+{
+	singletonGameEngine = new GameEngine();
+
+	TestGEEventHandler *testGEEventHandler = new TestGEEventHandler();
+	singletonGameEngine->setEventHandler(testGEEventHandler);
+
+	hasTimer = 1;
+
+	timer = new GETimer(singletonGameEngine->getTimeHandler());
+	timer->setTimer(10000000);
+	timer->start();
+	singletonGameEngine->startMainLoop();
+	hasTimer = 0;
+
+	delete timer;
+	delete testGEEventHandler;
+	delete singletonGameEngine;
+	return 1;
+}
+
 void TestGEEventHandler::frameEvent()
 {
-	std::cout << "> frame event executed." << std::endl;
-	singletonGameEngine->stopMainLoop();
-
-	// // Exemplo de implementação de um timer
-	// timer += gameEngine->getTimeHandler()->getFrameTime();
-	// unsigned long long frequency = gameEngine->getApiWrapper()->getHighResolutionTimerFrequency();
-
-	// if(timer >= frequency)
-	// {
-	// 	std::cout
-	// 		<< "FPS: " << numberOfFrames
-	// 		<< " | frame time: " << gameEngine->getTimeHandler()->getFrameTime()
-	// 		<< std::endl;
-
-	// 	numberOfFrames = 0;
-	// 	timer = 0;
-
-	// 	seconds++;
-
-	// 	if(seconds == 5)
-	// 		gameEngine->stopLoop();
-	// }
-
-	// numberOfFrames++;
+	if(hasTimer)
+	{
+		if(timer->isDone())
+		{
+			std::cout << ".";
+			seconds++;
+			timer->start();
+			
+			if(seconds == 10)
+				singletonGameEngine->stopMainLoop();
+		}
+	}
+	else
+	{
+		singletonGameEngine->stopMainLoop();
+	}
 }
 
 void TestGEEventHandler::mouseEvent(int button, int state, int x, int y)
