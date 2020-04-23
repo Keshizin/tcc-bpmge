@@ -56,7 +56,7 @@ int testTimer()
 	hasTimer = 1;
 
 	timer = new GETimer(singletonGameEngine->getTimeHandler());
-	timer->setTimer(10000000);
+	timer->setTimer(singletonGameEngine->getApiWrapper()->getHighResolutionTimerFrequency());
 	timer->start();
 	singletonGameEngine->startMainLoop();
 	hasTimer = 0;

@@ -92,9 +92,9 @@ int main(int argc, char **argv)
 
 	// Case test #14 | Teste do timer
 	if(testTimer())
-		std::cout << "> CASE #14 | TimeHandler Class | SUCCESS\n" << std::endl;
+		std::cout << "> CASE #14 | Timer Class | SUCCESS\n" << std::endl;
 	else
-		std::cout << "> CASE #14 | TimeHandler Class | FAIL\n" << std::endl;
+		std::cout << "> CASE #14 | Timer Class | FAIL\n" << std::endl;
 
 	std::cout << "> (!) FIM DOS TESTES" << std::endl;
 	return 0;

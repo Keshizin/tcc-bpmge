@@ -1,6 +1,7 @@
 #include <ge.h>
 #include <gewinapiwrapper.h>
 #include <iostream>
+#include <gediag.h>
 
 GameEngine::GameEngine()
 {
@@ -22,18 +23,19 @@ void GameEngine::startMainLoop()
 	unsigned long long startTime = 0;
 	unsigned long long endTime = 0;
 	unsigned long long frameTime = 0;
-	unsigned long long frames = 0;
 
 	isRunning = 1;
 	timeHandler->setTimer(0);
-
 	endTime = apiWrapper->getHighResolutionTimerCounter();
+
+	GEDiag diag(timeHandler);
+	diag.start(apiWrapper->getHighResolutionTimerFrequency());
 
 	while(isRunning)
 	{
 		startTime = apiWrapper->getHighResolutionTimerCounter();
 		timeHandler->updateTimer();
-		frames++;
+		diag.update();
 		// ********************************************************************
 		// START GAME LOOP EXECUTION
 		// ********************************************************************
