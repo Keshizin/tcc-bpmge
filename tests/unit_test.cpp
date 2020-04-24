@@ -96,6 +96,12 @@ int main(int argc, char **argv)
 	else
 		std::cout << "> CASE #14 | Timer Class | FAIL\n" << std::endl;
 
+	// Case test #15 | Teste do timer
+	if(testDiag())
+		std::cout << "> CASE #15 | Timer Diag | SUCCESS\n" << std::endl;
+	else
+		std::cout << "> CASE #15 | Timer Diag | FAIL\n" << std::endl;
+
 	std::cout << "> (!) FIM DOS TESTES" << std::endl;
 	return 0;
 }

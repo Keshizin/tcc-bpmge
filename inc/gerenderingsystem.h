@@ -6,6 +6,7 @@
 #define GE_BKG_COLOR_RED   3
 #define GE_BKG_COLOR_GREEN 4
 #define GE_BKG_COLOR_BLUE  5
+#define GE_BKG_COLOR_UBUNTU_PURPLE 6
 
 class GERenderingSystem
 {

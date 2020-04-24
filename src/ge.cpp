@@ -1,20 +1,20 @@
 #include <ge.h>
 #include <gewinapiwrapper.h>
 #include <iostream>
-#include <gediag.h>
 
 GameEngine::GameEngine()
 {
 	GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
 	this->apiWrapper = winApiWrapper;
 
-	GETimeHandler *timeHandler = new GETimeHandler();
-	this->timeHandler = timeHandler;
+	this->timeHandler = new GETimeHandler();
+	this->diag = new GEDiag(this->timeHandler);
 }
 
 GameEngine::~GameEngine()
 {
 	delete timeHandler;
+	delete diag;
 	delete apiWrapper;
 }
 
@@ -27,20 +27,24 @@ void GameEngine::startMainLoop()
 	isRunning = 1;
 	timeHandler->setTimer(0);
 	endTime = apiWrapper->getHighResolutionTimerCounter();
-
-	GEDiag diag(timeHandler);
-	diag.start(apiWrapper->getHighResolutionTimerFrequency());
+	
+	diag->start(apiWrapper->getHighResolutionTimerFrequency());
 
 	while(isRunning)
 	{
 		startTime = apiWrapper->getHighResolutionTimerCounter();
 		timeHandler->updateTimer();
-		diag.update();
+		diag->update();
 		// ********************************************************************
 		// START GAME LOOP EXECUTION
 		// ********************************************************************
 		apiWrapper->handleSystemMessages();
+
+		if(!isRunning)
+			break;
+
 		eventHandler->frameEvent();
+
 		// ********************************************************************
 		// END GAME LOOP EXECUTION HERE
 		// ********************************************************************
@@ -70,4 +74,9 @@ GETimeHandler * GameEngine::getTimeHandler()
 GEApiWrapper * GameEngine::getApiWrapper()
 {
 	return apiWrapper;
+}
+
+GEDiag *GameEngine::getDiag()
+{
+	return diag;
 }

@@ -67,6 +67,29 @@ int testTimer()
 	return 1;
 }
 
+int testDiag()
+{
+	singletonGameEngine = new GameEngine();
+
+	TestGEEventHandler *testGEEventHandler = new TestGEEventHandler();
+	singletonGameEngine->setEventHandler(testGEEventHandler);
+
+	hasTimer = 1;
+	seconds = 0;
+	timer = new GETimer(singletonGameEngine->getTimeHandler());
+	timer->setTimer(singletonGameEngine->getApiWrapper()->getHighResolutionTimerFrequency());
+	timer->start();
+	singletonGameEngine->startMainLoop();
+	hasTimer = 0;
+
+	singletonGameEngine->getDiag()->print();
+
+	delete timer;
+	delete testGEEventHandler;
+	delete singletonGameEngine;
+	return 1;
+}
+
 void TestGEEventHandler::frameEvent()
 {
 	if(hasTimer)

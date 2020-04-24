@@ -20,5 +20,6 @@ int testInstanceGameEngine();
 int testMainLoop();
 int testTimeHandler();
 int testTimer();
+int testDiag();
 
 #endif

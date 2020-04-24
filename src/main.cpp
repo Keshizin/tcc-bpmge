@@ -1,9 +1,8 @@
 #include <windows.h>
 #include <iostream>
 
+#include <ge.h>
 #include <gewindow.h>
-#include <geeventhandler.h>
-#include <geapiwrapper.h>
 #include <gerenderingsystem.h>
 
 class DemoEventHandler : public GEEventHandler
@@ -18,53 +17,54 @@ class DemoEventHandler : public GEEventHandler
 	void finishBeforeEvent();
 };
 
+GameEngine *singletonGameEngineDemo = 0;
 GEWindow *windowDemo = 0;
-GEApiWrapper *apiWrapper = 0;
 GERenderingSystem *mainRenderingSystem = 0;
+GETimer *_timer;
 
-int isFinish = 0;
+int splashMode = 1;
+int _seconds = 0;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	std::cout << "HELLO BPM Game Engine!" << std::endl;
 
+	singletonGameEngineDemo = new GameEngine();
+
 	windowDemo = new GEWindow();
-	windowDemo->setName("BPM Game Engine - DEMO 1 - SPLASH");
+	windowDemo->setName("BPM Game Engine - DEMO 2 - FRAME TIME and FPS");
 	windowDemo->setWidth(800);
 	windowDemo->setHeight(600);
 	windowDemo->setXPosition(960 - 400);
 	windowDemo->setYPosition(540 - 300);
 	windowDemo->setStyle(GE_WIN_SPLASH);
 
-	apiWrapper = windowDemo->getApiWrapper();
 	mainRenderingSystem = windowDemo->getRenderingSystem();
 
 	DemoEventHandler *demoEventHandler = new DemoEventHandler();
-	apiWrapper->setEventHandler(demoEventHandler);
+	singletonGameEngineDemo->setEventHandler(demoEventHandler);
 
 	if(!windowDemo->createWindow())
 	{
 		delete demoEventHandler;
 		delete windowDemo;
+		delete singletonGameEngineDemo;
 		return 0;
 	}
 
-	mainRenderingSystem->setBackgroundColor(GE_BKG_COLOR_BLUE);
+	mainRenderingSystem->setBackgroundColor(GE_BKG_COLOR_UBUNTU_PURPLE);
 	mainRenderingSystem->setRenderingSystem();
 	windowDemo->showWindow();
 
-	while(!isFinish)
-	{
-		apiWrapper->handleSystemMessages();
+	_timer = new GETimer(singletonGameEngineDemo->getTimeHandler());
+	_timer->setTimer(singletonGameEngineDemo->getApiWrapper()->getHighResolutionTimerFrequency() * 3);
+	_timer->start();
 
-		if(isFinish)
-			break;
+	singletonGameEngineDemo->startMainLoop();
 
-		mainRenderingSystem->renderFrame();
-		apiWrapper->swapBuffers();
-	}
+	windowDemo->destroyWindow();
+	splashMode = 0;
 
-	windowDemo->setName("BPM Game Engine - DEMO 1 - DEFAULT");
 	windowDemo->setWidth(1600);
 	windowDemo->setHeight(800);
 	windowDemo->setXPosition(960 - 800);
@@ -73,39 +73,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	if(!windowDemo->createWindow())
 	{
+		delete _timer;
 		delete demoEventHandler;
 		delete windowDemo;
-		return 0;
-	}
-
-	mainRenderingSystem->setBackgroundColor(GE_BKG_COLOR_BLACK);
-	mainRenderingSystem->setRenderingSystem();
-	windowDemo->showWindow();
-
-	isFinish = 0;
-
-	while(!isFinish)
-	{
-		apiWrapper->handleSystemMessages();
-
-		if(isFinish)
-			break;
-
-		mainRenderingSystem->renderFrame();
-		apiWrapper->swapBuffers();
-	}
-
-	windowDemo->setName("BPM Game Engine - DEMO 1 - COMPLETE");
-	windowDemo->setWidth(640);
-	windowDemo->setHeight(480);
-	windowDemo->setXPosition(960 - 320);
-	windowDemo->setYPosition(540 - 240);
-	windowDemo->setStyle(GE_WIN_COMPLETE);
-
-	if(!windowDemo->createWindow())
-	{
-		delete demoEventHandler;
-		delete windowDemo;
+		delete singletonGameEngineDemo;
 		return 0;
 	}
 
@@ -113,29 +84,50 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	mainRenderingSystem->setRenderingSystem();
 	windowDemo->showWindow();
 
-	isFinish = 0;
+	_timer->setTimer(singletonGameEngineDemo->getApiWrapper()->getHighResolutionTimerFrequency());
+	_timer->start();
 
-	while(!isFinish)
-	{
-		apiWrapper->handleSystemMessages();
+	singletonGameEngineDemo->startMainLoop();
+	singletonGameEngineDemo->startMainLoop();
 
-		if(isFinish)
-			break;
-
-		mainRenderingSystem->renderFrame();
-		apiWrapper->swapBuffers();
-	}
+	singletonGameEngineDemo->getDiag()->print();
 
 	std::cout << "BYE BPM Game Engine!" << std::endl;
 
+	delete _timer;
 	delete demoEventHandler;
 	delete windowDemo;
-
+	delete singletonGameEngineDemo;
 	return 1;
 }
 
 void DemoEventHandler::frameEvent()
 {
+	if(_timer->isDone())
+	{
+		if(splashMode)
+		{
+			singletonGameEngineDemo->stopMainLoop();
+		}
+		else
+		{
+			
+			_timer->start();
+
+			if(_seconds == 10)
+			{
+				windowDemo->destroyWindow();
+				singletonGameEngineDemo->stopMainLoop();
+			}
+
+			_seconds++;
+		}
+		
+		return;
+	}
+
+	mainRenderingSystem->renderFrame();
+	windowDemo->getApiWrapper()->swapBuffers();
 }
 
 void DemoEventHandler::mouseEvent(int button, int state, int x, int y)
@@ -161,16 +153,16 @@ void DemoEventHandler::keyboardSpecialEvent(unsigned char key, int state)
 void DemoEventHandler::resizeWindowEvent(int width, int height)
 {
 	std::cout << "> resize window event | width: " << width << " | height: " << height << std::endl;
-	windowDemo->setWidth(width);
-	windowDemo->setHeight(height);
-	mainRenderingSystem->setViewportWidth(width);
-	mainRenderingSystem->setViewportHeight(height);
-	mainRenderingSystem->setRenderingSystem();
+	// windowDemo->setWidth(width);
+	// windowDemo->setHeight(height);
+	// mainRenderingSystem->setViewportWidth(width);
+	// mainRenderingSystem->setViewportHeight(height);
+	// mainRenderingSystem->setRenderingSystem();
 }
 
 void DemoEventHandler::finishAfterEvent()
 {
-	isFinish = 1;
+	singletonGameEngineDemo->stopMainLoop();
 }
 
 void DemoEventHandler::finishBeforeEvent()

@@ -3,6 +3,8 @@
 
 #include <getimer.h>
 
+#define DIAG_SIZE 10
+
 class GEDiag
 {
 public:
@@ -11,14 +13,18 @@ public:
 	
 	void start(unsigned long long frequency);
 	void update();
+	void print();
 
 	// Getters and Setters
 	void setFramesPerSecond(unsigned long long framesPerSecond);
 	unsigned long long getFramesPerSecond();
 
 private:
+	int store_index;
+	unsigned long long store_fps[DIAG_SIZE];
 	unsigned long long framesPerSecond;
 	GETimer *timer;
+
 };
 
 #endif

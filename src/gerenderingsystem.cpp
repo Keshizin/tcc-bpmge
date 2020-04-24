@@ -34,6 +34,12 @@ void GERenderingSystem::setRenderingSystem()
 		case GE_BKG_COLOR_BLUE:
 			glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 			break;
+
+		case GE_BKG_COLOR_UBUNTU_PURPLE:
+			//48182D
+			glClearColor(0.28f, 0.09f, 0.18f, 1.0f);
+			break;
+
 		default:
 			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 			break;
