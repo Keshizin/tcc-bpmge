@@ -5,6 +5,8 @@
 #include <GL/glu.h>
 #include <iostream>
 
+#include "../inc/GL/wglext.h"
+
 // ----------------------------------------------------------------------------
 //  FUNCTION PROTOTYPE DECLARATION
 // ----------------------------------------------------------------------------
@@ -58,6 +60,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	std::cout << "BPM Game Engine Evaluation - NO OVERHEAD + OPENGL\n" << std::endl;
 	std::cout << "> starting main loop..." << std::endl;
+
+	typedef BOOL(APIENTRY *PFNWGLSWAPINTERVALPROC)(int);
+	PFNWGLSWAPINTERVALPROC wglSwapIntervalEXT = NULL;
+	const char *extensions = (char*)glGetString(GL_EXTENSIONS);
+
+	wglSwapIntervalEXT = (PFNWGLSWAPINTERVALPROC) wglGetProcAddress("wglSwapIntervalEXT");
+
+	if (wglSwapIntervalEXT) {
+	    wglSwapIntervalEXT(0);
+	}
 
 	system("PAUSE");
 
