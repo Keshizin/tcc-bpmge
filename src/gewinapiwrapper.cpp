@@ -16,6 +16,8 @@ int GEWinApiWrapper::initializeWindow()
 	windowClass.cbClsExtra = 0;
 	windowClass.cbWndExtra = 0;
 	windowClass.hInstance = GetModuleHandle(NULL);
+	// windowClass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SKELETON));
+	// windowClass.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SKELETON_SM)); 
 	windowClass.hIcon = 0;
 	windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	windowClass.hbrBackground = 0;

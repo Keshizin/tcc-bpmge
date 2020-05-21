@@ -1,4 +1,4 @@
-// g++ winmain3.cpp -I../inc ../obj/ge.o ../obj/getimehandler.o ../obj/geapiwrapper.o ../obj/gewinapiwrapper.o -lopengl32 -lglu32 -lgdi32  -Wall
+// g++ winmain3.cpp -I../inc ../obj/getimer.o ../obj/gediag.o ../obj/ge.o ../obj/getimehandler.o ../obj/geapiwrapper.o ../obj/gewinapiwrapper.o -lopengl32 -lglu32 -lgdi32 -Wall
 
 #include <windows.h>
 #include <iostream>
@@ -34,8 +34,6 @@ public:
 		frameTime = singletonGameEngine->getTimeHandler()->getFrameTime();
 		timer += frameTime;
 		frameTimeTotal += frameTime;
-
-		std::cout << "timer: " << timer << std::endl;
 
 		if(frameTime > storeMaxFrameTime[seconds])
 			storeMaxFrameTime[seconds] = frameTime;
