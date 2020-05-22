@@ -63,15 +63,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	typedef BOOL(APIENTRY *PFNWGLSWAPINTERVALPROC)(int);
 	PFNWGLSWAPINTERVALPROC wglSwapIntervalEXT = NULL;
-	const char *extensions = (char*)glGetString(GL_EXTENSIONS);
 
 	wglSwapIntervalEXT = (PFNWGLSWAPINTERVALPROC) wglGetProcAddress("wglSwapIntervalEXT");
 
 	if (wglSwapIntervalEXT) {
 	    wglSwapIntervalEXT(0);
 	}
-
-	system("PAUSE");
 
 	QueryPerformanceCounter(&endTime);
 
@@ -83,13 +80,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// START - GAME LOOP EXECUTION HERE
 		// ********************************************************************
 		timer.QuadPart += frameTime.QuadPart;
-		// frameTimeTotal.QuadPart += frameTime.QuadPart;
+		frameTimeTotal.QuadPart += frameTime.QuadPart;
 
-		// if(frameTime.QuadPart > storeMaxFrameTime[seconds])
-		// 	storeMaxFrameTime[seconds] = frameTime.QuadPart;
+		if(frameTime.QuadPart > storeMaxFrameTime[seconds])
+			storeMaxFrameTime[seconds] = frameTime.QuadPart;
 
-		// if(frameTime.QuadPart < storeMinFrameTime[seconds])
-		// 	storeMinFrameTime[seconds] = frameTime.QuadPart;
+		if(frameTime.QuadPart < storeMinFrameTime[seconds])
+			storeMinFrameTime[seconds] = frameTime.QuadPart;
 
 		while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
@@ -106,12 +103,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		if(timer.QuadPart >= frequency.QuadPart)
 		{
-			std::cout << "FPS: " << numberOfFrames << std::endl;
-		// 	storeAverageFrameTime[seconds] = frameTimeTotal.QuadPart / static_cast<double>(numberOfFrames);
-		// 	storeFrameTime[seconds] = frameTime.QuadPart;
-		// 	storeNumberOfFrames[seconds] = numberOfFrames;
+			storeAverageFrameTime[seconds] = frameTimeTotal.QuadPart / static_cast<double>(numberOfFrames);
+			storeFrameTime[seconds] = frameTime.QuadPart;
+			storeNumberOfFrames[seconds] = numberOfFrames;
 
-		// 	frameTimeTotal.QuadPart = 0;
+			frameTimeTotal.QuadPart = 0;
 			numberOfFrames = 0;
 			timer.QuadPart = 0;
 			seconds++;
@@ -135,16 +131,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	std::cout << "> end of main loop..." << std::endl;
-	// std::cout << "> RESULTS:" << std::endl;
+	std::cout << "> RESULTS:" << std::endl;
 
-	// for(int i = 0; i < SIZE; i++)
-	// {
-	// 	std::cout << "\tframe time: " << storeFrameTime[i] << std::endl;
-	// 	std::cout << "\tmax frame time: " << storeMaxFrameTime[i] << std::endl;
-	// 	std::cout << "\tmin frame time: " << storeMinFrameTime[i] << std::endl;
-	// 	std::cout << "\taverage frame time: " << storeAverageFrameTime[i] << std::endl;
-	// 	std::cout << "\tframes per second: " << storeNumberOfFrames[i] << "\n" << std::endl;
-	// }
+	for(int i = 0; i < SIZE; i++)
+	{
+		std::cout << "\tframe time: " << storeFrameTime[i] << std::endl;
+		std::cout << "\tmax frame time: " << storeMaxFrameTime[i] << std::endl;
+		std::cout << "\tmin frame time: " << storeMinFrameTime[i] << std::endl;
+		std::cout << "\taverage frame time: " << storeAverageFrameTime[i] << std::endl;
+		std::cout << "\tframes per second: " << storeNumberOfFrames[i] << "\n" << std::endl;
+	}
 
 	return 1;
 }
