@@ -2,11 +2,12 @@
 #include <gewinapiwrapper.h>
 #include <iostream>
 
-GameEngine::GameEngine()
+GameEngine::GameEngine(GEEventHandler *eventHandler)
 {
 	GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
 	this->apiWrapper = winApiWrapper;
-
+	this->apiWrapper->setEventHandler(eventHandler);
+	this->eventHandler = eventHandler;
 	this->timeHandler = new GETimeHandler();
 	this->diag = new GEDiag(this->timeHandler);
 }
@@ -14,8 +15,8 @@ GameEngine::GameEngine()
 GameEngine::~GameEngine()
 {
 	delete timeHandler;
-	delete diag;
 	delete apiWrapper;
+	delete diag;
 }
 
 void GameEngine::startMainLoop()
@@ -27,7 +28,6 @@ void GameEngine::startMainLoop()
 	isRunning = 1;
 	timeHandler->setTimer(0);
 	endTime = apiWrapper->getHighResolutionTimerCounter();
-	
 	diag->start(apiWrapper->getHighResolutionTimerFrequency());
 
 	while(isRunning)
@@ -38,10 +38,10 @@ void GameEngine::startMainLoop()
 		// ********************************************************************
 		// START GAME LOOP EXECUTION
 		// ********************************************************************
-		apiWrapper->handleSystemMessages();
+		// apiWrapper->handleSystemMessages();
 
-		if(!isRunning)
-			break;
+		// if(!isRunning)
+		// 	break;
 
 		eventHandler->frameEvent();
 
@@ -60,12 +60,6 @@ void GameEngine::stopMainLoop()
 }
 
 // GETTERS AND SETTERS
-void GameEngine::setEventHandler(GEEventHandler *eventHandler)
-{
-	this->eventHandler = eventHandler;
-	this->apiWrapper->setEventHandler(eventHandler);
-}
-
 GETimeHandler * GameEngine::getTimeHandler()
 {
 	return timeHandler;

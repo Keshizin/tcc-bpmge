@@ -24,7 +24,6 @@ private:
 	unsigned long long store_fps[DIAG_SIZE];
 	unsigned long long framesPerSecond;
 	GETimer *timer;
-
 };
 
 #endif
