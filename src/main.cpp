@@ -19,7 +19,6 @@ class UserEventHandler : public GEEventHandler
 
 GameEngine *singletonGameEngineDemo = 0;
 GETimer *timer;
-// GEWindow *windowDemo = 0;
 // GERenderingSystem *mainRenderingSystem = 0;
 
 // int splashMode = 1;
@@ -27,29 +26,27 @@ GETimer *timer;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-
 	std::cout << "HELLO BPM Game Engine!" << std::endl;
 
 	UserEventHandler userEventHandler;
 	singletonGameEngineDemo = new GameEngine(&userEventHandler);
 
-	// windowDemo = new GEWindow();
-	// windowDemo->setName("BPM Game Engine - DEMO 2 - FRAME TIME and FPS");
-	// windowDemo->setWidth(800);
-	// windowDemo->setHeight(600);
-	// windowDemo->setXPosition(960 - 400);
-	// windowDemo->setYPosition(540 - 300);
-	// windowDemo->setStyle(GE_WIN_SPLASH);
+	singletonGameEngineDemo->getGameWindow()->setName("BPM Game Engine");
+	singletonGameEngineDemo->getGameWindow()->setWidth(640);
+	singletonGameEngineDemo->getGameWindow()->setHeight(480);
+	singletonGameEngineDemo->getGameWindow()->setXPosition(960 - 320);
+	singletonGameEngineDemo->getGameWindow()->setYPosition(540 - 240);
+	singletonGameEngineDemo->getGameWindow()->setStyle(GE_WIN_DEFAULT);
 
 	// mainRenderingSystem = windowDemo->getRenderingSystem();
 
-	// if(!windowDemo->createWindow())
-	// {
-	// 	delete demoEventHandler;
-	// 	delete windowDemo;
-	// 	delete singletonGameEngineDemo;
-	// 	return 0;
-	// }
+	if(!singletonGameEngineDemo->getGameWindow()->createWindow())
+	{
+		delete singletonGameEngineDemo;
+		return 0;
+	}
+
+	singletonGameEngineDemo->getGameWindow()->showWindow();
 
 	// mainRenderingSystem->setBackgroundColor(GE_BKG_COLOR_UBUNTU_PURPLE);
 	// mainRenderingSystem->setRenderingSystem();
@@ -61,7 +58,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	singletonGameEngineDemo->startMainLoop();
 
-	// windowDemo->destroyWindow();
+	singletonGameEngineDemo->getGameWindow()->destroyWindow();
+
 	// splashMode = 0;
 
 	// windowDemo->setWidth(1600);
@@ -89,14 +87,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// singletonGameEngineDemo->startMainLoop();
 	// singletonGameEngineDemo->startMainLoop();
 
-	// singletonGameEngineDemo->getDiag()->print();
 
 	std::cout << "BYE BPM Game Engine!" << std::endl;
 
 	singletonGameEngineDemo->getDiag()->print();
 
-	// delete _timer;
 	// delete windowDemo;
+	delete timer;
 	delete singletonGameEngineDemo;
 	return 1;
 }

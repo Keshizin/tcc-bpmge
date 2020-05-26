@@ -3,11 +3,14 @@
 
 #include <geapiwrapper.h>
 #include <getimehandler.h>
+#include <geeventhandler.h>
 #include <gediag.h>
+#include <gewindow.h>
 
 class GameEngine
 {
 public:
+	GameEngine();
 	GameEngine(GEEventHandler *eventHandler);
 	~GameEngine();
 
@@ -18,16 +21,17 @@ public:
 	GEApiWrapper * getApiWrapper();
 	GETimeHandler * getTimeHandler();
 	GEDiag *getDiag();
+	GEWindow *getGameWindow();
 
-	// void setFramesPerSecond(unsigned long long framesPerSecond);
-	// unsigned long long getFramesPerSecond();
+	void setEventHandler(GEEventHandler *eventHandler);
 
 private:
 	int isRunning;
-	GETimeHandler *timeHandler;
 	GEApiWrapper *apiWrapper;
-	GEDiag *diag;
+	GETimeHandler *timeHandler;
 	GEEventHandler *eventHandler;
+	GEDiag *diag;
+	GEWindow *gameWindow;
 };
 
 #endif

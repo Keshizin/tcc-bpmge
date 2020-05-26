@@ -1,10 +1,25 @@
+#include <iostream>
+
 #include <gewinapiwrapper.h>
-
-#include <GL/gl.h>
-
 #include <gewindow.h>
 
-#include <iostream>
+// #include <GL/gl.h>
+
+
+
+unsigned long long GEWinApiWrapper::getHighResolutionTimerCounter()
+{
+	LARGE_INTEGER time;
+	QueryPerformanceCounter(&time);
+	return time.QuadPart;
+}
+
+unsigned long long GEWinApiWrapper::getHighResolutionTimerFrequency()
+{
+	LARGE_INTEGER frequency;
+	QueryPerformanceFrequency(&frequency);
+	return frequency.QuadPart;
+}
 
 int GEWinApiWrapper::initializeWindow()
 {
@@ -19,11 +34,11 @@ int GEWinApiWrapper::initializeWindow()
 	// windowClass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SKELETON));
 	// windowClass.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SKELETON_SM)); 
 	windowClass.hIcon = 0;
+	windowClass.hIconSm = 0;
 	windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	windowClass.hbrBackground = 0;
 	windowClass.lpszMenuName = 0;
 	windowClass.lpszClassName = LPCSTR(windowClassName.c_str());
-	windowClass.hIconSm = 0;
 
 	if(!RegisterClassEx(&windowClass))
 	{
@@ -111,32 +126,32 @@ int GEWinApiWrapper::destroyWindow()
 	int ret;
 	int err = 1;
 
-	ret = wglMakeCurrent(NULL, NULL);
+	// ret = wglMakeCurrent(NULL, NULL);
 
-	if(ret == FALSE)
-	{
-		DWORD error = GetLastError();
-		std::cout << "(!) ERROR - It was not possible to release the rendering context: " << error << "\n" << std::endl;
-		error = 0;
-	}
+	// if(ret == FALSE)
+	// {
+	// 	DWORD error = GetLastError();
+	// 	std::cout << "(!) ERROR - It was not possible to release the rendering context: " << error << "\n" << std::endl;
+	// 	error = 0;
+	// }
 
-	ret = wglDeleteContext(hRC);
+	// ret = wglDeleteContext(hRC);
 
-	if(ret == FALSE)
-	{
-		DWORD error = GetLastError();
-		std::cout << "(!) ERROR - It was not possible to delete the rendering context: " << error << "\n" << std::endl;
-		error = 0;
-	}
+	// if(ret == FALSE)
+	// {
+	// 	DWORD error = GetLastError();
+	// 	std::cout << "(!) ERROR - It was not possible to delete the rendering context: " << error << "\n" << std::endl;
+	// 	error = 0;
+	// }
 
-	ret = ReleaseDC(hWindow, hDC);
+	// ret = ReleaseDC(hWindow, hDC);
 
-	if(!ret)
-	{
-		DWORD error = GetLastError();
-		std::cout << "(!) ERROR - It was not possible to release the device context: " << error << "\n" << std::endl;
-		error = 0;
-	}
+	// if(!ret)
+	// {
+	// 	DWORD error = GetLastError();
+	// 	std::cout << "(!) ERROR - It was not possible to release the device context: " << error << "\n" << std::endl;
+	// 	error = 0;
+	// }
 
 	ret = DestroyWindow(hWindow);
 
@@ -160,6 +175,17 @@ int GEWinApiWrapper::destroyWindow()
 	return err;
 }
 
+int GEWinApiWrapper::showWindow()
+{
+	if(hWindow)
+	{
+		ShowWindow(hWindow, SW_SHOW);
+		return 1;
+	}
+
+	return 0;
+}
+
 void GEWinApiWrapper::handleSystemMessages()
 {
 	MSG msg;
@@ -176,235 +202,210 @@ void GEWinApiWrapper::handleSystemMessages()
 	}
 }
 
-int GEWinApiWrapper::showWindow()
-{
-	if(hWindow)
-	{
-		ShowWindow(hWindow, SW_SHOW);
-		return 1;
-	}
+// int GEWinApiWrapper::initializeRenderingSystem(GERenderingSystem *renderingSystem)
+// {
+// 	int ret;
+// 	DWORD dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
 
-	return 0;
-}
+// 	static PIXELFORMATDESCRIPTOR pfd =
+// 	{
+// 		sizeof(PIXELFORMATDESCRIPTOR),
+// 		1,
+// 		PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
+// 		PFD_TYPE_RGBA,
+// 		32, // cColorBits
+// 		0, // cRedBits
+// 		0, // cRedShift
+// 		0, // cGreenBits
+// 		0, // cGreenShift
+// 		0, // cBlueBits
+// 		0, // cBlueShift
+// 		0, // cAlphaBits
+// 		0, // cAlphaShift
+// 		0, // cAccumBits
+// 		0, // cAccumRedBits
+// 		0, // cAccumGreenBits
+// 		0, // cAccumBlueBits
+// 		0, // cAccumAlphaBits
+// 		32, // cDepthBits
+// 		0, // cStencilBits
+// 		0, // cAuxBuffers
+// 		PFD_MAIN_PLANE, // iLayerType
+// 		0, // bReserved
+// 		0, // dwLayerMask
+// 		0, // dwVisibleMask
+// 		0 // dwDamageMask
+// 	};
 
-int GEWinApiWrapper::initializeRenderingSystem(GERenderingSystem *renderingSystem)
-{
-	int ret;
-	DWORD dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
+// 	hDC = GetDC(hWindow);
 
-	static PIXELFORMATDESCRIPTOR pfd =
-	{
-		sizeof(PIXELFORMATDESCRIPTOR),
-		1,
-		PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
-		PFD_TYPE_RGBA,
-		32, // cColorBits
-		0, // cRedBits
-		0, // cRedShift
-		0, // cGreenBits
-		0, // cGreenShift
-		0, // cBlueBits
-		0, // cBlueShift
-		0, // cAlphaBits
-		0, // cAlphaShift
-		0, // cAccumBits
-		0, // cAccumRedBits
-		0, // cAccumGreenBits
-		0, // cAccumBlueBits
-		0, // cAccumAlphaBits
-		32, // cDepthBits
-		0, // cStencilBits
-		0, // cAuxBuffers
-		PFD_MAIN_PLANE, // iLayerType
-		0, // bReserved
-		0, // dwLayerMask
-		0, // dwVisibleMask
-		0 // dwDamageMask
-	};
+// 	if(hDC == NULL)
+// 	{
+// 		DWORD error = GetLastError();
+// 		std::cout << "(!) ERROR - It was not possible to get device context: " << error << "\n" << std::endl;
+// 		return 0;
+// 	}
 
-	hDC = GetDC(hWindow);
+// 	GLuint PixelFormat = ChoosePixelFormat(hDC, &pfd);
 
-	if(hDC == NULL)
-	{
-		DWORD error = GetLastError();
-		std::cout << "(!) ERROR - It was not possible to get device context: " << error << "\n" << std::endl;
-		return 0;
-	}
+// 	if(!PixelFormat)
+// 	{
+// 		DWORD error = GetLastError();
+// 		std::cout << "(!) ERROR - It was not possible to choose an pixel format: " << error << "\n" << std::endl;
 
-	GLuint PixelFormat = ChoosePixelFormat(hDC, &pfd);
+// 		ret = ReleaseDC(hWindow, hDC);
 
-	if(!PixelFormat)
-	{
-		DWORD error = GetLastError();
-		std::cout << "(!) ERROR - It was not possible to choose an pixel format: " << error << "\n" << std::endl;
+// 		if(!ret)
+// 		{
+// 			DWORD error = GetLastError();
+// 			std::cout << "(!) ERROR - It was not possible to release the device context: " << error << "\n" << std::endl;
+// 		}
 
-		ret = ReleaseDC(hWindow, hDC);
+// 		ret = DestroyWindow(hWindow);
 
-		if(!ret)
-		{
-			DWORD error = GetLastError();
-			std::cout << "(!) ERROR - It was not possible to release the device context: " << error << "\n" << std::endl;
-		}
+// 		if(ret == 0)
+// 		{
+// 			DWORD error = GetLastError();
+// 			std::cout << "(!) ERROR - It was not possible to destroy the window: " << error << "\n" << std::endl;
+// 		}
 
-		ret = DestroyWindow(hWindow);
+// 		ret = UnregisterClass(LPCSTR("GLWNDCLASS"), GetModuleHandle(NULL));
 
-		if(ret == 0)
-		{
-			DWORD error = GetLastError();
-			std::cout << "(!) ERROR - It was not possible to destroy the window: " << error << "\n" << std::endl;
-		}
+// 		if(ret == 0)
+// 		{
+// 			DWORD error = GetLastError();
+// 			std::cout << "(!) ERROR - It was not possible to unregister the window class: " << error << "\n" << std::endl;
+// 		}
 
-		ret = UnregisterClass(LPCSTR("GLWNDCLASS"), GetModuleHandle(NULL));
+// 		return 0;
+// 	}
 
-		if(ret == 0)
-		{
-			DWORD error = GetLastError();
-			std::cout << "(!) ERROR - It was not possible to unregister the window class: " << error << "\n" << std::endl;
-		}
+// 	ret = SetPixelFormat(hDC, PixelFormat, &pfd);
 
-		return 0;
-	}
+// 	if(ret == FALSE)
+// 	{
+// 		DWORD error = GetLastError();
+// 		std::cout << "(!) ERROR - It was not possible to set the format pixel: " << error << "\n" << std::endl;
 
-	ret = SetPixelFormat(hDC, PixelFormat, &pfd);
+// 		ret = ReleaseDC(hWindow, hDC);
 
-	if(ret == FALSE)
-	{
-		DWORD error = GetLastError();
-		std::cout << "(!) ERROR - It was not possible to set the format pixel: " << error << "\n" << std::endl;
+// 		if(!ret)
+// 		{
+// 			DWORD error = GetLastError();
+// 			std::cout << "(!) ERROR - It was not possible to release the device context: " << error << "\n" << std::endl;
+// 		}
 
-		ret = ReleaseDC(hWindow, hDC);
+// 		ret = DestroyWindow(hWindow);
 
-		if(!ret)
-		{
-			DWORD error = GetLastError();
-			std::cout << "(!) ERROR - It was not possible to release the device context: " << error << "\n" << std::endl;
-		}
+// 		if(ret == 0)
+// 		{
+// 			DWORD error = GetLastError();
+// 			std::cout << "(!) ERROR - It was not possible to destroy the window: " << error << "\n" << std::endl;
+// 		}
 
-		ret = DestroyWindow(hWindow);
+// 		ret = UnregisterClass(LPCSTR("GLWNDCLASS"), GetModuleHandle(NULL));
 
-		if(ret == 0)
-		{
-			DWORD error = GetLastError();
-			std::cout << "(!) ERROR - It was not possible to destroy the window: " << error << "\n" << std::endl;
-		}
+// 		if(ret == 0)
+// 		{
+// 			DWORD error = GetLastError();
+// 			std::cout << "(!) ERROR - It was not possible to unregister the window class: " << error << "\n" << std::endl;
+// 		}
 
-		ret = UnregisterClass(LPCSTR("GLWNDCLASS"), GetModuleHandle(NULL));
+// 		return 0;
+// 	}
 
-		if(ret == 0)
-		{
-			DWORD error = GetLastError();
-			std::cout << "(!) ERROR - It was not possible to unregister the window class: " << error << "\n" << std::endl;
-		}
+// 	hRC = wglCreateContext(hDC);
 
-		return 0;
-	}
+// 	if(hRC == NULL)
+// 	{
+// 		DWORD error = GetLastError();
+// 		std::cout << "(!) ERROR - It was not possible to create the rendering context: " << error << "\n" << std::endl;
 
-	hRC = wglCreateContext(hDC);
+// 		ret = ReleaseDC(hWindow, hDC);
 
-	if(hRC == NULL)
-	{
-		DWORD error = GetLastError();
-		std::cout << "(!) ERROR - It was not possible to create the rendering context: " << error << "\n" << std::endl;
+// 		if(!ret)
+// 		{
+// 			DWORD error = GetLastError();
+// 			std::cout << "(!) ERROR - It was not possible to release the device context: " << error << "\n" << std::endl;
+// 		}
 
-		ret = ReleaseDC(hWindow, hDC);
+// 		ret = DestroyWindow(hWindow);
 
-		if(!ret)
-		{
-			DWORD error = GetLastError();
-			std::cout << "(!) ERROR - It was not possible to release the device context: " << error << "\n" << std::endl;
-		}
+// 		if(ret == 0)
+// 		{
+// 			DWORD error = GetLastError();
+// 			std::cout << "(!) ERROR - It was not possible to destroy the window: " << error << "\n" << std::endl;
+// 		}
 
-		ret = DestroyWindow(hWindow);
+// 		ret = UnregisterClass(LPCSTR("GLWNDCLASS"), GetModuleHandle(NULL));
 
-		if(ret == 0)
-		{
-			DWORD error = GetLastError();
-			std::cout << "(!) ERROR - It was not possible to destroy the window: " << error << "\n" << std::endl;
-		}
+// 		if(ret == 0)
+// 		{
+// 			DWORD error = GetLastError();
+// 			std::cout << "(!) ERROR - It was not possible to unregister the window class: " << error << "\n" << std::endl;
+// 		}
 
-		ret = UnregisterClass(LPCSTR("GLWNDCLASS"), GetModuleHandle(NULL));
+// 		return 0;
+// 	}
 
-		if(ret == 0)
-		{
-			DWORD error = GetLastError();
-			std::cout << "(!) ERROR - It was not possible to unregister the window class: " << error << "\n" << std::endl;
-		}
+// 	ret = wglMakeCurrent(hDC, hRC);
 
-		return 0;
-	}
+// 	if(ret == FALSE)
+// 	{
+// 		DWORD error = GetLastError();
+// 		std::cout << "(!) ERROR - It was not possible to make current the rendering context: " << error << "\n" << std::endl;
 
-	ret = wglMakeCurrent(hDC, hRC);
+// 		ret = wglDeleteContext(hRC);
 
-	if(ret == FALSE)
-	{
-		DWORD error = GetLastError();
-		std::cout << "(!) ERROR - It was not possible to make current the rendering context: " << error << "\n" << std::endl;
+// 		if(ret == FALSE)
+// 		{
+// 			DWORD error = GetLastError();
+// 			std::cout << "(!) ERROR - It was not possible to delete the rendering context: " << error << "\n" << std::endl;
+// 		}
 
-		ret = wglDeleteContext(hRC);
+// 		ret = ReleaseDC(hWindow, hDC);
 
-		if(ret == FALSE)
-		{
-			DWORD error = GetLastError();
-			std::cout << "(!) ERROR - It was not possible to delete the rendering context: " << error << "\n" << std::endl;
-		}
+// 		if(!ret)
+// 		{
+// 			DWORD error = GetLastError();
+// 			std::cout << "(!) ERROR - It was not possible to release the device context: " << error << "\n" << std::endl;
+// 		}
 
-		ret = ReleaseDC(hWindow, hDC);
+// 		ret = DestroyWindow(hWindow);
 
-		if(!ret)
-		{
-			DWORD error = GetLastError();
-			std::cout << "(!) ERROR - It was not possible to release the device context: " << error << "\n" << std::endl;
-		}
+// 		if(ret == 0)
+// 		{
+// 			DWORD error = GetLastError();
+// 			std::cout << "(!) ERROR - It was not possible to destroy the window: " << error << "\n" << std::endl;
+// 		}
 
-		ret = DestroyWindow(hWindow);
+// 		ret = UnregisterClass(LPCSTR("GLWNDCLASS"), GetModuleHandle(NULL));
 
-		if(ret == 0)
-		{
-			DWORD error = GetLastError();
-			std::cout << "(!) ERROR - It was not possible to destroy the window: " << error << "\n" << std::endl;
-		}
+// 		if(ret == 0)
+// 		{
+// 			DWORD error = GetLastError();
+// 			std::cout << "(!) ERROR - It was not possible to unregister the window class: " << error << "\n" << std::endl;
+// 		}
 
-		ret = UnregisterClass(LPCSTR("GLWNDCLASS"), GetModuleHandle(NULL));
+// 		return 0;
+// 	}
 
-		if(ret == 0)
-		{
-			DWORD error = GetLastError();
-			std::cout << "(!) ERROR - It was not possible to unregister the window class: " << error << "\n" << std::endl;
-		}
+// 	return 1;
+// }
 
-		return 0;
-	}
+// int GEWinApiWrapper::swapBuffers()
+// {
+// 	BOOL ret = SwapBuffers(hDC);
 
-	return 1;
-}
-
-int GEWinApiWrapper::swapBuffers()
-{
-	BOOL ret = SwapBuffers(hDC);
-
-	if(ret == TRUE)
-		return 1;
-	else
-	{
-		DWORD error = GetLastError();
-		std::cout << "(!) ERROR - It was not possible to swap the buffers: " << error << "\n" << std::endl;
-		return 0;
-	}
-}
-
-unsigned long long GEWinApiWrapper::getHighResolutionTimerCounter()
-{
-	LARGE_INTEGER time;
-	QueryPerformanceCounter(&time);
-	return time.QuadPart;
-}
-
-unsigned long long GEWinApiWrapper::getHighResolutionTimerFrequency()
-{
-	LARGE_INTEGER frequency;
-	QueryPerformanceFrequency(&frequency);
-	return frequency.QuadPart;
-}
+// 	if(ret == TRUE)
+// 		return 1;
+// 	else
+// 	{
+// 		DWORD error = GetLastError();
+// 		std::cout << "(!) ERROR - It was not possible to swap the buffers: " << error << "\n" << std::endl;
+// 		return 0;
+// 	}
+// }
 
 void GEWinApiWrapper::setWindowClassName(std::string windowClassName)
 {

@@ -12,12 +12,12 @@ void GETimer::setTimer(unsigned long long limit)
 
 void GETimer::start()
 {
-	startTimer = timeHandler->getTimer();
+	startTimer = timeHandler->getInternalTimer();
 }
 
 int GETimer::isDone()
 {
-	if(timeHandler->getTimer() - startTimer >= limit)
+	if(timeHandler->getInternalTimer() - startTimer >= limit)
 		return 1;
 	else
 		return 0;

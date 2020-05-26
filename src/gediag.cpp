@@ -11,7 +11,7 @@ GEDiag::~GEDiag()
 	delete timer;
 }
 
-void  GEDiag::start(unsigned long long frequency)
+void GEDiag::start(unsigned long long frequency)
 {
 	timer->setTimer(frequency);
 	timer->start();

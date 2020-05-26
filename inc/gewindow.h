@@ -1,8 +1,10 @@
 #ifndef GAME_ENGINE_WINDOW_CLASS_H
 #define GAME_ENGINE_WINDOW_CLASS_H
 
-#include <geapiwrapper.h>
 #include <string>
+#include <geapiwrapper.h>
+
+// #include <gerenderingsystem.h>
 
 // Window Styles
 #define GE_WIN_SPLASH               1
@@ -36,8 +38,9 @@ public:
 	int getStyle();
 	int getXPosition();
 	int getYPosition();
+
 	GEApiWrapper *getApiWrapper();
-	GERenderingSystem *getRenderingSystem();
+	// GERenderingSystem *getRenderingSystem();
 
 private:
 	std::string name;
@@ -48,7 +51,7 @@ private:
 	unsigned int style;
 
 	GEApiWrapper *apiWrapper;
-	GERenderingSystem *renderingSystem;
+	// GERenderingSystem *renderingSystem;
 };
 
 #endif 

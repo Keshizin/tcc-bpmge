@@ -10,17 +10,17 @@ unsigned long long GETimeHandler::getFrameTime()
 	return frameTime;
 }
 
-void GETimeHandler::setTimer(unsigned long long timer)
+void GETimeHandler::setInternalTimer(unsigned long long internalTimer)
 {
-	this->timer = timer;
+	this->internalTimer = internalTimer;
 }
 
-void GETimeHandler::updateTimer()
+void GETimeHandler::updateInternalTimer()
 {
-	this->timer += frameTime;
+	this->internalTimer += frameTime;
 }
 
-unsigned long long GETimeHandler::getTimer()
+unsigned long long GETimeHandler::getInternalTimer()
 {
-	return timer;
+	return internalTimer;
 }

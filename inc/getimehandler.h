@@ -4,17 +4,15 @@
 class GETimeHandler
 {
 public:
-	// GETTERS AND SETTERS
 	void setFrameTime(unsigned long long frameTime);
 	unsigned long long getFrameTime();
-
-	void setTimer(unsigned long long timer);
-	void updateTimer();
-	unsigned long long getTimer();
+	void setInternalTimer(unsigned long long internalTimer);
+	void updateInternalTimer();
+	unsigned long long getInternalTimer();
 
 private:
 	unsigned long long frameTime;
-	unsigned long long timer;
+	unsigned long long internalTimer;
 };
 
 #endif
