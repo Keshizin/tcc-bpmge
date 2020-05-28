@@ -17,6 +17,7 @@ DFILES=$(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.d,$(CPPSOURCES))
 LIB_FLAGS=-lopengl32 -lglu32 -lgdi32
 DIRLIB_FLAGS=
 INC_FLAGS=-I$(INC_DIR)
+DEBUG_FLAG=-DDEBUG_MODE
 
 # TARGETS
 all: $(BIN_DIR)/$(OUTPUT_NAME)
@@ -30,7 +31,7 @@ $(BIN_DIR)/$(OUTPUT_NAME): $(OBJFILES)
 # COMPILATION PHASE
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@echo . Compilando $<
-	@g++ -c $< $(INC_FLAGS) -o $@
+	@g++ -c $(DEBUG_FLAG) $< $(INC_FLAGS) -o $@
 
 var-teste:
 	@echo $(OUTPUT_NAME)

@@ -1,28 +1,23 @@
-#include <ge.h>
-#include <gewinapiwrapper.h>
 #include <iostream>
 
-GameEngine::GameEngine()
-{
-	GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
-	winApiWrapper-> setWindowClassName("GEWINDOWCLASS");
-	this->apiWrapper = winApiWrapper;
-	this->timeHandler = new GETimeHandler();
-	this->eventHandler = 0;
-	this->diag = new GEDiag(this->timeHandler);
-	this->gameWindow = new GEWindow(winApiWrapper);
-}
+#include <ge.h>
+#include <gewinapiwrapper.h>
+
+// ----------------------------------------------------------------------------
+//  CLASS METHODS DEFINITION
+// ----------------------------------------------------------------------------
 
 GameEngine::GameEngine(GEEventHandler *eventHandler)
 {
 	GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
-	winApiWrapper-> setWindowClassName("GEWINDOWCLASS");
+	winApiWrapper->setGlobalEventHandler(eventHandler);
+	
 	this->apiWrapper = winApiWrapper;
 	this->timeHandler = new GETimeHandler();
 	this->eventHandler = eventHandler;
 	this->diag = new GEDiag(this->timeHandler);
 	this->gameWindow = new GEWindow(winApiWrapper);
-	this->apiWrapper->setEventHandler(eventHandler);
+	this->renderingSystem = new GERenderingSystem(winApiWrapper);
 }
 
 GameEngine::~GameEngine()
@@ -31,6 +26,7 @@ GameEngine::~GameEngine()
 	delete timeHandler;
 	delete diag;
 	delete gameWindow;
+	delete renderingSystem;
 }
 
 void GameEngine::startMainLoop()
@@ -48,8 +44,16 @@ void GameEngine::startMainLoop()
 	{
 		// substituir por um log
 		std::cout << "(!) ERROR - User events not configured!" << std::endl;
-		return;
+		exit(1);
 	}
+
+	// Inicializando o sistema de renderização
+	if(!renderingSystem->initialize())
+	{
+		exit(1);
+	}
+
+	renderingSystem->setRenderingSystem();
 
 	while(isRunning)
 	{
@@ -66,6 +70,7 @@ void GameEngine::startMainLoop()
 		// 	break;
 
 		eventHandler->frameEvent();
+		renderingSystem->renderFrame();
 
 		// ********************************************************************
 		// END GAME LOOP EXECUTION HERE

@@ -8,12 +8,12 @@ class GETimer
 public:
 	GETimer(GETimeHandler *timeHandler);
 
-	void setTimer(unsigned long long limit);
+	void setTimer(unsigned long long stopTime);
 	void start();
 	int isDone();
 
 private:
-	unsigned long long limit;
+	unsigned long long stopTime;
 	unsigned long long startTimer;
 	GETimeHandler *timeHandler;
 };

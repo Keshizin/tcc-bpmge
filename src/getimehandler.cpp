@@ -1,5 +1,9 @@
 #include <getimehandler.h>
 
+// ----------------------------------------------------------------------------
+//  CLASS METHODS DEFINITION
+// ----------------------------------------------------------------------------
+
 void GETimeHandler::setFrameTime(unsigned long long frameTime)
 {
 	this->frameTime = frameTime;

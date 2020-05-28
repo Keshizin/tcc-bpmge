@@ -2,8 +2,6 @@
 #include <iostream>
 
 #include <ge.h>
-// #include <gewindow.h>
-// #include <gerenderingsystem.h>
 
 class UserEventHandler : public GEEventHandler
 {
@@ -13,19 +11,23 @@ class UserEventHandler : public GEEventHandler
 // 	void keyboardEvent(unsigned char key, int state);
 // 	void keyboardSpecialEvent(unsigned char key, int state);
 // 	void resizeWindowEvent(int width, int height);
-// 	void finishAfterEvent();
-// 	void finishBeforeEvent();
+	void finishAfterEvent();
+	void finishBeforeEvent();
 };
 
 GameEngine *singletonGameEngineDemo = 0;
 GETimer *timer;
-// GERenderingSystem *mainRenderingSystem = 0;
 
 // int splashMode = 1;
 // int _seconds = 0;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+
+	#ifdef DEBUG_MODE
+	std::cout << "(!) DEBUG MODE ACTIVATED !!!!" << std::endl;
+	#endif
+
 	std::cout << "HELLO BPM Game Engine!" << std::endl;
 
 	UserEventHandler userEventHandler;
@@ -38,8 +40,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	singletonGameEngineDemo->getGameWindow()->setYPosition(540 - 240);
 	singletonGameEngineDemo->getGameWindow()->setStyle(GE_WIN_DEFAULT);
 
-	// mainRenderingSystem = windowDemo->getRenderingSystem();
-
 	if(!singletonGameEngineDemo->getGameWindow()->createWindow())
 	{
 		delete singletonGameEngineDemo;
@@ -48,17 +48,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	singletonGameEngineDemo->getGameWindow()->showWindow();
 
-	// mainRenderingSystem->setBackgroundColor(GE_BKG_COLOR_UBUNTU_PURPLE);
-	// mainRenderingSystem->setRenderingSystem();
-	// windowDemo->showWindow();
-
 	timer = new GETimer(singletonGameEngineDemo->getTimeHandler());
 	timer->setTimer(singletonGameEngineDemo->getApiWrapper()->getHighResolutionTimerFrequency() * 10);
 	timer->start();
 
 	singletonGameEngineDemo->startMainLoop();
-
-	singletonGameEngineDemo->getGameWindow()->destroyWindow();
 
 	// splashMode = 0;
 
@@ -85,8 +79,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// _timer->start();
 
 	// singletonGameEngineDemo->startMainLoop();
-	// singletonGameEngineDemo->startMainLoop();
-
 
 	std::cout << "BYE BPM Game Engine!" << std::endl;
 
@@ -158,12 +150,14 @@ void UserEventHandler::frameEvent()
 // 	// mainRenderingSystem->setRenderingSystem();
 // }
 
-// void DemoEventHandler::finishAfterEvent()
-// {
-// 	singletonGameEngineDemo->stopMainLoop();
-// }
+void UserEventHandler::finishAfterEvent()
+{
+	std::cout << "@debug | finishAfterEvent" << std::endl;
+	singletonGameEngineDemo->stopMainLoop();
+}
 
-// void DemoEventHandler::finishBeforeEvent()
-// {
-// 	windowDemo->destroyWindow();
-// }
+void UserEventHandler::finishBeforeEvent()
+{
+	std::cout << "@debug | finishBeforeEvent" << std::endl;
+	singletonGameEngineDemo->getGameWindow()->destroyWindow();
+}

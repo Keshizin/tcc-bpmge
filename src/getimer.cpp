@@ -5,9 +5,9 @@ GETimer::GETimer(GETimeHandler *timeHandler)
 	this->timeHandler = timeHandler;
 }
 
-void GETimer::setTimer(unsigned long long limit)
+void GETimer::setTimer(unsigned long long stopTime)
 {
-	this->limit = limit;
+	this->stopTime = stopTime;
 }
 
 void GETimer::start()
@@ -17,7 +17,7 @@ void GETimer::start()
 
 int GETimer::isDone()
 {
-	if(timeHandler->getInternalTimer() - startTimer >= limit)
+	if(timeHandler->getInternalTimer() - startTimer >= stopTime)
 		return 1;
 	else
 		return 0;

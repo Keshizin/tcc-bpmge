@@ -4,32 +4,35 @@
 #include <windows.h>
 #include <geapiwrapper.h>
 #include <string>
-// #include <gerenderingsystem.h>
 
 class GEWinApiWrapper : public GEApiWrapper
 {
 public:
+	void setGlobalEventHandler(GEEventHandler *eventHandler);
+	
+	// CPU's stuff
 	unsigned long long getHighResolutionTimerCounter();
 	unsigned long long getHighResolutionTimerFrequency();
 
+	// WINDOW SYSTEM's stuff
 	int initializeWindow();
 	int createWindow(int xPostion, int yPostion, int width, int height, std::string name, unsigned int style);
 	int destroyWindow();
-	int showWindow();	
-	void handleSystemMessages();
-	// int initializeRenderingSystem(GERenderingSystem *renderingSystem);
-	// int swapBuffers();
+	int showWindow();
 
-	// // GETTERS AND SETTERS
-	void setWindowClassName(std::string windowClassName);
-	std::string getWindowClassName();
+	// SO MESSAGE's stuff
+	void handleSystemMessages();
+
+	// RENDERING SYSTEM's stuff
+	int initializeRenderingSystem();
+	int swapBuffers();
 
 private:
-	static LRESULT CALLBACK windowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-	std::string windowClassName;
 	HWND hWindow;
-	// HDC hDC;
-	// HGLRC hRC = NULL;
+	HDC hDC;
+	HGLRC hRC = NULL;
 };
+
+LRESULT CALLBACK windowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 #endif

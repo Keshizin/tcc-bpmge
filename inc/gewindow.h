@@ -4,9 +4,7 @@
 #include <string>
 #include <geapiwrapper.h>
 
-// #include <gerenderingsystem.h>
-
-// Window Styles
+// GAME ENGINE WINDOW STYLES
 #define GE_WIN_SPLASH               1
 #define GE_WIN_DEFAULT              2
 #define GE_WIN_DEFAULT_NO_SYS       3
@@ -16,7 +14,6 @@
 class GEWindow
 {
 public:
-	GEWindow();
 	GEWindow(GEApiWrapper *apiWrapper);
 	~GEWindow();
 
@@ -39,9 +36,6 @@ public:
 	int getXPosition();
 	int getYPosition();
 
-	GEApiWrapper *getApiWrapper();
-	// GERenderingSystem *getRenderingSystem();
-
 private:
 	std::string name;
 	int width;
@@ -51,7 +45,6 @@ private:
 	unsigned int style;
 
 	GEApiWrapper *apiWrapper;
-	// GERenderingSystem *renderingSystem;
 };
 
 #endif 

@@ -6,11 +6,11 @@
 #include <geeventhandler.h>
 #include <gediag.h>
 #include <gewindow.h>
+#include <gerenderingsystem.h>
 
 class GameEngine
 {
 public:
-	GameEngine();
 	GameEngine(GEEventHandler *eventHandler);
 	~GameEngine();
 
@@ -32,6 +32,7 @@ private:
 	GEEventHandler *eventHandler;
 	GEDiag *diag;
 	GEWindow *gameWindow;
+	GERenderingSystem *renderingSystem;
 };
 
 #endif
