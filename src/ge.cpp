@@ -4,7 +4,7 @@
 #include <gewinapiwrapper.h>
 
 // ----------------------------------------------------------------------------
-//  CLASS METHODS DEFINITION
+//  GameEngine CLASS CONSTRUCTORS DEFINITION
 // ----------------------------------------------------------------------------
 
 GameEngine::GameEngine(GEEventHandler *eventHandler)
@@ -29,6 +29,10 @@ GameEngine::~GameEngine()
 	delete renderingSystem;
 }
 
+// ----------------------------------------------------------------------------
+//  GameEngine CLASS METHODS DEFINITION
+// ----------------------------------------------------------------------------
+
 void GameEngine::startMainLoop()
 {
 	unsigned long long startTime = 0;
@@ -44,12 +48,6 @@ void GameEngine::startMainLoop()
 	{
 		// substituir por um log
 		std::cout << "(!) ERROR - User events not configured!" << std::endl;
-		exit(1);
-	}
-
-	// Inicializando o sistema de renderização
-	if(!renderingSystem->initialize())
-	{
 		exit(1);
 	}
 
@@ -89,7 +87,10 @@ void GameEngine::stopMainLoop()
 	isRunning = 0;
 }
 
-// GETTERS AND SETTERS
+// ----------------------------------------------------------------------------
+//  GameEngine CLASS GETTERS AND SETTERS METHODS DEFINITION
+// ----------------------------------------------------------------------------
+
 GEApiWrapper * GameEngine::getApiWrapper()
 {
 	return apiWrapper;
@@ -108,6 +109,11 @@ GEDiag *GameEngine::getDiag()
 GEWindow *GameEngine::getGameWindow()
 {
 	return gameWindow;
+}
+
+GERenderingSystem *GameEngine::getRenderingSystem()
+{
+	return renderingSystem;
 }
 
 void GameEngine::setEventHandler(GEEventHandler *eventHandler)

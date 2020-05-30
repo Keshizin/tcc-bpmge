@@ -1,9 +1,17 @@
 #include <getimer.h>
 
+// ----------------------------------------------------------------------------
+//  GETimer CLASS CONSTRUCTOR DEFINITION
+// ----------------------------------------------------------------------------
+
 GETimer::GETimer(GETimeHandler *timeHandler)
 {
 	this->timeHandler = timeHandler;
 }
+
+// ----------------------------------------------------------------------------
+//  GETimer CLASS METHODS DEFINITION
+// ----------------------------------------------------------------------------
 
 void GETimer::setTimer(unsigned long long stopTime)
 {

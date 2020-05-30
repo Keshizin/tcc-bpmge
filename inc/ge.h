@@ -17,11 +17,11 @@ public:
 	void startMainLoop();
 	void stopMainLoop();
 
-	// GETTERS AND SETTERS
 	GEApiWrapper * getApiWrapper();
 	GETimeHandler * getTimeHandler();
 	GEDiag *getDiag();
 	GEWindow *getGameWindow();
+	GERenderingSystem *getRenderingSystem();
 
 	void setEventHandler(GEEventHandler *eventHandler);
 

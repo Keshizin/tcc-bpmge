@@ -8,11 +8,13 @@
 // ----------------------------------------------------------------------------
 //  GLOBAL VARIABLES DEFINITION
 // ----------------------------------------------------------------------------
+
 GEEventHandler *globalEventHandler = 0;
 
 // ----------------------------------------------------------------------------
-//  CLASS METHODS DEFINITION
+//  GEWinApiWrapper CLASS METHODS DEFINITION
 // ----------------------------------------------------------------------------
+
 unsigned long long GEWinApiWrapper::getHighResolutionTimerCounter()
 {
 	LARGE_INTEGER time;
@@ -150,6 +152,8 @@ int GEWinApiWrapper::destroyWindow()
 		error = 0;
 	}
 
+	hRC = NULL;
+
 	ret = ReleaseDC(hWindow, hDC);
 
 	if(!ret)
@@ -158,6 +162,8 @@ int GEWinApiWrapper::destroyWindow()
 		std::cout << "(!) ERROR - It was not possible to release the device context: " << error << "\n" << std::endl;
 		error = 0;
 	}
+
+	hDC = NULL;
 
 	ret = DestroyWindow(hWindow);
 
@@ -168,6 +174,8 @@ int GEWinApiWrapper::destroyWindow()
 		std::cout << "(!) ERROR - It was not possible to destroy a window application: " << error << "\n" << std::endl;
 		err = 0;
 	}
+
+	hWindow = NULL;
 
 	ret = UnregisterClass(LPCSTR("GEWINDOWCLASS"), GetModuleHandle(NULL));
 
@@ -414,16 +422,21 @@ int GEWinApiWrapper::initializeRenderingSystem()
 
 int GEWinApiWrapper::swapBuffers()
 {
-	BOOL ret = SwapBuffers(hDC);
-
-	if(ret == TRUE)
-		return 1;
-	else
+	if(hDC)
 	{
-		DWORD error = GetLastError();
-		std::cout << "(!) ERROR - It was not possible to swap the buffers: " << error << "\n" << std::endl;
-		return 0;
+		BOOL ret = SwapBuffers(hDC);
+
+		if(ret != TRUE)
+		{
+			DWORD error = GetLastError();
+			std::cout << "(!) ERROR - It was not possible to swap the buffers: " << error << "\n" << std::endl;
+			return 0;
+		}
+
+		return 1;
 	}
+	
+	return 0;
 }
 
 // ----------------------------------------------------------------------------
@@ -442,29 +455,26 @@ LRESULT CALLBACK windowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	switch(uMsg)
 	{
-		// ----------------------------------------------------------------------
-		//    WINDOW MESSAGES
-		// ----------------------------------------------------------------------
+		// ********************************************************************
+		//  WINDOW MESSAGES
+		// ********************************************************************
 		case WM_CREATE:
-			std::cout << "@debug | WM_CREATE" << std::endl;
 			break;
 
 		case WM_DESTROY:
-			std::cout << "@debug | WM_DESTROY" << std::endl;
+			// std::cout << "@debug | WM_DESTROY" << std::endl;
 			PostQuitMessage(0);
 			break;
 
 		case WM_MOVE:
-			std::cout << "@debug | WM_MOVE" << std::endl;
 			break;
 
 		case WM_SIZE:
-			std::cout << "@debug | WM_SIZE" << std::endl;
 			globalEventHandler->resizeWindowEvent(LOWORD(lParam), HIWORD(lParam));
 			break;
 
 		case WM_CLOSE:
-			std::cout << "@debug | WM_CLOSE" << std::endl;
+			// std::cout << "@debug | WM_CLOSE" << std::endl;
 			globalEventHandler->finishBeforeEvent();
 			break;
 
@@ -472,12 +482,12 @@ LRESULT CALLBACK windowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		// 	break;
 
 		case WM_SHOWWINDOW:
-			std::cout << "@debug | WM_SHOWWINDOW" << std::endl;
+			// std::cout << "@debug | WM_SHOWWINDOW" << std::endl;
 			break;
 
-		// ----------------------------------------------------------------------
-		//    Mouse Messages
-		// ----------------------------------------------------------------------
+		// ********************************************************************
+		//  MOUSE MESSAGES
+		// ********************************************************************
 		case WM_LBUTTONDOWN:
 			globalEventHandler->mouseEvent(0, 1, LOWORD(lParam), HIWORD(lParam));
 			break;
@@ -506,9 +516,9 @@ LRESULT CALLBACK windowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			globalEventHandler->mouseMotionEvent(LOWORD(lParam), HIWORD(lParam));
 			break;
 
-		// ----------------------------------------------------------------------
-		//    Keyboard Messages
-		// ----------------------------------------------------------------------
+		// ********************************************************************
+		//  KEYBOARD MESSAGES
+		// ********************************************************************
 		case WM_SYSKEYDOWN:
 			globalEventHandler->keyboardSpecialEvent(wParam, 1);
 			break;

@@ -1,5 +1,9 @@
 #include <gewindow.h>
 
+// ----------------------------------------------------------------------------
+//  GameEngine CLASS CONSTRUCTORS DEFINITION
+// ----------------------------------------------------------------------------
+
 GEWindow::GEWindow(GEApiWrapper *apiWrapper)
 {
 	this->apiWrapper = apiWrapper;
@@ -12,6 +16,10 @@ GEWindow::GEWindow(GEApiWrapper *apiWrapper)
 GEWindow::~GEWindow()
 {
 }
+
+// ----------------------------------------------------------------------------
+//  GameEngine CLASS METHODS DEFINITION
+// ----------------------------------------------------------------------------
 
 int GEWindow::createWindow()
 {
@@ -37,6 +45,10 @@ int GEWindow::showWindow()
 	apiWrapper->showWindow();
 	return 1;
 }
+
+// ----------------------------------------------------------------------------
+//  GameEngine CLASS GETTERS AND SETTERS METHODS DEFINITION
+// ----------------------------------------------------------------------------
 
 void GEWindow::setName(std::string name)
 {

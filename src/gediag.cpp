@@ -1,6 +1,10 @@
 #include <gediag.h>
 #include <iostream>
 
+// ----------------------------------------------------------------------------
+//  GEDiag CLASS CONSTRUCTOR DEFINITION
+// ----------------------------------------------------------------------------
+
 GEDiag::GEDiag(GETimeHandler *timeHandler)
 {
 	timer = new GETimer(timeHandler);
@@ -10,6 +14,10 @@ GEDiag::~GEDiag()
 {
 	delete timer;
 }
+
+// ----------------------------------------------------------------------------
+//  GEDiag CLASS METHODS DEFINITION
+// ----------------------------------------------------------------------------
 
 void GEDiag::start(unsigned long long frequency)
 {

@@ -46,6 +46,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 0;
 	}
 
+	if(!singletonGameEngineDemo->getRenderingSystem()->initialize())
+	{
+		delete singletonGameEngineDemo;
+		return 0;
+	}
+
 	singletonGameEngineDemo->getGameWindow()->showWindow();
 
 	timer = new GETimer(singletonGameEngineDemo->getTimeHandler());
