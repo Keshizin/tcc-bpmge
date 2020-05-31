@@ -6,7 +6,7 @@
 GERenderingSystem::GERenderingSystem(GEApiWrapper *apiWrapper)
 {
 	this->apiWrapper = apiWrapper;
-	this->renderingMode = GE_RENDERING_SYSTEM_2D;
+	this->renderingMode = GE_CONTEXT_2D;
 }
 
 int GERenderingSystem::initialize(int width, int height)
@@ -31,11 +31,11 @@ void GERenderingSystem::setProjection()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	if(renderingMode == GE_RENDERING_SYSTEM_2D)
+	if(renderingMode == GE_CONTEXT_2D)
 	{		
 		gluOrtho2D(0, viewportWidth, 0, viewportHeight);
 	}
-	else if(renderingMode == GE_RENDERING_SYSTEM_3D)
+	else if(renderingMode == GE_CONTEXT_3D)
 	{
 		gluPerspective(45.0, static_cast<GLfloat>(viewportWidth) / static_cast<GLfloat>(viewportHeight), 1.0, 1000.0);
 	}

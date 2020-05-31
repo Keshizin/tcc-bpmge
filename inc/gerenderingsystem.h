@@ -3,15 +3,15 @@
 
 #include <geapiwrapper.h>
 
-#define GE_BKG_COLOR_WHITE 1
-#define GE_BKG_COLOR_BLACK 2
-#define GE_BKG_COLOR_RED   3
-#define GE_BKG_COLOR_GREEN 4
-#define GE_BKG_COLOR_BLUE  5
-#define GE_BKG_COLOR_UBUNTU_PURPLE 6
+// #define GE_BKG_COLOR_WHITE 1
+// #define GE_BKG_COLOR_BLACK 2
+// #define GE_BKG_COLOR_RED   3
+// #define GE_BKG_COLOR_GREEN 4
+// #define GE_BKG_COLOR_BLUE  5
+// #define GE_BKG_COLOR_UBUNTU_PURPLE 6
 
-#define GE_RENDERING_SYSTEM_2D 1
-#define GE_RENDERING_SYSTEM_3D 2
+#define GE_CONTEXT_2D 1
+#define GE_CONTEXT_3D 2
 
 class GERenderingSystem
 {

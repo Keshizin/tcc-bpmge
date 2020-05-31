@@ -108,8 +108,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	singletonGameEngine->getGameWindow()->setHeight(WINDOW_HEIGHT);
 	singletonGameEngine->getGameWindow()->setXPosition(960 - WINDOW_WIDTH / 2);
 	singletonGameEngine->getGameWindow()->setYPosition(540 - WINDOW_HEIGHT / 2);
-	// singletonGameEngine->getGameWindow()->setStyle(GE_WIN_DEFAULT);
-	singletonGameEngine->getGameWindow()->setStyle(GE_WIN_WINDOWED_FULLSCREEN);
+	singletonGameEngine->getGameWindow()->setStyle(GE_WIN_DEFAULT);
 
 	if(!singletonGameEngine->getGameWindow()->createWindow())
 	{
@@ -124,7 +123,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	singletonGameEngine->getGameWindow()->showWindow();
-	singletonGameEngine->getRenderingSystem()->setRenderingMode(GE_RENDERING_SYSTEM_3D);
+	singletonGameEngine->getRenderingSystem()->setRenderingMode(GE_CONTEXT_3D);
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
