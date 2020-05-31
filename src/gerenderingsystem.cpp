@@ -9,29 +9,42 @@ GERenderingSystem::GERenderingSystem(GEApiWrapper *apiWrapper)
 	this->renderingMode = GE_RENDERING_SYSTEM_2D;
 }
 
-int GERenderingSystem::initialize()
+int GERenderingSystem::initialize(int width, int height)
 {
 	if(!apiWrapper->initializeRenderingSystem())
 		return 0;
 
+	setViewport(width, height);
 	return 1;
 }
 
-void GERenderingSystem::setRenderingSystem()
+void GERenderingSystem::setViewport(int width, int height)
 {
+	this->viewportWidth = width;
+	this->viewportHeight = height;
+}
+
+void GERenderingSystem::setProjection()
+{
+	glViewport(0, 0, viewportWidth, viewportHeight);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
 	if(renderingMode == GE_RENDERING_SYSTEM_2D)
-	{
-		glViewport(0, 0, viewportWidth, viewportHeight);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
+	{		
 		gluOrtho2D(0, viewportWidth, 0, viewportHeight);
 	}
 	else if(renderingMode == GE_RENDERING_SYSTEM_3D)
 	{
-
+		gluPerspective(45.0, static_cast<GLfloat>(viewportWidth) / static_cast<GLfloat>(viewportHeight), 1.0, 1000.0);
 	}
 
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
 	glClearColor(0.97f, 0.76f, 0.09f, 1.0f);
+	// glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 	// switch(backgroundColor)
 	// {
@@ -64,8 +77,12 @@ void GERenderingSystem::setRenderingSystem()
 
 void GERenderingSystem::renderFrame()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	this->apiWrapper->swapBuffers();
+}
+
+void GERenderingSystem::setRenderingMode(int renderingMode)
+{
+	this->renderingMode = renderingMode;
 }
 
 void GERenderingSystem::setViewportWidth(int viewportWidth)
@@ -88,12 +105,12 @@ int GERenderingSystem::getViewportHeight()
 	return viewportHeight;
 }
 
-void GERenderingSystem::setBackgroundColor(int backgroundColor)
-{
-	this->backgroundColor = backgroundColor;
-}
+// void GERenderingSystem::setBackgroundColor(int backgroundColor)
+// {
+// 	this->backgroundColor = backgroundColor;
+// }
 
-int GERenderingSystem::getBackgroundColor()
-{
-	return backgroundColor;
-}
+// int GERenderingSystem::getBackgroundColor()
+// {
+// 	return backgroundColor;
+// }

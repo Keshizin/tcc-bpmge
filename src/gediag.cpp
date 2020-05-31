@@ -8,6 +8,9 @@
 GEDiag::GEDiag(GETimeHandler *timeHandler)
 {
 	timer = new GETimer(timeHandler);
+
+	for(int i = 0; i < DIAG_SIZE; i++)
+		store_fps[i] = 0;
 }
 
 GEDiag::~GEDiag()
@@ -24,22 +27,23 @@ void GEDiag::start(unsigned long long frequency)
 	timer->setTimer(frequency);
 	timer->start();
 	store_index = 0;
-	framesPerSecond = 0;
+	framesCounter = 0;
 }
 
 void GEDiag::update()
 {
-	framesPerSecond++;
+	framesCounter++;
 
 	if(timer->isDone())
 	{
+		framesPerSecond = framesCounter;
 		if(store_index < DIAG_SIZE)
 		{
 			store_fps[store_index++] = framesPerSecond;
 		}
 
 		timer->start();
-		framesPerSecond = 0;
+		framesCounter = 0;
 	}
 }
 

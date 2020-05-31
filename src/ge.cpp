@@ -39,7 +39,7 @@ void GameEngine::startMainLoop()
 	unsigned long long endTime = 0;
 	unsigned long long frameTime = 0;
 
-	isRunning = 1;
+	runningStatus = GE_RUNNING;
 	timeHandler->setInternalTimer(0);
 	endTime = apiWrapper->getHighResolutionTimerCounter();
 	diag->start(apiWrapper->getHighResolutionTimerFrequency());
@@ -51,9 +51,9 @@ void GameEngine::startMainLoop()
 		exit(1);
 	}
 
-	renderingSystem->setRenderingSystem();
+	renderingSystem->setProjection();
 
-	while(isRunning)
+	while(runningStatus != GE_STOPPED)
 	{
 		startTime = apiWrapper->getHighResolutionTimerCounter();
 		timeHandler->updateInternalTimer();
@@ -64,11 +64,11 @@ void GameEngine::startMainLoop()
 		// ********************************************************************
 		apiWrapper->handleSystemMessages();
 
-		// if(!isRunning)
-		// 	break;
-
-		eventHandler->frameEvent();
-		renderingSystem->renderFrame();
+		if(runningStatus == GE_RUNNING)
+		{
+			eventHandler->frameEvent();
+			renderingSystem->renderFrame();
+		}
 
 		// ********************************************************************
 		// END GAME LOOP EXECUTION HERE
@@ -84,7 +84,17 @@ void GameEngine::startMainLoop()
 
 void GameEngine::stopMainLoop()
 {
-	isRunning = 0;
+	runningStatus = GE_STOPPED;
+}
+
+void GameEngine::pauseGameLoop()
+{
+	runningStatus = GE_PAUSED;
+}
+
+void GameEngine::resumeGameLoop()
+{
+	runningStatus = GE_RUNNING;
 }
 
 // ----------------------------------------------------------------------------

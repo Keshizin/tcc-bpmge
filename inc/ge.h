@@ -8,6 +8,10 @@
 #include <gewindow.h>
 #include <gerenderingsystem.h>
 
+#define GE_RUNNING 1
+#define GE_STOPPED 2
+#define GE_PAUSED  3
+
 class GameEngine
 {
 public:
@@ -16,6 +20,8 @@ public:
 
 	void startMainLoop();
 	void stopMainLoop();
+	void pauseGameLoop();
+	void resumeGameLoop();
 
 	GEApiWrapper * getApiWrapper();
 	GETimeHandler * getTimeHandler();
@@ -26,7 +32,8 @@ public:
 	void setEventHandler(GEEventHandler *eventHandler);
 
 private:
-	int isRunning;
+	int runningStatus;
+
 	GEApiWrapper *apiWrapper;
 	GETimeHandler *timeHandler;
 	GEEventHandler *eventHandler;

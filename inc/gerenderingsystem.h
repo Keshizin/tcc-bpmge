@@ -18,29 +18,28 @@ class GERenderingSystem
 public:
 	GERenderingSystem(GEApiWrapper *apiWrapper);
 
-	int initialize();
-	void setRenderingSystem();
-
+	int initialize(int width, int height);
+	void setViewport(int width, int height);
+	void setProjection();
 	void renderFrame();
+	void setRenderingMode(int renderingMode);
 
-	// Getters and Setters
 	void setViewportWidth(int viewportWidth);
 	int getViewportWidth();
 
 	void setViewportHeight(int viewportHeight);
 	int getViewportHeight();
 
-	void setBackgroundColor(int backgroundColor);
-	int getBackgroundColor();
+	// void setBackgroundColor(int backgroundColor);
+	// int getBackgroundColor();
 
 private:
 	int renderingMode;
-
 	int viewportWidth;
 	int viewportHeight;
-	int backgroundColor;
 
 	GEApiWrapper *apiWrapper;
+	// int backgroundColor;
 
 	// int renderAPI; // OPENGL, VULKAN, DIRECTX
 	// int pixelType; // RGBA or Color Index

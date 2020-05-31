@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include <ge.h>
+#include <GL/gl.h>
 
 class UserEventHandler : public GEEventHandler
 {
@@ -10,13 +11,82 @@ class UserEventHandler : public GEEventHandler
 // 	void mouseMotionEvent(int x, int y);
 // 	void keyboardEvent(unsigned char key, int state);
 // 	void keyboardSpecialEvent(unsigned char key, int state);
-// 	void resizeWindowEvent(int width, int height);
+	void resizeWindowEvent(int width, int height);
 	void finishAfterEvent();
 	void finishBeforeEvent();
+	void resumeEvent();
+	void pauseEvent();
 };
 
-GameEngine *singletonGameEngineDemo = 0;
+GameEngine *singletonGameEngine = 0;
 GETimer *timer;
+
+#define WINDOW_WIDTH 640
+#define WINDOW_HEIGHT 480
+
+#define X .525731112119133606
+#define Z .850650808352039932
+
+GLfloat vdata[12][3] = {
+   { -X, 0.0, Z }, { X, 0.0, Z }, { -X, 0.0, -Z }, { X, 0.0, -Z },
+   { 0.0, Z, X }, { 0.0, Z, -X }, { 0.0, -Z, X }, { 0.0, -Z, -X },
+   { Z, X, 0.0 }, { -Z, X, 0.0 }, { Z, -X, 0.0 }, { -Z, -X, 0.0 }
+};
+
+GLuint tindices[20][3] = {
+   { 1, 4, 0 }, { 4, 9, 0 }, { 4, 5, 9 }, { 8, 5, 4 }, { 1, 8, 4 },
+   { 1, 10, 8 }, { 10, 3, 8 }, { 8, 3, 5 }, { 3, 2, 5 }, { 3, 7, 2 },
+   { 3, 10, 7 }, { 10, 6, 7 }, { 6, 11, 7 }, { 6, 0, 11 }, { 6, 1, 0 },
+   { 10, 1, 6 }, { 11, 0, 9 }, { 2, 11, 9 }, { 5, 2, 9 }, { 11, 2, 7 }
+};
+
+GLfloat color[] = {
+   1.0f, 0.0f, 0.0f,
+   0.0f, 1.0f, 0.0f,
+   0.0f, 0.0f, 1.0f
+};
+
+long gDepth = 0;
+long gAccum = 0;
+GLfloat gAngle = 0.0f;
+
+void drawTriangle(GLfloat *v1, GLfloat *v2, GLfloat *v3)
+{
+   glBegin(GL_TRIANGLES);
+   glColor3fv(&color[0]);
+   //glColor3f(1.0f, 0.0f, 0.0f);
+   glVertex3fv(v1);
+   glColor3fv(&color[3]);
+   //glColor3f(0.0f, 1.0f, 0.0f);
+   glVertex3fv(v2);
+   glColor3fv(&color[6]);
+   //glColor3f(0.0f, 0.0f, 1.0f);
+   glVertex3fv(v3);
+   glEnd();
+}
+
+void subdivide(GLfloat *v1, GLfloat *v2, GLfloat *v3, long depth)
+{
+   GLfloat v12[3], v23[3], v31[3];
+
+   if(!depth)
+   {
+      drawTriangle(v1, v2, v3);
+      return;
+   }
+
+   for(int i = 0; i < 3; i++)
+   {
+      v12[i] = (v1[i] + v2[i]) / 2.0;
+      v23[i] = (v2[i] + v3[i]) / 2.0;
+      v31[i] = (v3[i] + v1[i]) / 2.0;
+   }
+
+   subdivide( v1, v12, v31, depth - 1);
+   subdivide( v2, v23, v12, depth - 1);
+   subdivide( v3, v31, v23, depth - 1);
+   subdivide(v12, v23, v31, depth - 1);
+}
 
 // int splashMode = 1;
 // int _seconds = 0;
@@ -31,34 +101,38 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	std::cout << "HELLO BPM Game Engine!" << std::endl;
 
 	UserEventHandler userEventHandler;
-	singletonGameEngineDemo = new GameEngine(&userEventHandler);
+	singletonGameEngine = new GameEngine(&userEventHandler);
 
-	singletonGameEngineDemo->getGameWindow()->setName("BPM Game Engine");
-	singletonGameEngineDemo->getGameWindow()->setWidth(640);
-	singletonGameEngineDemo->getGameWindow()->setHeight(480);
-	singletonGameEngineDemo->getGameWindow()->setXPosition(960 - 320);
-	singletonGameEngineDemo->getGameWindow()->setYPosition(540 - 240);
-	singletonGameEngineDemo->getGameWindow()->setStyle(GE_WIN_DEFAULT);
+	singletonGameEngine->getGameWindow()->setName("BPM Game Engine");
+	singletonGameEngine->getGameWindow()->setWidth(WINDOW_WIDTH);
+	singletonGameEngine->getGameWindow()->setHeight(WINDOW_HEIGHT);
+	singletonGameEngine->getGameWindow()->setXPosition(960 - WINDOW_WIDTH / 2);
+	singletonGameEngine->getGameWindow()->setYPosition(540 - WINDOW_HEIGHT / 2);
+	// singletonGameEngine->getGameWindow()->setStyle(GE_WIN_DEFAULT);
+	singletonGameEngine->getGameWindow()->setStyle(GE_WIN_WINDOWED_FULLSCREEN);
 
-	if(!singletonGameEngineDemo->getGameWindow()->createWindow())
+	if(!singletonGameEngine->getGameWindow()->createWindow())
 	{
-		delete singletonGameEngineDemo;
+		delete singletonGameEngine;
 		return 0;
 	}
 
-	if(!singletonGameEngineDemo->getRenderingSystem()->initialize())
+	if(!singletonGameEngine->getRenderingSystem()->initialize(WINDOW_WIDTH, WINDOW_HEIGHT))
 	{
-		delete singletonGameEngineDemo;
+		delete singletonGameEngine;
 		return 0;
 	}
 
-	singletonGameEngineDemo->getGameWindow()->showWindow();
+	singletonGameEngine->getGameWindow()->showWindow();
+	singletonGameEngine->getRenderingSystem()->setRenderingMode(GE_RENDERING_SYSTEM_3D);
 
-	timer = new GETimer(singletonGameEngineDemo->getTimeHandler());
-	timer->setTimer(singletonGameEngineDemo->getApiWrapper()->getHighResolutionTimerFrequency() * 10);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	timer = new GETimer(singletonGameEngine->getTimeHandler());
+	timer->setTimer(singletonGameEngine->getApiWrapper()->getHighResolutionTimerFrequency());
 	timer->start();
 
-	singletonGameEngineDemo->startMainLoop();
+	singletonGameEngine->startMainLoop();
 
 	// splashMode = 0;
 
@@ -73,7 +147,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// 	delete _timer;
 	// 	delete demoEventHandler;
 	// 	delete windowDemo;
-	// 	delete singletonGameEngineDemo;
+	// 	delete singletonGameEngine;
 	// 	return 0;
 	// }
 
@@ -81,49 +155,46 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// mainRenderingSystem->setRenderingSystem();
 	// windowDemo->showWindow();
 
-	// _timer->setTimer(singletonGameEngineDemo->getApiWrapper()->getHighResolutionTimerFrequency());
+	// _timer->setTimer(singletonGameEngine->getApiWrapper()->getHighResolutionTimerFrequency());
 	// _timer->start();
 
-	// singletonGameEngineDemo->startMainLoop();
+	// singletonGameEngine->startMainLoop();
 
 	std::cout << "BYE BPM Game Engine!" << std::endl;
 
-	singletonGameEngineDemo->getDiag()->print();
+	singletonGameEngine->getDiag()->print();
 
 	// delete windowDemo;
 	delete timer;
-	delete singletonGameEngineDemo;
+	delete singletonGameEngine;
 	return 1;
 }
 
 void UserEventHandler::frameEvent()
 {
-	if(timer->isDone())
+	::gAccum += singletonGameEngine->getTimeHandler()->getFrameTime();
+	::gAngle = (::gAngle > 360.0f ? 0.0f : ::gAngle + 1.0f);
+
+	if(::gAccum > 250)
 	{
-		singletonGameEngineDemo->stopMainLoop();
+		::gAccum -= 250;
+
+		for(int i = 0; i < 9; i++)
+			color[i] = (rand() % 255) / 255.0;
 	}
-	// 	if(splashMode)
-	// 	{
-	// 		singletonGameEngineDemo->stopMainLoop();
-	// 	}
-	// 	else
-	// 	{
-			
-	// 		_timer->start();
 
-	// 		if(_seconds == 10)
-	// 		{
-	// 			windowDemo->destroyWindow();
-	// 			singletonGameEngineDemo->stopMainLoop();
-	// 		}
+	glClear(GL_COLOR_BUFFER_BIT);
 
-	// 		_seconds++;
-	// 	}
-		
-	// 	return;
+	glLoadIdentity();
+	glTranslatef(0.0f, 0.0f, -3.0f);
+	glRotatef(::gAngle, 0.0f, 1.0f, 0.0f);
+	glRotatef(::gAngle, 1.0f, 0.0f, 0.0f);
+	glRotatef(::gAngle, 0.0f, 0.0f, 1.0f);
 
-	// mainRenderingSystem->renderFrame();
-	// windowDemo->getApiWrapper()->swapBuffers();
+	for(int i = 0; i < 20; i++)
+	{
+		subdivide(&vdata[tindices[i][0]][0], &vdata[tindices[i][1]][0], &vdata[tindices[i][2]][0], ::gDepth);
+	}
 }
 
 // void DemoEventHandler::mouseEvent(int button, int state, int x, int y)
@@ -146,24 +217,28 @@ void UserEventHandler::frameEvent()
 // 	std::cout << "> special keyboard event | key: " << key << " | state: " << state << std::endl;
 // }
 
-// void DemoEventHandler::resizeWindowEvent(int width, int height)
-// {
-// 	std::cout << "> resize window event | width: " << width << " | height: " << height << std::endl;
-// 	// windowDemo->setWidth(width);
-// 	// windowDemo->setHeight(height);
-// 	// mainRenderingSystem->setViewportWidth(width);
-// 	// mainRenderingSystem->setViewportHeight(height);
-// 	// mainRenderingSystem->setRenderingSystem();
-// }
+void UserEventHandler::resizeWindowEvent(int width, int height)
+{
+	singletonGameEngine->getRenderingSystem()->setViewport(width, height);
+	singletonGameEngine->getRenderingSystem()->setProjection();
+}
 
 void UserEventHandler::finishAfterEvent()
 {
-	std::cout << "@debug | finishAfterEvent" << std::endl;
-	singletonGameEngineDemo->stopMainLoop();
+	singletonGameEngine->stopMainLoop();
 }
 
 void UserEventHandler::finishBeforeEvent()
 {
-	std::cout << "@debug | finishBeforeEvent" << std::endl;
-	singletonGameEngineDemo->getGameWindow()->destroyWindow();
+	singletonGameEngine->getGameWindow()->destroyWindow();
+}
+
+void UserEventHandler::resumeEvent()
+{
+	singletonGameEngine->resumeGameLoop();
+}
+
+void UserEventHandler::pauseEvent()
+{
+	singletonGameEngine->pauseGameLoop();
 }

@@ -4,7 +4,6 @@
 class GEEventHandler
 {
 public:
-	virtual ~GEEventHandler() {}
 	virtual void frameEvent() {}
 	virtual void mouseEvent(int button, int state, int x, int y) {}
 	virtual void mouseMotionEvent(int x, int y) {}
@@ -13,6 +12,8 @@ public:
 	virtual void resizeWindowEvent(int width, int height) {}
 	virtual void finishAfterEvent() {}
 	virtual void finishBeforeEvent() {}
+	virtual void resumeEvent() {}
+	virtual void pauseEvent() {}
 };
 
 #endif

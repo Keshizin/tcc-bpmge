@@ -462,7 +462,6 @@ LRESULT CALLBACK windowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			break;
 
 		case WM_DESTROY:
-			// std::cout << "@debug | WM_DESTROY" << std::endl;
 			PostQuitMessage(0);
 			break;
 
@@ -474,15 +473,20 @@ LRESULT CALLBACK windowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			break;
 
 		case WM_CLOSE:
-			// std::cout << "@debug | WM_CLOSE" << std::endl;
 			globalEventHandler->finishBeforeEvent();
 			break;
 
-		// case WM_ACTIVATE:
-		// 	break;
+		case WM_ACTIVATE:
+			if(wParam == WA_ACTIVE)
+				globalEventHandler->resumeEvent();
+			else if(wParam == WA_CLICKACTIVE)
+				globalEventHandler->resumeEvent();
+			else if(wParam == WA_INACTIVE)
+				globalEventHandler->pauseEvent();
+
+			break;
 
 		case WM_SHOWWINDOW:
-			// std::cout << "@debug | WM_SHOWWINDOW" << std::endl;
 			break;
 
 		// ********************************************************************
