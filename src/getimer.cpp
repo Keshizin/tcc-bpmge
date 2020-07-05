@@ -1,18 +1,24 @@
+/*
+	Game Engine Timer
+
+	This file is part of the BPM Game Engine.
+
+	Copyright (C) 2020 Fabio Takeshi Ishikawa
+*/
+
 #include <getimer.h>
 
 // ----------------------------------------------------------------------------
-//  GETimer CLASS CONSTRUCTOR DEFINITION
+//  GETimer constructor and destructor
 // ----------------------------------------------------------------------------
-
 GETimer::GETimer(GETimeHandler *timeHandler)
 {
 	this->timeHandler = timeHandler;
 }
 
 // ----------------------------------------------------------------------------
-//  GETimer CLASS METHODS DEFINITION
+//  GETimer methods definition
 // ----------------------------------------------------------------------------
-
 void GETimer::setTimer(unsigned long long stopTime)
 {
 	this->stopTime = stopTime;

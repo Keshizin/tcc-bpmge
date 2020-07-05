@@ -13,6 +13,14 @@
 // #include <GL/glu.h>
 
 // ----------------------------------------------------------------------------
+//  HELP METHODS
+// ----------------------------------------------------------------------------
+void glClearColorHex(int r, int g, int b, int a)
+{
+	glClearColor(r / 255.0, g / 255.0, b / 255.0, a / 255.0);
+}
+
+// ----------------------------------------------------------------------------
 //  GERenderingSystem constructor and destructor
 // ----------------------------------------------------------------------------
 GERenderingSystem::GERenderingSystem()
@@ -67,9 +75,17 @@ int GERenderingSystem::initialize()
 	return 1;
 }
 
-void GERenderingSystem::setViewport()
+void GERenderingSystem::setViewport(int x, int y)
 {
-	glViewport(0, 0, viewportWidth, viewportHeight);
+	glViewport(x, y, viewportWidth, viewportHeight);
+}
+
+void GERenderingSystem::setViewport(int x, int y, int width, int height)
+{
+	glViewport(x, y, width, height);
+
+	this->viewportWidth = width;
+	this->viewportHeight = height;
 }
 
 void GERenderingSystem::setProjection()
@@ -109,8 +125,22 @@ void GERenderingSystem::setProjection()
 	}
 }
 
+void GERenderingSystem::renderFrame()
+{
+	if(!apiWrapper)
+	{
+		std::cout << "(!) ERROR - It was not possible initialize rendering system: no apiwrapper.\n" << std::endl;
+		return;
+	}
+
+	// (ATENÇÃO) É possível que neste ponto, apiWrapper não esteja mais
+	// apontando para o objeto. Fazer essa validação!
+
+	this->apiWrapper->swapBuffers();
+}
+
 // ----------------------------------------------------------------------------
-//  GERenderingSystem methods definition
+//  GERenderingSystem setters and getters
 // ----------------------------------------------------------------------------
 void GERenderingSystem::setRenderingContext(int renderingContext)
 {
@@ -132,22 +162,22 @@ void GERenderingSystem::setViewportHeight(int viewportHeight)
 	this->viewportHeight = viewportHeight;
 }
 
-void GERenderingSystem::setWordLeft(GLdouble worldLeft)
+void GERenderingSystem::setWorldLeft(GLdouble worldLeft)
 {
 	this->worldLeft = worldLeft;
 }
 
-void GERenderingSystem::setWordRight(GLdouble worldRight)
+void GERenderingSystem::setWorldRight(GLdouble worldRight)
 {
 	this->worldRight = worldRight;
 }
 
-void GERenderingSystem::setWordTop(GLdouble worldTop)
+void GERenderingSystem::setWorldTop(GLdouble worldTop)
 {
 	this->worldTop = worldTop;
 }
 
-void GERenderingSystem::setWordBottom(GLdouble worldBottom)
+void GERenderingSystem::setWorldBottom(GLdouble worldBottom)
 {
 	this->worldBottom = worldBottom;
 }
@@ -197,22 +227,22 @@ int GERenderingSystem::getViewportHeight()
 	return viewportHeight;
 }
 
-GLdouble GERenderingSystem::getWordLeft()
+GLdouble GERenderingSystem::getWorldLeft()
 {
 	return worldLeft;
 }
 
-GLdouble GERenderingSystem::getWordRight()
+GLdouble GERenderingSystem::getWorldRight()
 {
 	return worldRight;
 }
 
-GLdouble GERenderingSystem::getWordTop()
+GLdouble GERenderingSystem::getWorldTop()
 {
 	return worldTop;
 }
 
-GLdouble GERenderingSystem::getWordBottom()
+GLdouble GERenderingSystem::getWorldBottom()
 {
 	return worldBottom;
 }
@@ -241,74 +271,3 @@ int GERenderingSystem::getWindowAspectCorrectionState()
 {
 	return windowAspectCorrectionState;
 }
-
-// void GERenderingSystem::setProjection()
-// {
-// 	glViewport(0, 0, viewportWidth, viewportHeight);
-
-// 	glMatrixMode(GL_PROJECTION);
-// 	glLoadIdentity();
-
-// 	if(renderingMode == GE_CONTEXT_2D)
-// 	{		
-// 		gluOrtho2D(0, viewportWidth, 0, viewportHeight);
-// 	}
-// 	else if(renderingMode == GE_CONTEXT_3D)
-// 	{
-// 		gluPerspective(45.0, static_cast<GLfloat>(viewportWidth) / static_cast<GLfloat>(viewportHeight), 1.0, 1000.0);
-// 	}
-
-// 	glMatrixMode(GL_MODELVIEW);
-// 	glLoadIdentity();
-
-// 	glClearColor(0.97f, 0.76f, 0.09f, 1.0f);
-// 	// glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-
-// 	// switch(backgroundColor)
-// 	// {
-// 	// 	case GE_BKG_COLOR_WHITE:
-// 	// 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-// 	// 		break;
-// 	// 	case GE_BKG_COLOR_BLACK:
-// 	// 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-// 	// 		break;
-// 	// 	case GE_BKG_COLOR_RED:
-// 	// 		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-// 	// 		break;
-// 	// 	case GE_BKG_COLOR_GREEN:
-// 	// 		glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
-// 	// 		break;
-// 	// 	case GE_BKG_COLOR_BLUE:
-// 	// 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
-// 	// 		break;
-
-// 	// 	case GE_BKG_COLOR_UBUNTU_PURPLE:
-// 	// 		//48182D
-// 	// 		glClearColor(0.28f, 0.09f, 0.18f, 1.0f);
-// 	// 		break;
-
-// 	// 	default:
-// 	// 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-// 	// 		break;
-// 	// }
-// }
-
-// void GERenderingSystem::renderFrame()
-// {
-// 	this->apiWrapper->swapBuffers();
-// }
-
-// void GERenderingSystem::setRenderingMode(int renderingMode)
-// {
-// 	this->renderingMode = renderingMode;
-// }
-
-// // void GERenderingSystem::setBackgroundColor(int backgroundColor)
-// // {
-// // 	this->backgroundColor = backgroundColor;
-// // }
-
-// // int GERenderingSystem::getBackgroundColor()
-// // {
-// // 	return backgroundColor;
-// // }

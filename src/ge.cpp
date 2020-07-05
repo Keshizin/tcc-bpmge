@@ -1,38 +1,52 @@
-#include <iostream>
+/*
+	Game Engine Core
 
+	This file is part of the BPM Game Engine.
+
+	Copyright (C) 2020 Fabio Takeshi Ishikawa
+*/
+
+#include <iostream>
 #include <ge.h>
 #include <gewinapiwrapper.h>
 
 // ----------------------------------------------------------------------------
-//  GameEngine CLASS CONSTRUCTORS DEFINITION
+//  Game Engine constructor and destructor
 // ----------------------------------------------------------------------------
-
 GameEngine::GameEngine(GEEventHandler *eventHandler)
 {
 	GEWinApiWrapper *winApiWrapper = new GEWinApiWrapper();
 	winApiWrapper->setGlobalEventHandler(eventHandler);
-	
-	this->apiWrapper = winApiWrapper;
-	this->timeHandler = new GETimeHandler();
+
 	this->eventHandler = eventHandler;
+	this->apiWrapper = winApiWrapper;	
+	this->gameWindow = new GEWindowSystem(this->apiWrapper);
+	this->timeHandler = new GETimeHandler();
 	this->diag = new GEDiag(this->timeHandler);
-	this->gameWindow = new GEWindowSystem(winApiWrapper);
-	// this->renderingSystem = new GERenderingSystem(winApiWrapper);
+	this->renderingSystem = new GERenderingSystem(winApiWrapper);
 }
 
 GameEngine::~GameEngine()
 {
 	delete apiWrapper;
-	delete timeHandler;
-	delete diag;
+	apiWrapper = 0;
+
 	delete gameWindow;
+	gameWindow = 0;
+
+	delete timeHandler;
+	timeHandler = 0;
+
+	delete diag;
+	diag = 0;
+
 	delete renderingSystem;
+	renderingSystem = 0;
 }
 
 // ----------------------------------------------------------------------------
-//  GameEngine CLASS METHODS DEFINITION
+//  Game Engine methods definition
 // ----------------------------------------------------------------------------
-
 void GameEngine::startMainLoop()
 {
 	unsigned long long startTime = 0;
@@ -51,7 +65,7 @@ void GameEngine::startMainLoop()
 		exit(1);
 	}
 
-	// renderingSystem->setProjection();
+	eventHandler->beforeMainLoopEvent();
 
 	while(runningStatus != GE_STOPPED)
 	{
@@ -67,7 +81,7 @@ void GameEngine::startMainLoop()
 		if(runningStatus == GE_RUNNING)
 		{
 			eventHandler->frameEvent();
-			// renderingSystem->renderFrame();
+			renderingSystem->renderFrame();
 		}
 
 		// ********************************************************************
@@ -98,24 +112,8 @@ void GameEngine::resumeGameLoop()
 }
 
 // ----------------------------------------------------------------------------
-//  GameEngine CLASS GETTERS AND SETTERS METHODS DEFINITION
+//  Game Engine getters and setters
 // ----------------------------------------------------------------------------
-
-GEApiWrapper * GameEngine::getApiWrapper()
-{
-	return apiWrapper;
-}
-
-GETimeHandler * GameEngine::getTimeHandler()
-{
-	return timeHandler;
-}
-
-GEDiag *GameEngine::getDiag()
-{
-	return diag;
-}
-
 GEWindowSystem *GameEngine::getGameWindow()
 {
 	return gameWindow;
@@ -126,7 +124,12 @@ GERenderingSystem *GameEngine::getRenderingSystem()
 	return renderingSystem;
 }
 
-void GameEngine::setEventHandler(GEEventHandler *eventHandler)
+GETimeHandler *GameEngine::getTimeHandler()
 {
-	this->eventHandler = eventHandler;
+	return timeHandler;
+}
+
+GEDiag *GameEngine::getDiag()
+{
+	return diag;
 }

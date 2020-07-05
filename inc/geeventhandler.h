@@ -22,6 +22,7 @@ public:
 	virtual void finishBeforeEvent() {}
 	virtual void resumeEvent() {}
 	virtual void pauseEvent() {}
+	virtual void beforeMainLoopEvent() {}
 };
 
 #endif

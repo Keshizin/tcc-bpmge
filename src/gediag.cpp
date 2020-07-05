@@ -1,3 +1,11 @@
+/*
+	Game Engine Diagnostics
+
+	This file is part of the BPM Game Engine.
+
+	Copyright (C) 2020 Fabio Takeshi Ishikawa
+*/
+
 #include <gediag.h>
 #include <iostream>
 

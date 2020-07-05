@@ -8,299 +8,242 @@
 
 #include <windows.h>
 #include <iostream>
-#include <gewindowsystem.h>
-#include <gewinapiwrapper.h>
-#include <gerenderingsystem.h>
 
+#include <ge.h>
+#include <gemath.h>
+
+// ----------------------------------------------------------------------------
+//  SYMBOLIC CONSTANTS
+// ----------------------------------------------------------------------------
+#define GAME_SCREEN_WIDTH  1920
+#define GAME_SCREEN_HEIGHT 1080
+#define GAME_SPLASH_WIDTH  640
+#define GAME_SPLASH_HEIGHT 480
+
+// ----------------------------------------------------------------------------
+//  GLOBAL DEFINITION
+// ----------------------------------------------------------------------------
+GameEngine *gameEngine = 0;
+
+class UserEventHandler : public GEEventHandler
+{
+	void frameEvent();
+	void mouseEvent(int button, int state, int x, int y);
+	void mouseMotionEvent(int x, int y);
+	void keyboardEvent(unsigned char key, int state);
+	void resizeWindowEvent(int width, int height);
+	void finishAfterEvent();
+	void finishBeforeEvent();
+	void resumeEvent();
+	void pauseEvent();
+	void beforeMainLoopEvent();
+};
+
+#define X .525731112119133606
+#define Z .850650808352039932
+
+GLfloat vdata[12][3] = {
+   { -X, 0.0, Z }, { X, 0.0, Z }, { -X, 0.0, -Z }, { X, 0.0, -Z },
+   { 0.0, Z, X }, { 0.0, Z, -X }, { 0.0, -Z, X }, { 0.0, -Z, -X },
+   { Z, X, 0.0 }, { -Z, X, 0.0 }, { Z, -X, 0.0 }, { -Z, -X, 0.0 }
+};
+
+GLuint tindices[20][3] = {
+   { 1, 4, 0 }, { 4, 9, 0 }, { 4, 5, 9 }, { 8, 5, 4 }, { 1, 8, 4 },
+   { 1, 10, 8 }, { 10, 3, 8 }, { 8, 3, 5 }, { 3, 2, 5 }, { 3, 7, 2 },
+   { 3, 10, 7 }, { 10, 6, 7 }, { 6, 11, 7 }, { 6, 0, 11 }, { 6, 1, 0 },
+   { 10, 1, 6 }, { 11, 0, 9 }, { 2, 11, 9 }, { 5, 2, 9 }, { 11, 2, 7 }
+};
+
+GLfloat color[] = {
+   1.0f, 0.0f, 0.0f,
+   0.0f, 1.0f, 0.0f,
+   0.0f, 0.0f, 1.0f
+};
+
+long gDepth = 0;
+long gAccum = 0;
+GLfloat gAngle = 0.0f;
+
+void drawTriangle(GLfloat *v1, GLfloat *v2, GLfloat *v3);
+
+// ----------------------------------------------------------------------------
+//  MAIN APPLICATION
+// ----------------------------------------------------------------------------
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	std::cout << "> HELLO BPM Game Engine!" << std::endl;
+	std::cout << "> HELLO BPM Game Engine" << std::endl;
 
-	// #ifdef DEBUG_MODE
-	// std::cout << "(!) DEBUG MODE ACTIVATED !!!" << std::endl;
-	// #endif
+	#ifdef DEBUG_MODE
+	std::cout << "(!) DEBUG MODE ACTIVATED" << std::endl;
+	#endif
 
-	GEEventHandler eventHandler;
-	GEWinApiWrapper winAPIWrapper;
-	winAPIWrapper.setGlobalEventHandler(&eventHandler);
-	GEWindowSystem window(&winAPIWrapper);
+	UserEventHandler eventHandler;
+	gameEngine = new GameEngine(&eventHandler);
 
-	window.setStyle(GE_WIN_DEFAULT);
-	window.setName("BPM Game Engine");
+	// SETTING UP WINDOW GAME
+	gameEngine->getGameWindow()->setName("BPM Game Engine DEMO - POLYGON SUBDIVIDE ALGORITHM!");
+	gameEngine->getGameWindow()->setWidth(GAME_SPLASH_WIDTH);
+	gameEngine->getGameWindow()->setHeight(GAME_SPLASH_HEIGHT);
+	gameEngine->getGameWindow()->setX(center(GAME_SCREEN_WIDTH, GAME_SPLASH_WIDTH));
+	gameEngine->getGameWindow()->setY(center(GAME_SCREEN_HEIGHT, GAME_SPLASH_HEIGHT));
+	gameEngine->getGameWindow()->setStyle(GE_WIN_COMPLETE);
 
-	if(!window.createWindow())
+	if(!gameEngine->getGameWindow()->createWindow())
 	{
+		delete gameEngine;
 		return 0;
 	}
 
-	GERenderingSystem renderingSystem(&winAPIWrapper);
-	renderingSystem.setRenderingContext(GE_CONTEXT_2D);
-	renderingSystem.initialize();
-
-	window.showWindow();
-
-	int loop = true;
-	MSG msg;
-
-	while(loop)
+	if(!gameEngine->getRenderingSystem()->initialize())
 	{
-		while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-		{
-			if(msg.message == WM_QUIT)
-			{
-				std::cout << "> WM_QUIT message" << std::endl;
-				loop = false;
-			}
-
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-
-		winAPIWrapper.swapBuffers();
+		delete gameEngine;
+		return 0;
 	}
 
-	window.destroyWindow();
+	gameEngine->getGameWindow()->showWindow();
+	gameEngine->startMainLoop();
 
-	std::cout << "> BYE BPM Game Engine!" << std::endl;
+	delete gameEngine;
+	std::cout << "> BYE BPM Game Engine" << std::endl;
 	return 1;
 }
 
-// #include <ge.h>
-// #include <GL/gl.h>
+// ----------------------------------------------------------------------------
+//  DEMO FUNCTIONS
+// ----------------------------------------------------------------------------
+void drawTriangle(GLfloat *v1, GLfloat *v2, GLfloat *v3)
+{
+   glBegin(GL_TRIANGLES);
+   glColor3fv(&color[0]);
+   glVertex3fv(v1);
+   glColor3fv(&color[3]);
+   glVertex3fv(v2);
+   glColor3fv(&color[6]);
+   glVertex3fv(v3);
+   glEnd();
+}
 
-// class UserEventHandler : public GEEventHandler
-// {
-// 	void frameEvent();
-// // 	void mouseEvent(int button, int state, int x, int y);
-// // 	void mouseMotionEvent(int x, int y);
-// // 	void keyboardEvent(unsigned char key, int state);
-// // 	void keyboardSpecialEvent(unsigned char key, int state);
-// 	void resizeWindowEvent(int width, int height);
-// 	void finishAfterEvent();
-// 	void finishBeforeEvent();
-// 	void resumeEvent();
-// 	void pauseEvent();
-// };
+void subdivide(GLfloat *v1, GLfloat *v2, GLfloat *v3, long depth)
+{
+   GLfloat v12[3], v23[3], v31[3];
 
-// GameEngine *singletonGameEngine = 0;
-// GETimer *timer;
+   if(!depth)
+   {
+      drawTriangle(v1, v2, v3);
+      return;
+   }
 
-// #define WINDOW_WIDTH 640
-// #define WINDOW_HEIGHT 480
+   for(int i = 0; i < 3; i++)
+   {
+      v12[i] = (v1[i] + v2[i]) / 2.0;
+      v23[i] = (v2[i] + v3[i]) / 2.0;
+      v31[i] = (v3[i] + v1[i]) / 2.0;
+   }
 
-// #define X .525731112119133606
-// #define Z .850650808352039932
+   subdivide( v1, v12, v31, depth - 1);
+   subdivide( v2, v23, v12, depth - 1);
+   subdivide( v3, v31, v23, depth - 1);
+   subdivide(v12, v23, v31, depth - 1);
+}
 
-// GLfloat vdata[12][3] = {
-//    { -X, 0.0, Z }, { X, 0.0, Z }, { -X, 0.0, -Z }, { X, 0.0, -Z },
-//    { 0.0, Z, X }, { 0.0, Z, -X }, { 0.0, -Z, X }, { 0.0, -Z, -X },
-//    { Z, X, 0.0 }, { -Z, X, 0.0 }, { Z, -X, 0.0 }, { -Z, -X, 0.0 }
-// };
+// ----------------------------------------------------------------------------
+//  USER EVENTS DEFINITION
+// ----------------------------------------------------------------------------
+void UserEventHandler::frameEvent()
+{
+	if(GetAsyncKeyState(0x31) < 0) ::gDepth = 1;
+	if(GetAsyncKeyState(0x32) < 0) ::gDepth = 2;
+	if(GetAsyncKeyState(0x33) < 0) ::gDepth = 3;
+	if(GetAsyncKeyState(0x34) < 0) ::gDepth = 4;
+	if(GetAsyncKeyState(VK_F1) < 0) glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	if(GetAsyncKeyState(VK_F2) < 0) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if(GetAsyncKeyState(VK_ESCAPE) < 0) gameEngine->stopMainLoop();
 
-// GLuint tindices[20][3] = {
-//    { 1, 4, 0 }, { 4, 9, 0 }, { 4, 5, 9 }, { 8, 5, 4 }, { 1, 8, 4 },
-//    { 1, 10, 8 }, { 10, 3, 8 }, { 8, 3, 5 }, { 3, 2, 5 }, { 3, 7, 2 },
-//    { 3, 10, 7 }, { 10, 6, 7 }, { 6, 11, 7 }, { 6, 0, 11 }, { 6, 1, 0 },
-//    { 10, 1, 6 }, { 11, 0, 9 }, { 2, 11, 9 }, { 5, 2, 9 }, { 11, 2, 7 }
-// };
+	::gAccum += gameEngine->getTimeHandler()->getFrameTime();
 
-// GLfloat color[] = {
-//    1.0f, 0.0f, 0.0f,
-//    0.0f, 1.0f, 0.0f,
-//    0.0f, 0.0f, 1.0f
-// };
+	::gAngle = (::gAngle > 360.0f ? 0.0f : ::gAngle + 1.0f);
 
-// long gDepth = 0;
-// long gAccum = 0;
-// GLfloat gAngle = 0.0f;
+	if(::gAccum > 250)
+	{
+		::gAccum -= 250;
 
-// void drawTriangle(GLfloat *v1, GLfloat *v2, GLfloat *v3)
-// {
-//    glBegin(GL_TRIANGLES);
-//    glColor3fv(&color[0]);
-//    //glColor3f(1.0f, 0.0f, 0.0f);
-//    glVertex3fv(v1);
-//    glColor3fv(&color[3]);
-//    //glColor3f(0.0f, 1.0f, 0.0f);
-//    glVertex3fv(v2);
-//    glColor3fv(&color[6]);
-//    //glColor3f(0.0f, 0.0f, 1.0f);
-//    glVertex3fv(v3);
-//    glEnd();
-// }
+		for(int i = 0; i < 9; i++)
+			color[i] = (rand() % 255) / 255.0;
+	}
 
-// void subdivide(GLfloat *v1, GLfloat *v2, GLfloat *v3, long depth)
-// {
-//    GLfloat v12[3], v23[3], v31[3];
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-//    if(!depth)
-//    {
-//       drawTriangle(v1, v2, v3);
-//       return;
-//    }
+	glLoadIdentity();
+	glTranslatef(0.0f, 0.0f, -3.0f);
+	glRotatef(::gAngle, 0.0f, 1.0f, 0.0f);
+	glRotatef(::gAngle, 1.0f, 0.0f, 0.0f);
+	glRotatef(::gAngle, 0.0f, 0.0f, 1.0f);
 
-//    for(int i = 0; i < 3; i++)
-//    {
-//       v12[i] = (v1[i] + v2[i]) / 2.0;
-//       v23[i] = (v2[i] + v3[i]) / 2.0;
-//       v31[i] = (v3[i] + v1[i]) / 2.0;
-//    }
+	for(int i = 0; i < 20; i++)
+	{
+		subdivide(&vdata[tindices[i][0]][0], &vdata[tindices[i][1]][0], &vdata[tindices[i][2]][0], ::gDepth);
+	}
+}
 
-//    subdivide( v1, v12, v31, depth - 1);
-//    subdivide( v2, v23, v12, depth - 1);
-//    subdivide( v3, v31, v23, depth - 1);
-//    subdivide(v12, v23, v31, depth - 1);
-// }
+void UserEventHandler::mouseEvent(int button, int state, int x, int y)
+{
+}
 
-// // int splashMode = 1;
-// // int _seconds = 0;
+void UserEventHandler::mouseMotionEvent(int x, int y)
+{
+}
 
-// int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-// {
-// 	#ifdef DEBUG_MODE
-// 	std::cout << "(!) DEBUG MODE ACTIVATED !!!!" << std::endl;
-// 	#endif
+void UserEventHandler::keyboardEvent(unsigned char key, int state)
+{
+}
 
-// 	std::cout << "HELLO BPM Game Engine!" << std::endl;
+void UserEventHandler::resizeWindowEvent(int width, int height)
+{
+	gameEngine->getGameWindow()->setWidth(width);
+	gameEngine->getGameWindow()->setHeight(height);
+	gameEngine->getRenderingSystem()->setViewport(0, 0, width, height);
+	gameEngine->getRenderingSystem()->setProjection();
 
-// 	UserEventHandler userEventHandler;
-// 	singletonGameEngine = new GameEngine(&userEventHandler);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+}
 
-// 	singletonGameEngine->getGameWindow()->setName("BPM Game Engine");
-// 	singletonGameEngine->getGameWindow()->setWidth(WINDOW_WIDTH);
-// 	singletonGameEngine->getGameWindow()->setHeight(WINDOW_HEIGHT);
-// 	singletonGameEngine->getGameWindow()->setXPosition(960 - WINDOW_WIDTH / 2);
-// 	singletonGameEngine->getGameWindow()->setYPosition(540 - WINDOW_HEIGHT / 2);
-// 	singletonGameEngine->getGameWindow()->setStyle(GE_WIN_DEFAULT);
+void UserEventHandler::finishAfterEvent()
+{
+	gameEngine->stopMainLoop();
+}
 
-// 	if(!singletonGameEngine->getGameWindow()->createWindow())
-// 	{
-// 		delete singletonGameEngine;
-// 		return 0;
-// 	}
+void UserEventHandler::finishBeforeEvent()
+{
+	gameEngine->getGameWindow()->destroyWindow();
+}
 
-// 	if(!singletonGameEngine->getRenderingSystem()->initialize(WINDOW_WIDTH, WINDOW_HEIGHT))
-// 	{
-// 		delete singletonGameEngine;
-// 		return 0;
-// 	}
+void UserEventHandler::resumeEvent()
+{
+	gameEngine->resumeGameLoop();
+}
 
-// 	singletonGameEngine->getGameWindow()->showWindow();
-// 	singletonGameEngine->getRenderingSystem()->setRenderingMode(GE_CONTEXT_3D);
+void UserEventHandler::pauseEvent()
+{
+	gameEngine->pauseGameLoop();
+}
 
-// 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+void UserEventHandler::beforeMainLoopEvent()
+{
+	glEnable(GL_DEPTH_TEST);
+	glShadeModel(GL_SMOOTH);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-// 	timer = new GETimer(singletonGameEngine->getTimeHandler());
-// 	timer->setTimer(singletonGameEngine->getApiWrapper()->getHighResolutionTimerFrequency());
-// 	timer->start();
+	glClearColorHex(0x40, 0x40, 0x40, 0xFF);
+	
+	gameEngine->getRenderingSystem()->setRenderingContext(GE_CONTEXT_3D);
+	gameEngine->getRenderingSystem()->setProjectionFOVY(45.0);
+	gameEngine->getRenderingSystem()->setProjectionZNear(1.0);
+	gameEngine->getRenderingSystem()->setProjectionZFar(1000.0);
+	gameEngine->getRenderingSystem()->setViewport(0, 0);
+	gameEngine->getRenderingSystem()->setProjection();
 
-// 	singletonGameEngine->startMainLoop();
-
-// 	// splashMode = 0;
-
-// 	// windowDemo->setWidth(1600);
-// 	// windowDemo->setHeight(800);
-// 	// windowDemo->setXPosition(960 - 800);
-// 	// windowDemo->setYPosition(540 - 400);
-// 	// windowDemo->setStyle(GE_WIN_DEFAULT);
-
-// 	// if(!windowDemo->createWindow())
-// 	// {
-// 	// 	delete _timer;
-// 	// 	delete demoEventHandler;
-// 	// 	delete windowDemo;
-// 	// 	delete singletonGameEngine;
-// 	// 	return 0;
-// 	// }
-
-// 	// mainRenderingSystem->setBackgroundColor(GE_BKG_COLOR_WHITE);
-// 	// mainRenderingSystem->setRenderingSystem();
-// 	// windowDemo->showWindow();
-
-// 	// _timer->setTimer(singletonGameEngine->getApiWrapper()->getHighResolutionTimerFrequency());
-// 	// _timer->start();
-
-// 	// singletonGameEngine->startMainLoop();
-
-// 	std::cout << "BYE BPM Game Engine!" << std::endl;
-
-// 	singletonGameEngine->getDiag()->print();
-
-// 	// delete windowDemo;
-// 	delete timer;
-// 	delete singletonGameEngine;
-// 	return 1;
-// }
-
-// void UserEventHandler::frameEvent()
-// {
-// 	::gAccum += singletonGameEngine->getTimeHandler()->getFrameTime();
-// 	::gAngle = (::gAngle > 360.0f ? 0.0f : ::gAngle + 1.0f);
-
-// 	if(::gAccum > 250)
-// 	{
-// 		::gAccum -= 250;
-
-// 		for(int i = 0; i < 9; i++)
-// 			color[i] = (rand() % 255) / 255.0;
-// 	}
-
-// 	glClear(GL_COLOR_BUFFER_BIT);
-
-// 	glLoadIdentity();
-// 	glTranslatef(0.0f, 0.0f, -3.0f);
-// 	glRotatef(::gAngle, 0.0f, 1.0f, 0.0f);
-// 	glRotatef(::gAngle, 1.0f, 0.0f, 0.0f);
-// 	glRotatef(::gAngle, 0.0f, 0.0f, 1.0f);
-
-// 	for(int i = 0; i < 20; i++)
-// 	{
-// 		subdivide(&vdata[tindices[i][0]][0], &vdata[tindices[i][1]][0], &vdata[tindices[i][2]][0], ::gDepth);
-// 	}
-// }
-
-// // void DemoEventHandler::mouseEvent(int button, int state, int x, int y)
-// // {
-// // 	std::cout << "> mouse event | button: " << button << " | state: " << state << " | x: " << x << " | y: " << y << std::endl;
-// // }
-
-// // void DemoEventHandler::mouseMotionEvent(int x, int y)
-// // {
-// // 	// std::cout << "> mouse motion event | x: " << x << " | y: " << y << std::endl;
-// // }
-
-// // void DemoEventHandler::keyboardEvent(unsigned char key, int state)
-// // {
-// // 	std::cout << "> keyboard event | key: " << key << " | state: " << state << std::endl;
-// // }
-
-// // void DemoEventHandler::keyboardSpecialEvent(unsigned char key, int state)
-// // {
-// // 	std::cout << "> special keyboard event | key: " << key << " | state: " << state << std::endl;
-// // }
-
-// void UserEventHandler::resizeWindowEvent(int width, int height)
-// {
-// 	singletonGameEngine->getRenderingSystem()->setViewport(width, height);
-// 	singletonGameEngine->getRenderingSystem()->setProjection();
-// }
-
-// void UserEventHandler::finishAfterEvent()
-// {
-// 	singletonGameEngine->stopMainLoop();
-// }
-
-// void UserEventHandler::finishBeforeEvent()
-// {
-// 	singletonGameEngine->getGameWindow()->destroyWindow();
-// }
-
-// void UserEventHandler::resumeEvent()
-// {
-// 	singletonGameEngine->resumeGameLoop();
-// }
-
-// void UserEventHandler::pauseEvent()
-// {
-// 	singletonGameEngine->pauseGameLoop();
-// }
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();	
+}

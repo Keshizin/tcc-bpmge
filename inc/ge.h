@@ -1,44 +1,56 @@
+/*
+	Game Engine Core
+
+	This file is part of the BPM Game Engine.
+
+	Copyright (C) 2020 Fabio Takeshi Ishikawa
+*/
+
 #ifndef GAME_ENGINE_H
 #define GAME_ENGINE_H
 
-#include <geapiwrapper.h>
-#include <getimehandler.h>
-#include <geeventhandler.h>
-#include <gediag.h>
 #include <gewindowsystem.h>
+#include <getimehandler.h>
+#include <gediag.h>
 #include <gerenderingsystem.h>
 
-#define GE_RUNNING 1
-#define GE_STOPPED 2
-#define GE_PAUSED  3
+// ----------------------------------------------------------------------------
+//  Game Engine runtime status
+// ----------------------------------------------------------------------------
+#define GE_RUNNING 0x01
+#define GE_STOPPED 0x02
+#define GE_PAUSED  0x03
 
+// ----------------------------------------------------------------------------
+//  Game Engine class
+// ----------------------------------------------------------------------------
 class GameEngine
 {
 public:
+	// constructors and destructors
 	GameEngine(GEEventHandler *eventHandler);
 	~GameEngine();
 
+	// public methods
 	void startMainLoop();
 	void stopMainLoop();
 	void pauseGameLoop();
 	void resumeGameLoop();
 
-	GEApiWrapper * getApiWrapper();
-	GETimeHandler * getTimeHandler();
-	GEDiag *getDiag();
+	// getters and setters
 	GEWindowSystem *getGameWindow();
 	GERenderingSystem *getRenderingSystem();
-
-	void setEventHandler(GEEventHandler *eventHandler);
+	GETimeHandler *getTimeHandler();
+	GEDiag *getDiag();
 
 private:
 	int runningStatus;
-
-	GEApiWrapper *apiWrapper;
-	GETimeHandler *timeHandler;
+	
 	GEEventHandler *eventHandler;
-	GEDiag *diag;
+	GEApiWrapper *apiWrapper;
 	GEWindowSystem *gameWindow;
+	GETimeHandler *timeHandler;
+	GEDiag *diag;
 	GERenderingSystem *renderingSystem;
 };
 

@@ -23,16 +23,16 @@ int testInstanceRenderingSystem()
 	if(renderingSystem.getViewportHeight())
 		return 0;
 
-	if(renderingSystem.getWordLeft())
+	if(renderingSystem.getWorldLeft())
 		return 0;
 
-	if(renderingSystem.getWordRight())
+	if(renderingSystem.getWorldRight())
 		return 0;
 
-	if(renderingSystem.getWordTop())
+	if(renderingSystem.getWorldTop())
 		return 0;
 
-	if(renderingSystem.getWordBottom())
+	if(renderingSystem.getWorldBottom())
 		return 0;
 
 	if(renderingSystem.getWindowAspectCorrection())
@@ -50,10 +50,10 @@ int testInstanceRenderingSystem()
 	renderingSystem.setApiWrapper(&apiWrapper);
 	renderingSystem.setViewportWidth(640);
 	renderingSystem.setViewportHeight(480);
-	renderingSystem.setWordLeft(-10);
-	renderingSystem.setWordRight(10);
-	renderingSystem.setWordTop(10);
-	renderingSystem.setWordBottom(-10);
+	renderingSystem.setWorldLeft(-10);
+	renderingSystem.setWorldRight(10);
+	renderingSystem.setWorldTop(10);
+	renderingSystem.setWorldBottom(-10);
 	renderingSystem.setWindowAspectCorrection(static_cast<GLdouble>(640) / static_cast<GLdouble>(480));
 	renderingSystem.setProjectionZNear(1.0);
 	renderingSystem.setProjectionZFar(500.0);
@@ -70,16 +70,16 @@ int testInstanceRenderingSystem()
 	if(renderingSystem.getViewportHeight() != 480)
 		return 0;
 
-	if(renderingSystem.getWordLeft() != -10)
+	if(renderingSystem.getWorldLeft() != -10)
 		return 0;
 
-	if(renderingSystem.getWordRight() != 10)
+	if(renderingSystem.getWorldRight() != 10)
 		return 0;
 
-	if(renderingSystem.getWordTop() != 10)
+	if(renderingSystem.getWorldTop() != 10)
 		return 0;
 
-	if(renderingSystem.getWordBottom() != -10)
+	if(renderingSystem.getWorldBottom() != -10)
 		return 0;
 
 	if(renderingSystem.getWindowAspectCorrection() != static_cast<GLdouble>(640) / static_cast<GLdouble>(480))
