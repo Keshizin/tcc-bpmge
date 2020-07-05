@@ -1,19 +1,9 @@
-#ifndef GAME_ENGINE_WINDOW_TEST
-#define GAME_ENGINE_WINDOW_TEST
-
-#include <geeventhandler.h>
-
-class WindowTestEventHandler : public GEEventHandler
-{
-public:
-	void finishAfterEvent();
-	void finishBeforeEvent();
-};
+#ifndef GAME_ENGINE_WINDOW_TEST_HPP
+#define GAME_ENGINE_WINDOW_TEST_HPP
 
 int testInstanceWindow();
 int testCreateWindow();
 int testDestroyWindow();
 int testShowWindow();
-int testWindowStyles();
 
 #endif

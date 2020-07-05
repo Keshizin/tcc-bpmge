@@ -4,7 +4,7 @@
 
 int testInstanceGameEngine()
 {
-	GameEngine gameEngine;
+	// GameEngine gameEngine;
 	return 1;
 }
 
@@ -12,32 +12,32 @@ GameEngine *singletonGameEngine = 0;
 
 int testMainLoop()
 {
-	singletonGameEngine = new GameEngine();
+	// singletonGameEngine = new GameEngine();
 
-	TestGEEventHandler *testGEEventHandler = new TestGEEventHandler();
-	singletonGameEngine->setEventHandler(testGEEventHandler);
+	// TestGEEventHandler *testGEEventHandler = new TestGEEventHandler();
+	// singletonGameEngine->setEventHandler(testGEEventHandler);
 
-	std::cout << "> start main loop..." << std::endl;
-	singletonGameEngine->startMainLoop();
-	std::cout << "> end main loop...\n" << std::endl;
+	// std::cout << "> start main loop..." << std::endl;
+	// singletonGameEngine->startMainLoop();
+	// std::cout << "> end main loop...\n" << std::endl;
 
-	delete testGEEventHandler;
-	delete singletonGameEngine;
+	// delete testGEEventHandler;
+	// delete singletonGameEngine;
 	return 1;
 }
 
 int testTimeHandler()
 {
-	singletonGameEngine = new GameEngine();
+	// singletonGameEngine = new GameEngine();
 
-	TestGEEventHandler *testGEEventHandler = new TestGEEventHandler();
-	singletonGameEngine->setEventHandler(testGEEventHandler);
+	// TestGEEventHandler *testGEEventHandler = new TestGEEventHandler();
+	// singletonGameEngine->setEventHandler(testGEEventHandler);
 
-	singletonGameEngine->startMainLoop();
-	std::cout << "> frame time: " << singletonGameEngine->getTimeHandler()->getFrameTime() << " cycles." << std::endl;
+	// singletonGameEngine->startMainLoop();
+	// std::cout << "> frame time: " << singletonGameEngine->getTimeHandler()->getFrameTime() << " cycles." << std::endl;
 
-	delete testGEEventHandler;
-	delete singletonGameEngine;
+	// delete testGEEventHandler;
+	// delete singletonGameEngine;
 	return 1;
 }
 
@@ -48,45 +48,45 @@ GETimer *timer;
 
 int testTimer()
 {
-	singletonGameEngine = new GameEngine();
+	// singletonGameEngine = new GameEngine();
 
-	TestGEEventHandler *testGEEventHandler = new TestGEEventHandler();
-	singletonGameEngine->setEventHandler(testGEEventHandler);
+	// TestGEEventHandler *testGEEventHandler = new TestGEEventHandler();
+	// singletonGameEngine->setEventHandler(testGEEventHandler);
 
-	hasTimer = 1;
+	// hasTimer = 1;
 
-	timer = new GETimer(singletonGameEngine->getTimeHandler());
-	timer->setTimer(singletonGameEngine->getApiWrapper()->getHighResolutionTimerFrequency());
-	timer->start();
-	singletonGameEngine->startMainLoop();
-	hasTimer = 0;
+	// timer = new GETimer(singletonGameEngine->getTimeHandler());
+	// timer->setTimer(singletonGameEngine->getApiWrapper()->getHighResolutionTimerFrequency());
+	// timer->start();
+	// singletonGameEngine->startMainLoop();
+	// hasTimer = 0;
 
-	delete timer;
-	delete testGEEventHandler;
-	delete singletonGameEngine;
+	// delete timer;
+	// delete testGEEventHandler;
+	// delete singletonGameEngine;
 	return 1;
 }
 
 int testDiag()
 {
-	singletonGameEngine = new GameEngine();
+	// singletonGameEngine = new GameEngine();
 
-	TestGEEventHandler *testGEEventHandler = new TestGEEventHandler();
-	singletonGameEngine->setEventHandler(testGEEventHandler);
+	// TestGEEventHandler *testGEEventHandler = new TestGEEventHandler();
+	// singletonGameEngine->setEventHandler(testGEEventHandler);
 
-	hasTimer = 1;
-	seconds = 0;
-	timer = new GETimer(singletonGameEngine->getTimeHandler());
-	timer->setTimer(singletonGameEngine->getApiWrapper()->getHighResolutionTimerFrequency());
-	timer->start();
-	singletonGameEngine->startMainLoop();
-	hasTimer = 0;
+	// hasTimer = 1;
+	// seconds = 0;
+	// timer = new GETimer(singletonGameEngine->getTimeHandler());
+	// timer->setTimer(singletonGameEngine->getApiWrapper()->getHighResolutionTimerFrequency());
+	// timer->start();
+	// singletonGameEngine->startMainLoop();
+	// hasTimer = 0;
 
-	singletonGameEngine->getDiag()->print();
+	// singletonGameEngine->getDiag()->print();
 
-	delete timer;
-	delete testGEEventHandler;
-	delete singletonGameEngine;
+	// delete timer;
+	// delete testGEEventHandler;
+	// delete singletonGameEngine;
 	return 1;
 }
 

@@ -1,20 +1,41 @@
+/*
+	Game Engine WinAPI Wrapper
+
+	This file is part of the BPM Game Engine.
+
+	Copyright (C) 2020 Fabio Takeshi Ishikawa
+*/
+
 #include <iostream>
-
-#include <gewinapiwrapper.h>
-#include <gewindow.h>
-
 #include <GL/gl.h>
+#include <gewinapiwrapper.h>
+#include <gewindowsystem.h>
+
+#define WINDOWCLASSNAME LPCSTR("GEWINDOWCLASS")
 
 // ----------------------------------------------------------------------------
-//  GLOBAL VARIABLES DEFINITION
+//  Global definitions
 // ----------------------------------------------------------------------------
-
 GEEventHandler *globalEventHandler = 0;
 
 // ----------------------------------------------------------------------------
-//  GEWinApiWrapper CLASS METHODS DEFINITION
+//  GEWinApiWrapper constructors and destructors
 // ----------------------------------------------------------------------------
+GEWinApiWrapper::GEWinApiWrapper()
+{
+	hWindow = NULL;
+	hDC = NULL;
+	hRC = NULL;
+}
 
+GEWinApiWrapper::~GEWinApiWrapper()
+{
+	globalEventHandler = 0;
+}
+
+// ----------------------------------------------------------------------------
+//  GEWinApiWrapper methdos definition
+// ----------------------------------------------------------------------------
 unsigned long long GEWinApiWrapper::getHighResolutionTimerCounter()
 {
 	LARGE_INTEGER time;
@@ -29,7 +50,7 @@ unsigned long long GEWinApiWrapper::getHighResolutionTimerFrequency()
 	return frequency.QuadPart;
 }
 
-int GEWinApiWrapper::initializeWindow()
+int GEWinApiWrapper::registerWindow()
 {
 	WNDCLASSEX windowClass;
 
@@ -46,7 +67,7 @@ int GEWinApiWrapper::initializeWindow()
 	windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	windowClass.hbrBackground = 0;
 	windowClass.lpszMenuName = 0;
-	windowClass.lpszClassName = LPCSTR("GEWINDOWCLASS");
+	windowClass.lpszClassName = WINDOWCLASSNAME;
 
 	if(!RegisterClassEx(&windowClass))
 	{
@@ -59,7 +80,7 @@ int GEWinApiWrapper::initializeWindow()
 	return 1;
 }
 
-int GEWinApiWrapper::createWindow(int xPostion, int yPostion, int width, int height, std::string name, unsigned int style) 
+int GEWinApiWrapper::createWindow(int x, int y, int width, int height, std::string name, unsigned int style) 
 {
 	RECT windowSize;
 	windowSize.left = (LONG)0;
@@ -101,8 +122,8 @@ int GEWinApiWrapper::createWindow(int xPostion, int yPostion, int width, int hei
 		LPCSTR("GEWINDOWCLASS"),
 		LPCSTR(name.c_str()),
 		dwStyle,
-		xPostion,
-		yPostion,
+		x,
+		y,
 		windowSize.right - windowSize.left,
 		windowSize.bottom - windowSize.top,
 		NULL,
@@ -117,7 +138,7 @@ int GEWinApiWrapper::createWindow(int xPostion, int yPostion, int width, int hei
 		DWORD error = GetLastError();
 		std::cout << "(!) ERROR - It was not possible to create the window: " << error << "\n" << std::endl;
 
-		int ret = UnregisterClass(LPCSTR("GEWINDOWCLASS"), GetModuleHandle(NULL));
+		int ret = UnregisterClass(WINDOWCLASSNAME, GetModuleHandle(NULL));
 
 		if(ret == 0)
 		{
@@ -134,36 +155,42 @@ int GEWinApiWrapper::destroyWindow()
 	int ret;
 	int err = 1;
 
-	ret = wglMakeCurrent(NULL, NULL);
-
-	if(ret == FALSE)
+	if(hRC != NULL)
 	{
-		DWORD error = GetLastError();
-		std::cout << "(!) ERROR - It was not possible to release the rendering context: " << error << "\n" << std::endl;
-		error = 0;
+		ret = wglMakeCurrent(NULL, NULL);
+
+		if(ret == FALSE)
+		{
+			DWORD error = GetLastError();
+			std::cout << "(!) ERROR - It was not possible to release the rendering context: " << error << "\n" << std::endl;
+			error = 0;
+		}
+
+		ret = wglDeleteContext(hRC);
+
+		if(ret == FALSE)
+		{
+			DWORD error = GetLastError();
+			std::cout << "(!) ERROR - It was not possible to delete the rendering context: " << error << "\n" << std::endl;
+			error = 0;
+		}
+
+		hRC = NULL;
 	}
 
-	ret = wglDeleteContext(hRC);
-
-	if(ret == FALSE)
+	if(hDC != NULL)
 	{
-		DWORD error = GetLastError();
-		std::cout << "(!) ERROR - It was not possible to delete the rendering context: " << error << "\n" << std::endl;
-		error = 0;
+		ret = ReleaseDC(hWindow, hDC);
+
+		if(!ret)
+		{
+			DWORD error = GetLastError();
+			std::cout << "(!) ERROR - It was not possible to release the device context: " << error << "\n" << std::endl;
+			error = 0;
+		}
+
+		hDC = NULL;
 	}
-
-	hRC = NULL;
-
-	ret = ReleaseDC(hWindow, hDC);
-
-	if(!ret)
-	{
-		DWORD error = GetLastError();
-		std::cout << "(!) ERROR - It was not possible to release the device context: " << error << "\n" << std::endl;
-		error = 0;
-	}
-
-	hDC = NULL;
 
 	ret = DestroyWindow(hWindow);
 
@@ -177,7 +204,7 @@ int GEWinApiWrapper::destroyWindow()
 
 	hWindow = NULL;
 
-	ret = UnregisterClass(LPCSTR("GEWINDOWCLASS"), GetModuleHandle(NULL));
+	ret = UnregisterClass(WINDOWCLASSNAME, GetModuleHandle(NULL));
 
 	if(ret == 0)
 	{
@@ -232,7 +259,6 @@ void GEWinApiWrapper::setGlobalEventHandler(GEEventHandler *eventHandler)
 int GEWinApiWrapper::initializeRenderingSystem()
 {
 	int ret;
-	DWORD dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
 
 	static PIXELFORMATDESCRIPTOR pfd =
 	{
@@ -442,13 +468,12 @@ int GEWinApiWrapper::swapBuffers()
 // ----------------------------------------------------------------------------
 //  GLOBAL FUNCTIONS DEFINITION
 // ----------------------------------------------------------------------------
-
 LRESULT CALLBACK windowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	#ifdef DEBUG_MODE
 	if(!globalEventHandler)
 	{
-		std::cout << "(!) ERROR | windowProcedure() | global event handler not configured!" << std::endl;
+		std::cout << "(!) ERROR | windowProcedure() | global event handler is not configured!" << std::endl;
 		exit(1);
 	}
 	#endif

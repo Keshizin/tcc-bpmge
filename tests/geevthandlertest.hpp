@@ -14,8 +14,10 @@ public:
 	void resizeWindowEvent(int width, int height);
 	void finishAfterEvent();
 	void finishBeforeEvent();
+	void resumeEvent();
+	void pauseEvent();
 };
 
-int eventHandlerTest();
+int testUserEventHandler();
 
 #endif

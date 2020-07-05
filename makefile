@@ -1,4 +1,7 @@
-# BPM Game Engine Compilation File!
+# -----------------------------------------------------------------------------
+# BPM GAME ENGINE MAKEFILE
+# Copyright (C) 2020 Fabio Takeshi Ishikawa
+# -----------------------------------------------------------------------------
 
 # DIR PATH
 BIN_DIR=bin
@@ -6,7 +9,6 @@ OBJ_DIR=obj
 SRC_DIR=src
 INC_DIR=inc
 
-# BUILD NAMES
 OUTPUT_NAME=game.exe
 CPPSOURCES=$(wildcard $(SRC_DIR)/*.cpp)
 OBJFILES=$(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(CPPSOURCES))
@@ -25,20 +27,20 @@ all: $(BIN_DIR)/$(OUTPUT_NAME)
 
 # LINKING PHASE
 $(BIN_DIR)/$(OUTPUT_NAME): $(OBJFILES)
-	@echo . Gerando executavel final: $@
+	@echo . Generating executable: $@
 	@g++ $^ -o $@ $(OBJRESFILES) $(DIRLIB_FLAGS) $(LIB_FLAGS) -Wall
 
 # COMPILATION PHASE
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@echo . Compilando $<
-	@g++ -c $(DEBUG_FLAG) $< $(INC_FLAGS) -o $@
+	@echo . Compiling $<
+	@g++ -c $(DEBUG_FLAG) $< $(INC_FLAGS) -o $@ -Wall
 
 var-teste:
-	@echo $(OUTPUT_NAME)
 	@echo $(BIN_DIR)
 	@echo $(OBJ_DIR)
 	@echo $(SRC_DIR)
 	@echo $(INC_DIR)
+	@echo $(OUTPUT_NAME)
 	@echo $(CPPSOURCES)
 	@echo $(OBJFILES)
 	@echo $(OBJRESFILES)
@@ -53,59 +55,59 @@ $(OBJ_DIR)/%.d: $(SRC_DIR)/%.cpp
 # 	@echo . Gerando arquivos .d (dependencias - GCC) $<
 	@g++ -c $< -MM -MT 'obj/$*.o obj/$*.d ' -MD $(INC_FLAGS) -o $@
 
-#
-# UNIT TEST COMPILATION
-#
+# -----------------------------------------------------------------------------
+# UNIT TEST MAKEFILE
+# -----------------------------------------------------------------------------
 
 # DIR PATH
-UNIT_TEST_SRC_DIR=tests
+UT_SRC_DIR=tests
 
-# BUILD NAMES
-UNIT_TEST_OUTPUT_NAME=unit-test.exe
-UNIT_TEST_CPPSOURCES=$(wildcard $(UNIT_TEST_SRC_DIR)/*.cpp)
-UNIT_TEST_OBJFILES=$(patsubst $(UNIT_TEST_SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(UNIT_TEST_CPPSOURCES))
+UT_OUTPUT_NAME=getest.exe
+UT_CPPSOURCES=$(wildcard $(UT_SRC_DIR)/*.cpp)
+UT_OBJFILES=$(patsubst $(UT_SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(UT_CPPSOURCES))
 
 # TARGETS
-unit-test: $(BIN_DIR)/$(UNIT_TEST_OUTPUT_NAME)
+test: $(BIN_DIR)/$(UT_OUTPUT_NAME)
 	@$(MAKE) --no-print-directory clean-d
 
 # LINKING PHASE
-$(BIN_DIR)/$(UNIT_TEST_OUTPUT_NAME): $(UNIT_TEST_OBJFILES) $(OBJFILES)
-	@echo . Gerando executavel final: $@
+$(BIN_DIR)/$(UT_OUTPUT_NAME): $(UT_OBJFILES) $(OBJFILES)
+	@echo . Generating executable: $@
 	@g++ $^ -o $@ $(OBJRESFILES) $(DIRLIB_FLAGS) $(LIB_FLAGS) -Wall
 
 # COMPILATION PHASE
-$(OBJ_DIR)/%.o: $(UNIT_TEST_SRC_DIR)/%.cpp
-	@echo . Compilando $<
+$(OBJ_DIR)/%.o: $(UT_SRC_DIR)/%.cpp
+	@echo . Compiling $<
 	@g++ -c $< $(INC_FLAGS) -o $@
 
-#
+# -----------------------------------------------------------------------------
 # CLEANING EVERYTHING!
-#
+# -----------------------------------------------------------------------------
+
 clean-exe:
-	@echo . Deletando o executavel
+	@echo . Deleting executable
 # Para o Microsoft Windows!
 	@del $(BIN_DIR)\$(OUTPUT_NAME)
-	@del $(BIN_DIR)\$(UNIT_TEST_OUTPUT_NAME)
+	@del $(BIN_DIR)\$(UT_OUTPUT_NAME)
 # Para o UNIX!
 #	rm bin/teste.exe
 
 clean-obj:
-	@echo . Deletando codigo-objetos
+	@echo . Deleting object code
 # Para o Microsoft Windows!
 	@del $(OBJ_DIR)\*.o
 # Para o UNIX!
 #	rm obj/*.o
 
 clean-d:
-	@echo . Deletando makefiles temporarios
+	@echo . Deleting temp files
 # Para o Microsoft Windows
 	@del $(OBJ_DIR)\*.d
 # Par ao UNIX
 # 	rm $(TMP_DIR)/*
 
 clean-all:
-	@echo . Limpando tudo
+	@echo . Clean all
 	@$(MAKE) --no-print-directory clean-exe
 	@$(MAKE) --no-print-directory clean-obj
 	@$(MAKE) --no-print-directory clean-d

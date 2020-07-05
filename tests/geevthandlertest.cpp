@@ -3,73 +3,85 @@
 
 void TestEventHandler::frameEvent()
 {
-	std::cout << "\t# Frame Event\n" << std::endl;
+	// std::cout << "\ttest event handler - frame event" << std::endl;
 }
 
 void TestEventHandler::mouseEvent(int button, int state, int x, int y)
 {
-	std::cout << "\t# Mouse Event"
-		<< "\n\t\tbutton: " << button
-		<< "\n\t\t state: " << state
-		<< "\n\t\t     x: " << x
-		<< "\n\t\t     y: " << y
-		<< "\n" << std::endl;
+	// std::cout << "\ttest event handler - mouse event"
+	// 	<< "\n\t\tbutton: " << button
+	// 	<< "\n\t\t state: " << state
+	// 	<< "\n\t\t     x: " << x
+	// 	<< "\n\t\t     y: " << y
+	// 	<< std::endl;
 }
 
 void TestEventHandler::mouseMotionEvent(int x, int y)
 {
-	std::cout << "\t# Mouse Motion Event"
-		<< "\n\t\tx: " << x
-		<< "\n\t\ty: " << y
-		<< "\n" << std::endl;
+	// std::cout << "\ttest event handler - mouse motion event"
+	// 	<< "\n\t\t     x: " << x
+	// 	<< "\n\t\t     y: " << y
+	// 	<< std::endl;
 }
 
 void TestEventHandler::keyboardEvent(unsigned char key, int state)
 {
-	std::cout << "\t# Keyboard Event"
-		<< "\n\t\tkey: " << key
-		<< "\n\t\tstate: " << state
-		<< "\n" << std::endl;
+	// std::cout << "\ttest event handler - keyboard event"
+	// 	<< "\n\t\t key: " << key
+	// 	<< "\n\t\t state: " << state
+	// 	<< std::endl;
 }
 
 void TestEventHandler::keyboardSpecialEvent(unsigned char key, int state)
 {
-	std::cout << "\t# Keyboard Special Event"
-		<< "\n\t\tkey: " << key
-		<< "\n\t\tstate: " << state
-		<< "\n" << std::endl;
+	// std::cout << "\ttest event handler - keyboard special event"
+	// 	<< "\n\t\t key: " << key
+	// 	<< "\n\t\t state: " << state
+	// 	<< std::endl;
 }
 
 void TestEventHandler::resizeWindowEvent(int width, int height)
 {
-	std::cout << "\t# Resize Window Event"
-		<< "\n\t\twidth: " << width
-		<< "\n\t\theight: " << height
-		<< "\n" << std::endl;
+	// std::cout << "\ttest event handler - resize window event"
+	// 	<< "\n\t\t width: " << width
+	// 	<< "\n\t\t height: " << height
+	// 	<< std::endl;
 }
 
 void TestEventHandler::finishAfterEvent()
 {
-	std::cout << "\t# Finish After Event" << "\n" << std::endl;
+	// std::cout << "\ttest event handler - finish after event" << std::endl;
 }
 
 void TestEventHandler::finishBeforeEvent()
 {
-	std::cout << "\t# Finish Before Event" << "\n" << std::endl;
+	// std::cout << "\ttest event handler - finish before event" << std::endl;
 }
 
-int eventHandlerTest()
+void TestEventHandler::resumeEvent()
 {
-	TestEventHandler *testEventHandler = new TestEventHandler();
+	// std::cout << "\ttest event handler - resume event" << std::endl;
+}
 
-	testEventHandler->frameEvent();
-	testEventHandler->mouseEvent(0, 0, 1920, 1080);
-	testEventHandler->mouseMotionEvent(1, 1);
-	testEventHandler->keyboardEvent('Q', 1);
-	testEventHandler->keyboardSpecialEvent(125, 1);
-	testEventHandler->resizeWindowEvent(1920, 1080);
-	testEventHandler->finishAfterEvent();
-	testEventHandler->finishBeforeEvent();
+void TestEventHandler::pauseEvent()
+{
+	// std::cout << "\ttest event handler - pause event" << std::endl;
+}
 
+int testUserEventHandler()
+{
+	TestEventHandler testEventHandler;
+	GEEventHandler *eventHandler = &testEventHandler;
+
+	eventHandler->frameEvent();
+	eventHandler->mouseEvent(0, 0, 1920, 1080);
+	eventHandler->mouseMotionEvent(1, 1);
+	eventHandler->keyboardEvent('Q', 1);
+	eventHandler->keyboardSpecialEvent(125, 1);
+	eventHandler->resizeWindowEvent(1920, 1080);
+	eventHandler->finishAfterEvent();
+	eventHandler->finishBeforeEvent();
+	eventHandler->resumeEvent();
+	eventHandler->pauseEvent();
 	return 1;
 }

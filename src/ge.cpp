@@ -16,8 +16,8 @@ GameEngine::GameEngine(GEEventHandler *eventHandler)
 	this->timeHandler = new GETimeHandler();
 	this->eventHandler = eventHandler;
 	this->diag = new GEDiag(this->timeHandler);
-	this->gameWindow = new GEWindow(winApiWrapper);
-	this->renderingSystem = new GERenderingSystem(winApiWrapper);
+	this->gameWindow = new GEWindowSystem(winApiWrapper);
+	// this->renderingSystem = new GERenderingSystem(winApiWrapper);
 }
 
 GameEngine::~GameEngine()
@@ -51,7 +51,7 @@ void GameEngine::startMainLoop()
 		exit(1);
 	}
 
-	renderingSystem->setProjection();
+	// renderingSystem->setProjection();
 
 	while(runningStatus != GE_STOPPED)
 	{
@@ -67,7 +67,7 @@ void GameEngine::startMainLoop()
 		if(runningStatus == GE_RUNNING)
 		{
 			eventHandler->frameEvent();
-			renderingSystem->renderFrame();
+			// renderingSystem->renderFrame();
 		}
 
 		// ********************************************************************
@@ -116,7 +116,7 @@ GEDiag *GameEngine::getDiag()
 	return diag;
 }
 
-GEWindow *GameEngine::getGameWindow()
+GEWindowSystem *GameEngine::getGameWindow()
 {
 	return gameWindow;
 }

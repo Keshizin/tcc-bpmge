@@ -5,7 +5,7 @@
 #include <getimehandler.h>
 #include <geeventhandler.h>
 #include <gediag.h>
-#include <gewindow.h>
+#include <gewindowsystem.h>
 #include <gerenderingsystem.h>
 
 #define GE_RUNNING 1
@@ -26,7 +26,7 @@ public:
 	GEApiWrapper * getApiWrapper();
 	GETimeHandler * getTimeHandler();
 	GEDiag *getDiag();
-	GEWindow *getGameWindow();
+	GEWindowSystem *getGameWindow();
 	GERenderingSystem *getRenderingSystem();
 
 	void setEventHandler(GEEventHandler *eventHandler);
@@ -38,7 +38,7 @@ private:
 	GETimeHandler *timeHandler;
 	GEEventHandler *eventHandler;
 	GEDiag *diag;
-	GEWindow *gameWindow;
+	GEWindowSystem *gameWindow;
 	GERenderingSystem *renderingSystem;
 };
 

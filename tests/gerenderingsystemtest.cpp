@@ -1,79 +1,172 @@
 #include "gerenderingsystemtest.hpp"
 
 #include <gerenderingsystem.h>
-#include <geapiwrapper.h>
-#include <gewindow.h>
 
-#include <iostream>
+// #include <geapiwrapper.h>
+// #include <gewindowsystem.h>
 
-int isRenderingTestDone = 0;
-GEApiWrapper *renderingApiWrapper;
-GEWindow *testWindow;
-GERenderingSystem *renderingSystem;
+// #include <iostream>
 
-void RenderingTestEventHandler::frameEvent()
+int testInstanceRenderingSystem()
 {
-}
+	GERenderingSystem renderingSystem;
 
-void RenderingTestEventHandler::resizeWindowEvent(int width, int height)
-{
-	std::cout << "\t# Resize Window Event"
-		<< "\n\t\twidth: " << width
-		<< "\n\t\theight: " << height
-		<< "\n" << std::endl;
+	if(renderingSystem.getRenderingContext() != GE_CONTEXT_2D)
+		return 0;
 
-	testWindow->setWidth(width);
-	testWindow->setHeight(width);
-	renderingSystem->setViewportWidth(width);
-	renderingSystem->setViewportHeight(width);
-	renderingSystem->setRenderingSystem();
-}
+	if(renderingSystem.getApiWrapper())
+		return 0;
 
-void RenderingTestEventHandler::finishAfterEvent()
-{
-	isRenderingTestDone = 1;
-}
+	if(renderingSystem.getViewportWidth())
+		return 0;
 
-void RenderingTestEventHandler::finishBeforeEvent()
-{
-	renderingApiWrapper->destroyWindow();
+	if(renderingSystem.getViewportHeight())
+		return 0;
+
+	if(renderingSystem.getWordLeft())
+		return 0;
+
+	if(renderingSystem.getWordRight())
+		return 0;
+
+	if(renderingSystem.getWordTop())
+		return 0;
+
+	if(renderingSystem.getWordBottom())
+		return 0;
+
+	if(renderingSystem.getWindowAspectCorrection())
+		return 0;
+
+	if(renderingSystem.getProjectionZNear())
+		return 0;
+
+	if(renderingSystem.getProjectionZFar())
+		return 0;
+
+	GEApiWrapper apiWrapper;
+
+	renderingSystem.setRenderingContext(GE_CONTEXT_3D);
+	renderingSystem.setApiWrapper(&apiWrapper);
+	renderingSystem.setViewportWidth(640);
+	renderingSystem.setViewportHeight(480);
+	renderingSystem.setWordLeft(-10);
+	renderingSystem.setWordRight(10);
+	renderingSystem.setWordTop(10);
+	renderingSystem.setWordBottom(-10);
+	renderingSystem.setWindowAspectCorrection(static_cast<GLdouble>(640) / static_cast<GLdouble>(480));
+	renderingSystem.setProjectionZNear(1.0);
+	renderingSystem.setProjectionZFar(500.0);
+
+	if(renderingSystem.getRenderingContext() != GE_CONTEXT_3D)
+		return 0;
+
+	if(!renderingSystem.getApiWrapper())
+		return 0;
+
+	if(renderingSystem.getViewportWidth() != 640)
+		return 0;
+
+	if(renderingSystem.getViewportHeight() != 480)
+		return 0;
+
+	if(renderingSystem.getWordLeft() != -10)
+		return 0;
+
+	if(renderingSystem.getWordRight() != 10)
+		return 0;
+
+	if(renderingSystem.getWordTop() != 10)
+		return 0;
+
+	if(renderingSystem.getWordBottom() != -10)
+		return 0;
+
+	if(renderingSystem.getWindowAspectCorrection() != static_cast<GLdouble>(640) / static_cast<GLdouble>(480))
+		return 0;
+
+	if(renderingSystem.getProjectionZNear() != 1.0)
+		return 0;
+
+	if(renderingSystem.getProjectionZFar() != 500.0)
+		return 0;
+
+	return 1;
 }
 
 int testRenderingSystem()
 {
-	testWindow = new GEWindow();
-
-	renderingApiWrapper = testWindow->getApiWrapper();
-	renderingSystem = testWindow->getRenderingSystem();
-
-	RenderingTestEventHandler *renderingTestEventHandler = new RenderingTestEventHandler;
-	renderingApiWrapper->setEventHandler(renderingTestEventHandler);
-
-	testWindow->setName("BPM Game Engine - TEST RENDERING SYSTEM");
-	testWindow->setStyle(GE_WIN_COMPLETE);
-
-	if(!testWindow->createWindow())
-	{
-		delete renderingTestEventHandler;
-		return 0;
-	}
-
-	testWindow->showWindow();
-	renderingSystem->setBackgroundColor(GE_BKG_COLOR_BLUE);
-	renderingSystem->setRenderingSystem();
-
-	while(!isRenderingTestDone)
-	{
-		renderingApiWrapper->handleSystemMessages();
-
-		if(isRenderingTestDone)
-			break;
-
-		renderingSystem->renderFrame();
-		renderingApiWrapper->swapBuffers();
-	}
-
-	delete renderingTestEventHandler;
-	delete testWindow;
 	return 1;
 }
+
+// int isRenderingTestDone = 0;
+// GEApiWrapper *renderingApiWrapper;
+// GEWindowSystem *testWindow;
+// GERenderingSystem *renderingSystem;
+
+// void RenderingTestEventHandler::frameEvent()
+// {
+// }
+
+// void RenderingTestEventHandler::resizeWindowEvent(int width, int height)
+// {
+// 	// std::cout << "\t# Resize Window Event"
+// 	// 	<< "\n\t\twidth: " << width
+// 	// 	<< "\n\t\theight: " << height
+// 	// 	<< "\n" << std::endl;
+
+// 	// testWindow->setWidth(width);
+// 	// testWindow->setHeight(width);
+// 	// renderingSystem->setViewportWidth(width);
+// 	// renderingSystem->setViewportHeight(width);
+// 	// renderingSystem->setRenderingSystem();
+// }
+
+// void RenderingTestEventHandler::finishAfterEvent()
+// {
+// 	isRenderingTestDone = 1;
+// }
+
+// void RenderingTestEventHandler::finishBeforeEvent()
+// {
+// 	renderingApiWrapper->destroyWindow();
+// }
+
+// int testRenderingSystem()
+// {
+// 	// testWindow = new GEWindow();
+
+// 	// renderingApiWrapper = testWindow->getApiWrapper();
+// 	// renderingSystem = testWindow->getRenderingSystem();
+
+// 	// RenderingTestEventHandler *renderingTestEventHandler = new RenderingTestEventHandler;
+// 	// renderingApiWrapper->setEventHandler(renderingTestEventHandler);
+
+// 	// testWindow->setName("BPM Game Engine - TEST RENDERING SYSTEM");
+// 	// testWindow->setStyle(GE_WIN_COMPLETE);
+
+// 	// if(!testWindow->createWindow())
+// 	// {
+// 	// 	delete renderingTestEventHandler;
+// 	// 	return 0;
+// 	// }
+
+// 	// testWindow->showWindow();
+// 	// renderingSystem->setBackgroundColor(GE_BKG_COLOR_BLUE);
+// 	// renderingSystem->setRenderingSystem();
+
+// 	// while(!isRenderingTestDone)
+// 	// {
+// 	// 	renderingApiWrapper->handleSystemMessages();
+
+// 	// 	if(isRenderingTestDone)
+// 	// 		break;
+
+// 	// 	renderingSystem->renderFrame();
+// 	// 	renderingApiWrapper->swapBuffers();
+// 	// }
+
+// 	// delete renderingTestEventHandler;
+// 	// delete testWindow;
+// 	return 1;
+// }
