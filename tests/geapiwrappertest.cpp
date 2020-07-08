@@ -21,7 +21,7 @@ public:
 
 #include <iostream>
 
-int testInstanceApiWrapper()
+bool instanceGEApiWrapperTest()
 {
 	GEApiWrapper apiWrapper;
 	GEEventHandler eventHandler;
@@ -37,7 +37,7 @@ int testInstanceApiWrapper()
 	apiWrapper.initializeRenderingSystem();
 	apiWrapper.swapBuffers();
 
-	return 1;
+	return true;
 }
 
 int testInstanceWinApiWrapper()

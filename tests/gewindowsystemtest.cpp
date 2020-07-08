@@ -1,36 +1,35 @@
-#include "gewindowtest.hpp"
+#include "gewindowsystemtest.hpp"
 
 #include <iostream>
 #include <gewindowsystem.h>
 #include <gewinapiwrapper.h>
 
-int testInstanceWindow()
+bool instanceGEWindowSystemTest()
 {
 	GEWindowSystem windowSystem;
 	GEApiWrapper apiWrapper;
 
 	if(!windowSystem.getName().empty())
-		return 0;
+		return false;
 
 	if(windowSystem.getWidth() != 640)
-		return 0;
+		return false;
 
 	if(windowSystem.getHeight() != 480)
-		return 0;
+		return false;
 
 	if(windowSystem.getX() != 0)
-		return 0;
+		return false;
 
 	if(windowSystem.getY() != 0)
-		return 0;
+		return false;
 
 	if(windowSystem.getStyle() != GE_WIN_DEFAULT)
-		return 0;
+		return false;
 
 	if(windowSystem.getApiWrapper() != 0)
-		return 0;
+		return false;
 
-	// Setting new values
 	windowSystem.setName("WINDOW SYSTEM TEST #1");
 	windowSystem.setWidth(1920);
 	windowSystem.setHeight(1080);
@@ -40,30 +39,30 @@ int testInstanceWindow()
 	windowSystem.setApiWrapper(&apiWrapper);
 
 	if(windowSystem.getName() != "WINDOW SYSTEM TEST #1")
-		return 0;
+		return false;
 
 	if(windowSystem.getWidth() != 1920)
-		return 0;
+		return false;
 
 	if(windowSystem.getHeight() != 1080)
-		return 0;
+		return false;
 
 	if(windowSystem.getX() != 10)
-		return 0;
+		return false;
 
 	if(windowSystem.getY() != 15)
-		return 0;
+		return false;
 
 	if(windowSystem.getStyle() != GE_WIN_COMPLETE)
-		return 0;
+		return false;
 
 	if(windowSystem.getApiWrapper() != &apiWrapper)
-		return 0;
+		return false;
 
-	return 1;
+	return true;
 }
 
-int testCreateWindow()
+bool testCreateWindow()
 {
 	GEEventHandler eventHandler;
 	GEWinApiWrapper winApiWrapper;
@@ -87,7 +86,7 @@ int testCreateWindow()
 	return 1;
 }
 
-int testDestroyWindow()
+bool testDestroyWindow()
 {
 	GEWindowSystem windowSystem;
 
@@ -115,7 +114,7 @@ int testDestroyWindow()
 	return 1;
 }
 
-int testShowWindow()
+bool testShowWindow()
 {
 	GEEventHandler eventHandler;
 	GEWinApiWrapper winApiWrapper;
