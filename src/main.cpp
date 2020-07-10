@@ -11,6 +11,9 @@
 
 #include <ge.h>
 #include <gemath.h>
+#include <GL/wglext.h>
+
+#include <gejniwrapper.h>
 
 // ----------------------------------------------------------------------------
 //  SYMBOLIC CONSTANTS
@@ -78,33 +81,49 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	std::cout << "(!) DEBUG MODE ACTIVATED" << std::endl;
 	#endif
 
-	UserEventHandler eventHandler;
-	gameEngine = new GameEngine(&eventHandler);
+	GEJNIWrapper jniWrapper;
 
-	// SETTING UP WINDOW GAME
-	gameEngine->getGameWindow()->setName("BPM Game Engine DEMO - POLYGON SUBDIVIDE ALGORITHM!");
-	gameEngine->getGameWindow()->setWidth(GAME_SPLASH_WIDTH);
-	gameEngine->getGameWindow()->setHeight(GAME_SPLASH_HEIGHT);
-	gameEngine->getGameWindow()->setX(center(GAME_SCREEN_WIDTH, GAME_SPLASH_WIDTH));
-	gameEngine->getGameWindow()->setY(center(GAME_SCREEN_HEIGHT, GAME_SPLASH_HEIGHT));
-	gameEngine->getGameWindow()->setStyle(GE_WIN_COMPLETE);
+	if(jniWrapper.startJVM())
+		std::cout << "JVM success!" << std::endl;
+	else
+		std::cout << "JVM fail!" << std::endl;
 
-	if(!gameEngine->getGameWindow()->createWindow())
-	{
-		delete gameEngine;
-		return 0;
-	}
+	// typedef BOOL(APIENTRY *PFNWGLSWAPINTERVALPROC)(int);
+	// PFNWGLSWAPINTERVALPROC wglSwapIntervalEXT = NULL;
 
-	if(!gameEngine->getRenderingSystem()->initialize())
-	{
-		delete gameEngine;
-		return 0;
-	}
+	// wglSwapIntervalEXT = (PFNWGLSWAPINTERVALPROC) wglGetProcAddress("wglSwapIntervalEXT");
 
-	gameEngine->getGameWindow()->showWindow();
-	gameEngine->startMainLoop();
+	// if (wglSwapIntervalEXT) {
+	//     wglSwapIntervalEXT(1);
+	// }
 
-	delete gameEngine;
+	// UserEventHandler eventHandler;
+	// gameEngine = new GameEngine(&eventHandler);
+
+	// // SETTING UP WINDOW GAME
+	// gameEngine->getGameWindow()->setName("BPM Game Engine DEMO - POLYGON SUBDIVIDE ALGORITHM!");
+	// gameEngine->getGameWindow()->setWidth(GAME_SPLASH_WIDTH);
+	// gameEngine->getGameWindow()->setHeight(GAME_SPLASH_HEIGHT);
+	// gameEngine->getGameWindow()->setX(center(GAME_SCREEN_WIDTH, GAME_SPLASH_WIDTH));
+	// gameEngine->getGameWindow()->setY(center(GAME_SCREEN_HEIGHT, GAME_SPLASH_HEIGHT));
+	// gameEngine->getGameWindow()->setStyle(GE_WIN_COMPLETE);
+
+	// if(!gameEngine->getGameWindow()->createWindow())
+	// {
+	// 	delete gameEngine;
+	// 	return 0;
+	// }
+
+	// if(!gameEngine->getRenderingSystem()->initialize())
+	// {
+	// 	delete gameEngine;
+	// 	return 0;
+	// }
+
+	// gameEngine->getGameWindow()->showWindow();
+	// gameEngine->startMainLoop();
+
+	// delete gameEngine;
 	std::cout << "> BYE BPM Game Engine" << std::endl;
 	return 1;
 }
@@ -166,6 +185,8 @@ void UserEventHandler::frameEvent()
 
 	if(::gAccum > 250)
 	{
+		for(int i = 0; i < 10000000; i++);
+
 		::gAccum -= 250;
 
 		for(int i = 0; i < 9; i++)

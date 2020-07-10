@@ -3,11 +3,17 @@
 # Copyright (C) 2020 Fabio Takeshi Ishikawa
 # -----------------------------------------------------------------------------
 
+# NOTA: ESTE MAKEFILE FOI PROKJETADO PARA COMPILADOR MINGW DE 32 BITS. iSSO DÁ
+#       CONFLITO COM JDK DE 64 BITS!
+# RESOLUÇÃO: TROCAR O COMPILADOR PARA 64 BITS OU UTILIZAR JDK DE 32 BITS!
+
 # DIR PATH
 BIN_DIR=bin
 OBJ_DIR=obj
 SRC_DIR=src
 INC_DIR=inc
+# JAVA_DIR=%JAVA_HOME%
+JAVA_DIR_32=C:\\Program\ Files\ (x86)\\Java\\jdk1.8.0_241
 
 OUTPUT_NAME=game.exe
 CPPSOURCES=$(wildcard $(SRC_DIR)/*.cpp)
@@ -16,9 +22,9 @@ OBJRESFILES=
 DFILES=$(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.d,$(CPPSOURCES))
 
 # COMPILATION FLAGS
-LIB_FLAGS=-lopengl32 -lglu32 -lgdi32
-DIRLIB_FLAGS=
-INC_FLAGS=-I$(INC_DIR)
+LIB_FLAGS=-lopengl32 -lglu32 -lgdi32 -ljvm
+DIRLIB_FLAGS=-L$(JAVA_DIR_32)/lib
+INC_FLAGS=-I$(INC_DIR) -I$(JAVA_DIR_32)/include -I$(JAVA_DIR_32)/include/win32
 DEBUG_FLAG=-DDEBUG_MODE
 
 # TARGETS
@@ -35,7 +41,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@echo . Compiling $<
 	@g++ -c $(DEBUG_FLAG) $< $(INC_FLAGS) -o $@ -Wall
 
-var-teste:
+var-test:
 	@echo $(BIN_DIR)
 	@echo $(OBJ_DIR)
 	@echo $(SRC_DIR)
@@ -48,12 +54,14 @@ var-teste:
 	@echo $(LIB_FLAGS)
 	@echo $(DIRLIB_FLAG)
 	@echo $(INC_FLAGS)
+	@echo $(JAVA_HOME)
+	@echo $(DIRLIB_FLAGS)
 
--include $(DFILES)
+# -include $(DFILES)
 
-$(OBJ_DIR)/%.d: $(SRC_DIR)/%.cpp
-# 	@echo . Gerando arquivos .d (dependencias - GCC) $<
-	@g++ -c $< -MM -MT 'obj/$*.o obj/$*.d ' -MD $(INC_FLAGS) -o $@
+# $(OBJ_DIR)/%.d: $(SRC_DIR)/%.cpp
+# # 	@echo . Gerando arquivos .d (dependencias - GCC) $<
+# 	@g++ -c $< -MM -MT 'obj/$*.o obj/$*.d ' -MD $(INC_FLAGS) -o $@
 
 # -----------------------------------------------------------------------------
 # UNIT TEST MAKEFILE
