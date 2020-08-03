@@ -81,22 +81,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	std::cout << "(!) DEBUG MODE ACTIVATED" << std::endl;
 	#endif
 
-	GEJNIWrapper jniWrapper;
+	// ------------------------------------------------------------------------
+	// INCLUIR O TRECHO DE CÓDIGO ABAIXO NO AMBIENTE DE TESTE DE UNIDADE
+	// GEJNIWrapper jniWrapper;
+	// jniWrapper.setJavaClassPath("-Djava.class.path=src\\java;");
+	// if(jniWrapper.startJVM())
+	// 	std::cout << "JVM success!" << std::endl;
+	// else
+	// 	std::cout << "JVM fail!" << std::endl;
+	// if(jniWrapper.callJavaMethod("BPMNParser", "print"))
+	// 	std::cout << "Java method call success!" << std::endl;
 
-	jniWrapper.setJavaClassPath("-Djava.class.path=src\\java;");
-
-	if(jniWrapper.startJVM())
-		std::cout << "JVM success!" << std::endl;
-	else
-		std::cout << "JVM fail!" << std::endl;
-
-	if(jniWrapper.callJavaMethod("BPMNParser", "print"))
-		std::cout << "Java method call success!" << std::endl;
-
-	if(jniWrapper.destroyJVM())
-		std::cout << "JVM destroyed!" << std::endl;
-	else
-		std::cout << "JVM was not destroyed" << std::endl;
+	// if(jniWrapper.destroyJVM())
+	// 	std::cout << "JVM destroyed!" << std::endl;
+	// else
+	// 	std::cout << "JVM was not destroyed" << std::endl;
+	// ------------------------------------------------------------------------
 
 	// typedef BOOL(APIENTRY *PFNWGLSWAPINTERVALPROC)(int);
 	// PFNWGLSWAPINTERVALPROC wglSwapIntervalEXT = NULL;
