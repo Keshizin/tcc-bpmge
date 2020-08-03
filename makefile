@@ -3,7 +3,7 @@
 # Copyright (C) 2020 Fabio Takeshi Ishikawa
 # -----------------------------------------------------------------------------
 
-# NOTA: ESTE MAKEFILE FOI PROKJETADO PARA COMPILADOR MINGW DE 32 BITS. iSSO DÁ
+# NOTA: ESTE MAKEFILE FOI PROJETADO PARA COMPILADOR MINGW DE 32 BITS. iSSO DÁ
 #       CONFLITO COM JDK DE 64 BITS!
 # RESOLUÇÃO: TROCAR O COMPILADOR PARA 64 BITS OU UTILIZAR JDK DE 32 BITS!
 
@@ -12,8 +12,8 @@ BIN_DIR=bin
 OBJ_DIR=obj
 SRC_DIR=src
 INC_DIR=inc
-# JAVA_DIR=%JAVA_HOME%
-JAVA_DIR_32=C:\\Program\ Files\ (x86)\\Java\\jdk1.8.0_241
+JAVA_DIR=%JAVA_HOME%
+JAVA_DIR_32=C:\\Program\ Files\ (x86)\\Java\\jdk1.8.0_251
 
 OUTPUT_NAME=game.exe
 CPPSOURCES=$(wildcard $(SRC_DIR)/*.cpp)
@@ -29,7 +29,7 @@ DEBUG_FLAG=-DDEBUG_MODE
 
 # TARGETS
 all: $(BIN_DIR)/$(OUTPUT_NAME)
-	@$(MAKE) --no-print-directory clean-d
+# 	@$(MAKE) --no-print-directory clean-d
 
 # LINKING PHASE
 $(BIN_DIR)/$(OUTPUT_NAME): $(OBJFILES)
@@ -54,8 +54,9 @@ var-test:
 	@echo $(LIB_FLAGS)
 	@echo $(DIRLIB_FLAG)
 	@echo $(INC_FLAGS)
-	@echo $(JAVA_HOME)
-	@echo $(DIRLIB_FLAGS)
+	@echo $(JAVA_DIR)
+	@echo $(JAVA_DIR_32)
+# 	@echo $(DIRLIB_FLAGS)
 
 # -include $(DFILES)
 

@@ -83,10 +83,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	GEJNIWrapper jniWrapper;
 
+	jniWrapper.setJavaClassPath("-Djava.class.path=src\\java;");
+
 	if(jniWrapper.startJVM())
 		std::cout << "JVM success!" << std::endl;
 	else
 		std::cout << "JVM fail!" << std::endl;
+
+	if(jniWrapper.callJavaMethod("BPMNParser", "print"))
+		std::cout << "Java method call success!" << std::endl;
+
+	if(jniWrapper.destroyJVM())
+		std::cout << "JVM destroyed!" << std::endl;
+	else
+		std::cout << "JVM was not destroyed" << std::endl;
 
 	// typedef BOOL(APIENTRY *PFNWGLSWAPINTERVALPROC)(int);
 	// PFNWGLSWAPINTERVALPROC wglSwapIntervalEXT = NULL;

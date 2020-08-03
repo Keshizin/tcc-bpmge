@@ -9,23 +9,27 @@
 #include <gejniwrapper.h>
 #include <iostream>
 
+GEJNIWrapper::GEJNIWrapper()
+{
+	jvm = 0;
+	jni_env = 0;
+}
+
 int GEJNIWrapper::startJVM()
 {
-	JavaVM *jvm;
-	JNIEnv *env;
 	JavaVMInitArgs vm_args;
 	JavaVMOption jvmopt[1];
 
-	// char path[200]="-Djava.class.path=src;lib\\camunda-bpmn-model-7.13.0-alpha3.jar;lib\\camunda-xml-model-7.13.0-alpha3.jar;";
-	std::string classpath = "-Djava.class.path=src\\java;";
-	jvmopt[0].optionString = (char*)classpath.c_str();
+	// "-Djava.class.path=src;lib\\camunda-bpmn-model-7.13.0-alpha3.jar;lib\\camunda-xml-model-7.13.0-alpha3.jar;";
+	// "-Djava.class.path=src\\java;";
+	jvmopt[0].optionString = (char*)java_class_path.c_str();
 
 	vm_args.version = JNI_VERSION_1_2;
 	vm_args.nOptions = 1;
 	vm_args.options = jvmopt;
 	vm_args.ignoreUnrecognized = JNI_TRUE;
 
-	jint rc = JNI_CreateJavaVM(&jvm, (void**)&env, &vm_args);
+	jint rc = JNI_CreateJavaVM(&jvm, (void**)&jni_env, &vm_args);
 
 	if(rc != JNI_OK)
 	{
@@ -33,31 +37,49 @@ int GEJNIWrapper::startJVM()
 		return 0;
 	}
 
-	jclass jclass = env->FindClass("BPMNParser");
+	return 1;
+}
 
-	if(jclass == NULL)
+int GEJNIWrapper::destroyJVM()
+{
+	return !jvm->DestroyJavaVM();
+}
+
+int GEJNIWrapper::callJavaMethod(std::string className, std::string javaMethod)
+{
+	jclass javaClass = jni_env->FindClass(className.c_str());
+
+	if(javaClass == NULL)
 	{
 		std::cout << "(!) Java class not found." << std::endl;
-		env->ExceptionDescribe();
+		jni_env->ExceptionDescribe();
 		jvm->DestroyJavaVM();
 		return 0;
 	}
 
-	jmethodID methodId = env->GetStaticMethodID(jclass, "print", "()V");
+	jmethodID methodId = jni_env->GetStaticMethodID(javaClass, javaMethod.c_str(), "()V");
 
 	if(methodId == NULL)
 		std::cout << "(!) ERROR Method is not found!" << std::endl;
 	else
 	{
-		env->CallStaticObjectMethod(jclass, methodId);
+		jni_env->CallStaticObjectMethod(javaClass, methodId);
 
-		if (env->ExceptionCheck()) {
-			env->ExceptionDescribe();
-			env->ExceptionClear();
+		if (jni_env->ExceptionCheck()) {
+			jni_env->ExceptionDescribe();
+			jni_env->ExceptionClear();
 		}
 	}
 
-	jvm->DestroyJavaVM();
-
 	return 1;
+}
+
+void GEJNIWrapper::setJavaClassPath(std::string java_class_path)
+{
+	this->java_class_path = java_class_path;
+}
+
+std::string GEJNIWrapper::getJavaClassPath()
+{
+	return java_class_path;
 }
