@@ -3,7 +3,7 @@
 # Copyright (C) 2020 Fabio Takeshi Ishikawa
 # -----------------------------------------------------------------------------
 
-# NOTA: ESTE MAKEFILE FOI PROJETADO PARA COMPILADOR MINGW DE 32 BITS. iSSO DÁ
+# NOTA: ESTE MAKEFILE FOI PROJETADO PARA COMPILADOR MINGW DE 32 BITS. ISSO DÁ
 #       CONFLITO COM JDK DE 64 BITS!
 # RESOLUÇÃO: TROCAR O COMPILADOR PARA 64 BITS OU UTILIZAR JDK DE 32 BITS!
 
@@ -12,8 +12,8 @@ BIN_DIR=bin
 OBJ_DIR=obj
 SRC_DIR=src
 INC_DIR=inc
-JAVA_DIR=%JAVA_HOME%
-JAVA_DIR_32=C:\\Program\ Files\ (x86)\\Java\\jdk1.8.0_251
+# JAVA_DIR=%JAVA_HOME%
+# JAVA_DIR_32=C:\\Program\ Files\ (x86)\\Java\\jdk1.8.0_251
 
 OUTPUT_NAME=game.exe
 CPPSOURCES=$(wildcard $(SRC_DIR)/*.cpp)
@@ -22,10 +22,12 @@ OBJRESFILES=
 DFILES=$(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.d,$(CPPSOURCES))
 
 # COMPILATION FLAGS
-LIB_FLAGS=-lopengl32 -lglu32 -lgdi32 -ljvm
-DIRLIB_FLAGS=-L$(JAVA_DIR_32)/lib
-INC_FLAGS=-I$(INC_DIR) -I$(JAVA_DIR_32)/include -I$(JAVA_DIR_32)/include/win32
-DEBUG_FLAG=-DDEBUG_MODE
+# LIB_FLAGS=-lopengl32 -lglu32 -lgdi32 -ljvm
+LIB_FLAGS=-lopengl32 -lglu32 -lgdi32
+# DIRLIB_FLAGS=-L$(JAVA_DIR_32)/lib
+# INC_FLAGS=-I$(INC_DIR) -I$(JAVA_DIR_32)/include -I$(JAVA_DIR_32)/include/win32
+INC_FLAGS=-I$(INC_DIR)
+DEBUG_FLAG=-DGEDEBUG
 
 # TARGETS
 all: $(BIN_DIR)/$(OUTPUT_NAME)

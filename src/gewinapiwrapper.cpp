@@ -231,7 +231,7 @@ void GEWinApiWrapper::handleSystemMessages()
 {
 	MSG msg;
 
-	#ifdef DEBUG_MODE
+	#ifdef GEDEBUG
 	if(!globalEventHandler)
 	{
 		std::cout << "(!) ERROR | GEWinApiWrapper::handleSystemMessages() | global event handler not configured!" << std::endl;
@@ -470,7 +470,7 @@ int GEWinApiWrapper::swapBuffers()
 // ----------------------------------------------------------------------------
 LRESULT CALLBACK windowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	#ifdef DEBUG_MODE
+	#ifdef GEDEBUG
 	if(!globalEventHandler)
 	{
 		std::cout << "(!) ERROR | windowProcedure() | global event handler is not configured!" << std::endl;
