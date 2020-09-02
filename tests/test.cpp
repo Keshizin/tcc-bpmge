@@ -1,10 +1,10 @@
 #include <iostream>
 #include <iomanip>
 
-#include "gewindowsystemtest.hpp"
-#include "geapiwrappertest.hpp"
-#include "geevthandlertest.hpp"
-#include "gerenderingsystemtest.hpp"
+// #include "gewindowsystemtest.hpp"
+// #include "geapiwrappertest.hpp"
+// #include "geevthandlertest.hpp"
+// #include "gerenderingsystemtest.hpp"
 
 #define WIDTH 35
 // #include "getest.hpp"
@@ -13,8 +13,8 @@ int main(int argc, char **argv)
 {
 	int ID = 0;
 	
-
-	std::cout << "> Welcome to BPM Game Engine Unit Test\n"
+	std::cout
+	<< "> Welcome to BPM Game Engine Unit Test\n"
 		<< std::boolalpha << std::left
 		<< "\n> ID #" << std::setw(2) << ++ID << " | " << std::setw(WIDTH) << "Instanciando GEWindowSystem" << " | " << instanceGEWindowSystemTest()
 		<< "\n> ID #" << std::setw(2) << ++ID << " | " << std::setw(WIDTH) << "Instanciando GEApiWrapper" << " | " << instanceGEApiWrapperTest() << std::endl;

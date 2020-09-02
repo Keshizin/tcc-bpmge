@@ -1,0 +1,403 @@
+- Incluindo o texto MIT no código-fonte
+- adicionando copyright no código fonte
+
+-------------------------------------------------------------------------------
+SPRINT #4 - Apresentar uma versão do motor de jogo com a integração do Parser BPMN Java (Camunda)
+- animação basica
+- Inclusão da classe GEJNIWrapper
+- Inclusão do código fonte em Java (BPMNParser)
+
+É necessário tornar a linkagem da JNI mais portável
+
+-------------------------------------------------------------------------------
+SPRINT #3 - (criação de entidades, sistema de colisão)
+- ativação e desativação de vsync via OpenGL (função wglSwapIntervalEXT)
+- Inclusão da classe Object
+- Inclusão do modo DEBUG através do makefile.
+
+Inclusão da função pause e resume
+
+-------------------------------------------------------------------------------
+FFB2AD (rosa)
+
+- atualização makefile
+  |- suprimindo mensagens de erros ao deletar
+  |- Mudando as mensagens para inglês
+
+===============================================================================
+ÚLTIMA ALTERAÇÃO: 6/ABRIL
+===============================================================================
+
+#SPRINT 3 (13/mar ~ 6/abr)
+OBJETIVO: Versão exibindo a criação de entidades, animação básica e o sistema de colisão
+
+(ok) refatorar a forma como funcionam o gewindow, gerenderingsystem e game engine
+(ok) Controle de janelas ativa ou desativa (background)
+  |- Pause e Resume (timer deve ser reinicializado no resume)
+
+(ok) Modo DEBUG (makefile)
+(ok) Contexto de jogo 2d ou 3d (perspectiva)
+(ok) |- Cálculo  de FPS (18/mar)
+(ok) |- Melhoria na classe GEWindow (11/mar ~ 24/mar)
+(ok) |- Melhoria na classe GEApiWrapper e GEWinApiWrapper (1/abr ~ 16/mar ~ 23/mar ~ 24/mar ~ 26/mar)
+(ok) |- Melhoria na classe GEEventHandler (13/mar ~ 16/mar)
+(ok) |- Inclusão da classe GEMouse (13/mar ~ 1/abr)
+(ok) |- Melhoria nos testes de unidade (26/mar)
+(ok) |- Melhoria da classe GameEngine (31/mar)
+(ok) |- Melhoria na classe GETimeHandler (31/mar)
+(ok) |- Inclusão do parser de arquivos BMP
+
+
+- Implementação de Frame-Rate-Governing
+  |- setFrame
+
+- Inclusão da classe Keyboard
+- Sistema de colisões entre objetos e o mundo
+- Inclusão da classe Sprite
+
+
+|- Inclusão do parser de arquivos JPG
+
+
+#SPRINT 4 (7/abr ~ 20/abr)
+OBJETIVO: Versão exibindo a criação de entidades, animação básica e o sistema de colisão
+
+|- Inclusão de Travis CI
+|- Ter um documento para reportar erros e problemas
+|- Integração de BPMN Parser
+|- Estudo do mapeamento PYP (processos macro e subdivisões )
+|- Incluir diagramas de componentes
+|- Inclusão de JNI
+|- Inclusão do projeto BPMNParser
+|- Inclusão do assets .BPMN
+- Sistema de fisica
+- Sistema de entidades
+- renderização de uma imagem bitmap
+
+===============================================================================
+NEXT:
+- Inclusão do parser de arquivos PNG
+- Inclusão do parser de arquivos OBJ
+- Definição de um formato proprietário para imagens/texturas utilizados no motor de jogo
+  |- melhor utilização de memória
+  |- Adaptabilidade para as funções de renderização das APIs
+- Inclusão de recursos Windows (ícones das aplicações, ponteiros de mouse, etc)
+- Estudar como funciona Unit Test em C++ (CppUnit, CxxTest, Fructose, UnitTest++, Boost.Test, Catch)
+- Sistema de mundos
+- sistema de log
+- Informações do sistema
+- Gerenciador de assets
+- COnfiguração de viewport (OpenGL / Sistema de renderização)
+- Inicialização do sistema de renderização
+- Método para redimensionar a janela programaticamente
+- Método para reposicionar a janela programaticamente
+- Inclusão de renderização de fontes e textos
+- Inclusão de joystick
+- Inclusão de scripts em LUA
+- sistema de partículas
+- sistema de IA
+- Sistema de Audio
+- Criação de múltiplas janelas (é necessário uma estrutura de dados para manter uma arvore de janelas)
+  |- Verificar o endereço de HDC para criações de múltiplas janelas
+- Sistema de renderização: transparencia
+- Sistema de renderização: profundidade (depth buffer)
+
+- Novos estilos de janelas
+    |- Adicionar botões, em estilos ja predefinidos
+    |- DRAG & DROP FILES STYLES (WS_EX_ACCEPTFILES)
+    |- Question Mark - Context Help (WS_EX_CONTEXTHELP)
+    |- Scrollbars
+    |- NO ACTIVATE (WS_EX_NOACTIVATE)
+    |- Palette Window (WS_EX_PALETTEWINDOW)
+    |- TOP MOST (WS_EX_TOPMOST)
+    |- Disabled (WS_DISABLED)
+    |- DLGFRAME (WS_DLGFRAME)
+    |- GE_WIN_MINIMIZED:
+    |- GE_WIN_FULLSCREEN
+    |- Janela escondida
+
+- Função para configurar o estilo em janelas que ja foi criada
+
+- eVENTOS:
+  |- BOOL GameInitialize(HINSTANCE hInstance); void GameStart(HWND hWindow); void GameEnd(); void GameActivate(HWND hWindow); void GameDeactivate(HWND hWindow); void GamePaint(HDC hDC); void GameCycle();
+
+- icone normal e icone pequeno
+- Compilação em diferentes compiladores
+
+- Visão preliminar do sistema de niveis
+|- Main
+  |- Scenes (cena ou cenário do jogo)
+     |- Layer
+        |- Brick
+        |- Vector
+        |- Sprite
+           |- TimeAcculator
+           |- Animation
+     |- Image
+|- Sistema de Entidades
+   |- objetos (classe base) - Jogo pausado não é necessário atualizar os objetos
+      |- Update()
+      |- Draw()
+|- Desenho 2D (ordem dos objetos - z-)
+|- Modos de video (resolução, formato bits por pixel, fps)
+|- Gerenciador de recursos
+   |- gerenciamento de imagens (carrega apenas e pode ser referenciada por varios objetos)
+|- sistema de renderizçaão (v-sync)
+|- Leitor BMP
+- dividir a APiWraper em outras classes
+- mostrar/esconder o console
+ |_ // ShowWindow (GetConsoleWindow(), SW_HIDE);
+
+ - configurar Timer com milissegundos (timeHandler deve possuir a frequencia)
+
+ - Engine Version (major, minor, revision)
+   |- Constante simbolica (talvez colocar no makefile)
+   |- Exemplo:
+      #define K_ENGINE_VERSION_MAJOR 1
+      #define K_ENGINE_VERSION_MINOR 0
+      #define K_ENGINE_REVISION      0
+
+- OpenGL Rendering Mode
+  |- Exemplo:
+    #define K_NO_BUFFER      0x00
+    #define K_DEPTH_BUFFER   0x01
+    #define K_STENCIL_BUFFER 0x02
+- DESENHO DE MULTIPLAS FRAMES (USAR MULTIPLOS VIEWPORT DE TAMANHOS
+DIFERENTES POR EXEMPLO) mESMA FUNÇÃO PODE SER UTILIZADA PARA
+DESENHAR EM DOIS VIEWPORTS DIFERENTES
+
+- sprites
+posicao
+velocidade
+zorder
+transparencia
+teste de colisão (quadrado, area de colisão do sprite)
+colisão retangulo
+colisão pixels por pixels (paralelização)
+sistema de colisão
+|- loop na lista de sprites
+|- oportunidade de paralelização
+
+
+
+
+
+
+
+===============================================================================
+ISSUES:
+- Liberação da DC com ReleaseDC e CS_OWNDC
+  // Como criamos uma janela com CS_OWNDC (DC específico para a janela), não
+  // podemos liberá-lo utilizando ReleaseDC. A questão é quando o DC é
+  // liberado pelo Windows.
+
+- Melhorar a forma como os recursos de janela devem ser liberados
+- Problemas de invasão de memória em window procedure ao chamar funções de usuário(responsabilidade do programador configurar corretamente essas funções)
+- Programa para testar memory leak em windows
+- Todos os métodos que são chamados dentro do loop principal devem ser escritos evitando ao máximo overhead, ifs de consistencia e etc
+- ao implementar novas funcionalidades sempre criar uma branch nova (isso possibilita voltar facilmente para versoes anteriores e testa-los)
+- quando main usar return, os destrutores não são chamados
+- destruindo a janela explicitamente, é necessário chamar mainloop 2x
+
+|- tempo
+   |- real time
+   |- game time
+   |- the local timeline of an animation
+   |- the actual CPU cycles spent within a particular function
+
+# RENDERING LOOP
+
+while (!quit)
+{
+  // Update the camera transform based on interactive
+  // inputs or by following a predefined path.
+  updateCamera();
+
+  // Update positions, orientations and any other
+  // relevant visual state of any dynamic elements
+  // in the scene.
+  updateSceneElements();
+
+  // Render a still frame into an off-screen frame
+  // buffer known as the "back buffer". renderScene();
+  // Swap the back buffer with the front buffer, making
+  // the most recently rendered image visible
+  // on-screen. (Or, in windowed mode, copy (blit) the
+  // back buffer's contents to the front buffer.
+  swapBuffers();
+}
+
+Animation ~ 30 or 60 Hz
+Dynamics (physics) simulation ~ 120 Hz
+Higher-level systems (AI) ~ 1 or 2 per second *neednt necessarily be synchronized with the rendering loop at all
+
+Example 3-3 Calculating Field of View
+#define PI 3.1415926535
+double calculateAngle(double size, double distance) {    double radtheta, degtheta; 
+    radtheta = 2.0 * atan2 (size/2.0, distance);    degtheta = (180.0 * radtheta) / PI;    return degtheta; }
+
+    SetProjection (context 2d e 3d)
+    - left, right, bottom e top
+    - aspect
+    - fovy, znear e zfar
+
+Exibição de textoc
+
+ZOOM 2D
+aumenta ou diminui o tamanho da window gluOrtho2D
+
+ZOOM 3D
+aumenta ou diminui fovy da projeção
+
+PAN 2D
+deslocar a window gluOrtho2D
+
+PAN 3D
+deslocar a camera (viewing transformation)
+
+===============================================================================
+ N E X T
+===============================================================================
+
+(*) Possibilidade de múltiplas janelas com a mesma classe GEWINDOWCLASS
+
+===============================================================================
+ T E S T S
+===============================================================================
+- GEWindowSystem
+  |- teste configurando os atributos
+  |- testar instancia de GEWindowSystem com argumento APIWrapper
+  |- Criando uma janela sem configurar APIWrapper
+  |- Configurar uma referência de APIWrapper, liberar o recurso e criar uma janela
+  |- Criar duas janelas sem destruir a primeira
+  |- teste destruir uma janela criada anteriormente
+  |- teste destruir uma janela que não foi criada anteriormente
+  |- Exibir uma janela sem ter criado a janela
+  |- Criar uma janela e exibir a janela
+  |- Tentar exibir uma janela que já sendo exibida
+  |- Exibir uma janela depois de destruída
+  |- testar todos os estilos de janelas
+
+- APIWrapper
+  |- instanciar uma winapiwrapper e chamar todos os seus métodos
+  |- instanciar um apiwrapper passando winapiwrapper e chamar todos os seus métodos
+
+- EventHandler
+  |- Teste com eventos do usuario
+
+- RenderingSystem
+  |- instanciar um objeto da classe RenderingSystem
+  |- teste configurando viewport (not ok)
+  |- teste configurando projection (not ok)
+
+===============================================================================
+ I S S U E S
+===============================================================================
+
+[1] GeWindowSystem
+A classe GEWindowSystem precisa referenciar um objeto APIWrapper válido para
+que seja possível criar uma janela de aplicação corretamente. Após instanciar
+um objete da classe GEWindowSystem corretamente, é possível que o ponteiro para
+ApiWrapper seja liberada durante a execução. Necessário validar este ponteiro
+sempre que for utilizar algum método da classe ApiWrapper.
+
+[2] GeWindowSystem
+Tentar criar uma janela de aplicação com GEWindowSystem sem configurar os
+eventos globais exibe uma mensagem de erro e encerra a aplicação. Melhorar este
+tratamento.
+
+[3] GameEngine events
+Finalização das janelas (destroyWindow) é responsabilidade do programador?
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+ERROS QUE PODEM OCORRER (MAIS GRAVE PARA O MAIS LEVE)
+
+1. FECHAR A APLICAÇÃO
+- globalEventHandler não configurado ao chamar windowProcedure
+
+- initialization event
+  |- load graphics and sound, clear the playing field, zero out the score
+
+- user input event
+  |- mouse, keyboard
+
+- pause event
+- resume event
+
+- frame governung (set gframes epr sercon)
+  |- SetFrameRate
+- Possibilidade de renderizar textos na janela
+  |- TextOut
+  |- hDC = BeginPaint(hWindow, &ps);
+      GetClientRect(hWindow, &rect);
+      DrawText(hDC, TEXT("This is a skeleton application!"), -1, &rect,
+        DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+      EndPaint(hWindow, &ps);
+
+ - Uma forma de armazenar os arquivos de imagens em recurso proprietario da engine
+ - leitor .OBJ
+ - Esturtura OBJ (lista de vertices, faces)
+ - Icone/Resource Compiler (windows)
+     wndclass.hIcon          = LoadIcon(hInstance,
+    MAKEINTRESOURCE(IDI_SKELETON));
+  wndclass.hIconSm        = LoadIcon(hInstance,
+    MAKEINTRESOURCE(IDI_SKELETON_SM));
+  wndclass.hbrBackground  = (HBRUSH)(COLOR_WINDOW + 1);
+  |- Icone como um atributo de uma classe - getter and setter
+
+  - keyboard get keys more faster 
+  - transparência
+
+  - Movimentação
+    |- Speed
+    |- Movimento continuo
+    |- Movimento acelerado (com limite e sem limite de velocidade)
+    |- Posição X, Y
+
+  - Criação de sprites
+  - Destrução de sprites
+ 
+ - Fisize
+   |- gravidade
+   |- lift thrust
+
+
+  // ------------------------------------------------------------------------
+  // INCLUIR O TRECHO DE CÓDIGO ABAIXO NO AMBIENTE DE TESTE DE UNIDADE
+  // GEJNIWrapper jniWrapper;
+  // jniWrapper.setJavaClassPath("-Djava.class.path=src\\java;");
+  // if(jniWrapper.startJVM())
+  //  std::cout << "JVM success!" << std::endl;
+  // else
+  //  std::cout << "JVM fail!" << std::endl;
+  // if(jniWrapper.callJavaMethod("BPMNParser", "print"))
+  //  std::cout << "Java method call success!" << std::endl;
+
+  // if(jniWrapper.destroyJVM())
+  //  std::cout << "JVM destroyed!" << std::endl;
+  // else
+  //  std::cout << "JVM was not destroyed" << std::endl;
+  // ------------------------------------------------------------------------
+
+  ATIVAR VSYNC
+  // typedef BOOL(APIENTRY *PFNWGLSWAPINTERVALPROC)(int);
+  // PFNWGLSWAPINTERVALPROC wglSwapIntervalEXT = NULL;
+
+  // wglSwapIntervalEXT = (PFNWGLSWAPINTERVALPROC) wglGetProcAddress("wglSwapIntervalEXT");
+
+  // if (wglSwapIntervalEXT) {
+  //     wglSwapIntervalEXT(1);
+  // }
+
+  -----------------------------------------------------------------------------
+  - incluir ícone da jenal de aplicação configurável
+
+
+  - Quebrar API Wrapper em mais classes
+- Se criar dois GEWinApiWrapper pode dar problema com globalEventHandler (ele é único para todos osobjetos de gewinapriwrapper)
+- alterar os nomes das funções que alteram os atributos de viewport e de configurar viewport em openl (confusão)
+- Refatorar a classe GERenderingSystem
+- incluir novo macro para definição de cor de background (255, hex, %, 0-1)
+- Criações de demos
