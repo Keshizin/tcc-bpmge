@@ -32,12 +32,15 @@ public:
 	void setFrameTime(unsigned long long frameTime);
 	unsigned long long getFrameTime();
 	void setInternalTimer(unsigned long long internalTimer);
-	void updateInternalTimer();
 	unsigned long long getInternalTimer();
+	void updateInternalTimer();
+	void setFrameTimeLimit(unsigned long long frameTimeLimit);
+	unsigned long long getFrameTimeLimit();
 
 private:
 	unsigned long long frameTime;
 	unsigned long long internalTimer;
+	unsigned long long frameTimeLimit;
 };
 
 #endif

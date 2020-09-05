@@ -153,6 +153,10 @@ void GERenderingSystem::renderFrame()
 	// (ATENÇÃO) É possível que neste ponto, apiWrapper não esteja mais
 	// apontando para o objeto. Fazer essa validação!
 
+	// UPDATE CAMERA
+	// UPDATE SCENE ELEMENTS
+	// RENDER SCENE
+	// SWAP BUFFERS
 	this->apiWrapper->swapBuffers();
 }
 

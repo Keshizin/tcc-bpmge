@@ -53,3 +53,13 @@ unsigned long long GETimeHandler::getInternalTimer()
 {
 	return internalTimer;
 }
+
+void GETimeHandler::setFrameTimeLimit(unsigned long long frameTimeLimit)
+{
+	this->frameTimeLimit = frameTimeLimit;
+}
+
+unsigned long long GETimeHandler::getFrameTimeLimit()
+{
+	return frameTimeLimit;
+}

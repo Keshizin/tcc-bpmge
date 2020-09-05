@@ -22,7 +22,7 @@
 
 API Wrapper é responsável por abstrair as funções específicas dos sistemas operacional (Win32).
 - Suporte para o gerenciamento de janelas Win32
-- Tratamento de eventos e mensagens do Windows
+- Tratamento de eventos e mensagens do Windows (message pump)
 - Acesso aos registradores especiais High-Resolution-Timer
 - Interface com o hardware gráfico através da GDI
 - Troca de buffers (double-buffer)
@@ -51,7 +51,9 @@ API Wrapper é responsável por abstrair as funções específicas dos sistemas 
 ### Core
 
 - Inicialização dos componentes: sistema de janelas, motor de renderização, etc
-- Execução e controle do loop principal e o loop do jogo
+- Execução e controle do loop principal
+  - render loop
+  - game loop  
 - Controle da janela ativa e em segundo plano (pause, resume)
 - Cálculo de frame time e controle do número de quadros por segundo
 - Coleta de log e informações de diagnóstico

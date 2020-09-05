@@ -90,10 +90,15 @@ void GameEngine::startMainLoop()
 		timeHandler->updateInternalTimer();
 		diag->update();
 
-		// ********************************************************************
-		// START GAME LOOP EXECUTION
-		// ********************************************************************
+		// Message Pump!
 		apiWrapper->handleSystemMessages();
+
+		// ********************************************************************
+		// START GAME LOOP EXECUTION HERE!
+		// ********************************************************************
+
+		// CONTROLE DO GAME LOOP ATRAVÉS DE UM PRÓPRIO TIMER (GAME TIME)
+		std::cout << "FPS: " << diag->getFramesPerSecond() << std::endl;;
 
 		if(runningStatus == GE_RUNNING)
 		{
@@ -109,7 +114,22 @@ void GameEngine::startMainLoop()
 		// adicionar o tempo de duração do quadro
 		frameTime = startTime - endTime;
 		endTime = apiWrapper->getHighResolutionTimerCounter();
+		frameTime += (endTime - startTime);
+
+		// std::cout << "---------- @DEBUG@ | old frame time: " << frameTime << " | LIMIT: " << timeHandler->getFrameTimeLimit() << std::endl;
+
+		// timeHandler->setFrameTime(frameTime + (endTime - startTime));
+
+		// FRAME RATE GOVERNING
+		while(frameTime < timeHandler->getFrameTimeLimit())
+		{
+			endTime = apiWrapper->getHighResolutionTimerCounter();
+			frameTime += (endTime - startTime);
+		}
+
 		timeHandler->setFrameTime(frameTime + (endTime - startTime));
+
+		// std::cout << "---------- @DEBUG@ | new frame time: " << frameTime << "\n" << std::endl;
 	}
 }
 
@@ -131,6 +151,11 @@ void GameEngine::resumeGameLoop()
 // ----------------------------------------------------------------------------
 //  Game Engine getters and setters
 // ----------------------------------------------------------------------------
+GEApiWrapper *GameEngine::getApiWrapper()
+{
+	return apiWrapper;
+}
+
 GEWindowSystem *GameEngine::getGameWindow()
 {
 	return gameWindow;

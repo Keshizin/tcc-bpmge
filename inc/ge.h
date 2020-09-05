@@ -55,14 +55,15 @@ public:
 	void resumeGameLoop();
 
 	// getters and setters
+	GEApiWrapper *getApiWrapper();
 	GEWindowSystem *getGameWindow();
-	GERenderingSystem *getRenderingSystem();
 	GETimeHandler *getTimeHandler();
 	GEDiag *getDiag();
+	GERenderingSystem *getRenderingSystem();
 
 private:
 	int runningStatus;
-	
+
 	GEEventHandler *eventHandler;
 	GEApiWrapper *apiWrapper;
 	GEWindowSystem *gameWindow;

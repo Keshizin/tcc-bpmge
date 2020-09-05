@@ -36,6 +36,7 @@
 // #define GE_BKG_COLOR_GREEN 4
 // #define GE_BKG_COLOR_BLUE  5
 // #define GE_BKG_COLOR_UBUNTU_PURPLE 6
+// #define GE_BKG_COLOR_PINK 0xFFB2AD
 
 // ----------------------------------------------------------------------------
 //  Rendering System Context (2D or 3D)

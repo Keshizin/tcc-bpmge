@@ -1,55 +1,36 @@
-- Incluindo o texto MIT no código-fonte
-- adicionando copyright no código fonte
-
--------------------------------------------------------------------------------
-SPRINT #4 - Apresentar uma versão do motor de jogo com a integração do Parser BPMN Java (Camunda)
-- animação basica
-- Inclusão da classe GEJNIWrapper
-- Inclusão do código fonte em Java (BPMNParser)
-
-É necessário tornar a linkagem da JNI mais portável
-
--------------------------------------------------------------------------------
-SPRINT #3 - (criação de entidades, sistema de colisão)
-- ativação e desativação de vsync via OpenGL (função wglSwapIntervalEXT)
-- Inclusão da classe Object
-- Inclusão do modo DEBUG através do makefile.
-
-Inclusão da função pause e resume
-
--------------------------------------------------------------------------------
-FFB2AD (rosa)
-
-- atualização makefile
-  |- suprimindo mensagens de erros ao deletar
-  |- Mudando as mensagens para inglês
-
 ===============================================================================
 ÚLTIMA ALTERAÇÃO: 6/ABRIL
 ===============================================================================
 
-#SPRINT 3 (13/mar ~ 6/abr)
-OBJETIVO: Versão exibindo a criação de entidades, animação básica e o sistema de colisão
+SPRINT #3 - (criação de entidades, sistema de colisão) (13/mar ~ 6/abr)
+- ativação e desativação de vsync via OpenGL (função wglSwapIntervalEXT)
+- Inclusão da classe Object
+- Inclusão do modo DEBUG através do makefile.
+- Inclusão da função pause e resume
+- Modo DEBUG (makefile)
+- Contexto de jogo 2d ou 3d (perspectiva)
+- Cálculo  de FPS (18/mar)
 
-(ok) refatorar a forma como funcionam o gewindow, gerenderingsystem e game engine
-(ok) Controle de janelas ativa ou desativa (background)
-  |- Pause e Resume (timer deve ser reinicializado no resume)
-
-(ok) Modo DEBUG (makefile)
-(ok) Contexto de jogo 2d ou 3d (perspectiva)
-(ok) |- Cálculo  de FPS (18/mar)
-(ok) |- Melhoria na classe GEWindow (11/mar ~ 24/mar)
-(ok) |- Melhoria na classe GEApiWrapper e GEWinApiWrapper (1/abr ~ 16/mar ~ 23/mar ~ 24/mar ~ 26/mar)
-(ok) |- Melhoria na classe GEEventHandler (13/mar ~ 16/mar)
-(ok) |- Inclusão da classe GEMouse (13/mar ~ 1/abr)
-(ok) |- Melhoria nos testes de unidade (26/mar)
-(ok) |- Melhoria da classe GameEngine (31/mar)
-(ok) |- Melhoria na classe GETimeHandler (31/mar)
-(ok) |- Inclusão do parser de arquivos BMP
-
+? Timer interno deve ser reinicializado no resume?
+? O timer deve obter a diferença de tempo para a próximo timer
+? Implementação do (game time) que é atualizado de forma independente de real time (global). Talvez incluir uma nova variaveç como intertimer mas para gameTimer na classe TimeHandler. ()
+? record-andplayback feature (game feature, testing or debugging tool)
+  |- To implement record and playback, we make note of every relevant event
+that occurs during gameplay, saving each one in a list along with an accurate
+time stamp. The list of events can then be replayed with exactly the same timing, using the same initial conditions and an identical initial random seed. In
+theory, doing this should produce a gameplay experience that is indistinguishable from the original playthrough.
+? tratamento do frametime se o loop principal parar por conta de debug
 
 - Implementação de Frame-Rate-Governing
   |- setFrame
+
+
+  |- Animation typically needs to be updated at a rate of 30 or 60 Hz, in synchronization with the rendering subsystem.
+
+  |- However, a dynamics (physics) simulation may actually require more frequent updates (e.g., 120 Hz).
+
+  |- Higher-level systems, like AI, might only need to be serviced once or twice per second, and they needn’t necessarily be synchronized with the rendering loop at all.
+
 
 - Inclusão da classe Keyboard
 - Sistema de colisões entre objetos e o mundo
@@ -61,6 +42,7 @@ OBJETIVO: Versão exibindo a criação de entidades, animação básica e o sist
 
 #SPRINT 4 (7/abr ~ 20/abr)
 OBJETIVO: Versão exibindo a criação de entidades, animação básica e o sistema de colisão
+Apresentar uma versão do motor de jogo com a integração do Parser BPMN Java (Camunda)
 
 |- Inclusão de Travis CI
 |- Ter um documento para reportar erros e problemas
@@ -73,6 +55,13 @@ OBJETIVO: Versão exibindo a criação de entidades, animação básica e o sist
 - Sistema de fisica
 - Sistema de entidades
 - renderização de uma imagem bitmap
+- Inclusão do parser de arquivos BMP
+- Mudando as mensagens para inglês
+- animação basica
+- Inclusão da classe GEJNIWrapper
+- Inclusão do código fonte em Java (BPMNParser)
+
+É necessário tornar a linkagem da JNI mais portável
 
 ===============================================================================
 NEXT:

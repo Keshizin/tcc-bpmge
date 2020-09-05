@@ -63,6 +63,8 @@ Implementação do loop principal, cálculo da duração de cada quadro e o cont
 #### Sprint #3 - 13/03 to 06/04
 Criação de entidades, criação de níveis e sistema de colisão.
 
+-
+
 #### Sprint #4 - 07/04 to 20/04
 Animação básica, integração com BPMN Parser (java).
 
