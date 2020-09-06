@@ -28,7 +28,7 @@
 
 #include <getimer.h>
 
-#define DIAG_SIZE 10
+#define DIAG_SIZE 20
 
 class GEDiag
 {

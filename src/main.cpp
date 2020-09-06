@@ -34,6 +34,23 @@
 #define GAME_WINDOW_WIDTH 640
 #define GAME_WINDOW_HEIGHT 480
 
+GameEngine *gameEngine = 0;
+
+class UserEventHandler : public GEEventHandler
+{
+	void frameEvent();
+	void mouseEvent(int button, int state, int x, int y);
+	void mouseMotionEvent(int x, int y);
+	void keyboardEvent(unsigned char key, int state);
+	void keyboardSpecialEvent(unsigned char key, int state);
+	void resizeWindowEvent(int width, int height);
+	void finishAfterEvent();
+	void finishBeforeEvent();
+	void resumeEvent();
+	void pauseEvent();
+	void beforeMainLoopEvent();
+};
+
 // ----------------------------------------------------------------------------
 //  MAIN APPLICATION
 // ----------------------------------------------------------------------------
@@ -46,17 +63,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	#endif
 
 	// START UP GAME ENGINE
-	GEEventHandler eventHandler;
-	GameEngine gameEngine(&eventHandler);
+	UserEventHandler eventHandler;
+	gameEngine = new GameEngine(&eventHandler);
 
 	// SETTING UP WINDOW GAME
-	gameEngine.getGameWindow()->setWidth(640);
-	gameEngine.getGameWindow()->setHeight(480);
-	gameEngine.getGameWindow()->setX(0);
-	gameEngine.getGameWindow()->setY(0);
-	gameEngine.getGameWindow()->setStyle(GE_WIN_COMPLETE);
-
-	gameEngine.getGameWindow()->createWindow();
+	gameEngine->getGameWindow()->setWidth(640);
+	gameEngine->getGameWindow()->setHeight(480);
+	gameEngine->getGameWindow()->setX(0);
+	gameEngine->getGameWindow()->setY(0);
+	gameEngine->getGameWindow()->setStyle(GE_WIN_COMPLETE);
+	gameEngine->getGameWindow()->createWindow();
 
 	// SETTING UP RENDERING ENGINE
 	// gameEngine.getRenderingSystem()->setRenderingContext(GE_CONTEXT_2D);
@@ -69,16 +85,65 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// gameEngine.getRenderingSystem()->setWindowAspectCorrectionState(0);
 	// gameEngine.getRenderingSystem()->initialize();
 
-	gameEngine.getGameWindow()->showWindow();
+	gameEngine->getGameWindow()->showWindow();
 
 	// STARTING GAME LOOP
-	std::cout << "@DEBUG | frame time limit: " << (gameEngine.getApiWrapper()->getHighResolutionTimerFrequency() / 60) << std::endl;
+	std::cout << "@DEBUG | frame time limit: " << (gameEngine->getApiWrapper()->getHighResolutionTimerFrequency() / 60) << std::endl;
 
-	gameEngine.getTimeHandler()->setFrameTimeLimit(gameEngine.getApiWrapper()->getHighResolutionTimerFrequency() / 60);
-	gameEngine.startMainLoop();
+	gameEngine->getTimeHandler()->setFrameTimeLimit(gameEngine->getApiWrapper()->getHighResolutionTimerFrequency() / 60);
+	gameEngine->startMainLoop();
 
 	// RELEASE GAME ENGINE
+	delete gameEngine;
 
 	std::cout << "> BYE BPM Game Engine" << std::endl;
 	return 1;
+}
+
+// GLOBAL METHODS DEFINITION
+
+void UserEventHandler::frameEvent()
+{
+}
+
+void UserEventHandler::mouseEvent(int button, int state, int x, int y)
+{
+}
+
+void UserEventHandler::mouseMotionEvent(int x, int y)
+{
+}
+
+void UserEventHandler::keyboardEvent(unsigned char key, int state)
+{
+}
+
+void UserEventHandler::keyboardSpecialEvent(unsigned char key, int state)
+{
+}
+
+void UserEventHandler::resizeWindowEvent(int width, int height)
+{
+}
+
+void UserEventHandler::finishAfterEvent()
+{
+	gameEngine->stopMainLoop();
+}
+
+void UserEventHandler::finishBeforeEvent()
+{
+	gameEngine->getGameWindow()->destroyWindow();
+}
+
+void UserEventHandler::resumeEvent()
+{
+}
+
+void UserEventHandler::pauseEvent()
+{
+}
+
+void UserEventHandler::beforeMainLoopEvent()
+{
 }
