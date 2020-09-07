@@ -10,6 +10,7 @@ SPRINT #3 - (criação de entidades, sistema de colisão) (13/mar ~ 6/abr)
 - Modo DEBUG (makefile)
 - Contexto de jogo 2d ou 3d (perspectiva)
 - Cálculo  de FPS (18/mar)
+- Implementação de Frame-Rate-Governing
 
 ? Timer interno deve ser reinicializado no resume?
 ? O timer deve obter a diferença de tempo para a próximo timer
@@ -20,9 +21,7 @@ that occurs during gameplay, saving each one in a list along with an accurate
 time stamp. The list of events can then be replayed with exactly the same timing, using the same initial conditions and an identical initial random seed. In
 theory, doing this should produce a gameplay experience that is indistinguishable from the original playthrough.
 ? tratamento do frametime se o loop principal parar por conta de debug
-
-- Implementação de Frame-Rate-Governing
-  |- setFrame
+? Imprimir informações com frame time limit no diag
 
 
   |- Animation typically needs to be updated at a rate of 30 or 60 Hz, in synchronization with the rendering subsystem.

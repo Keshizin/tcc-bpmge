@@ -75,22 +75,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameEngine->getGameWindow()->createWindow();
 
 	// SETTING UP RENDERING ENGINE
-	// gameEngine.getRenderingSystem()->setRenderingContext(GE_CONTEXT_2D);
-	// gameEngine.getRenderingSystem()->setViewportWidth(GAME_WINDOW_WIDTH);
-	// gameEngine.getRenderingSystem()->setViewportHeight(GAME_WINDOW_HEIGHT);
-	// gameEngine.getRenderingSystem()->setWorldLeft(-(GAME_WINDOW_WIDTH / 2));
-	// gameEngine.getRenderingSystem()->setWorldRight(GAME_WINDOW_WIDTH / 2);
-	// gameEngine.getRenderingSystem()->setWorldTop(GAME_WINDOW_HEIGHT / 2);
-	// gameEngine.getRenderingSystem()->setWorldBottom(-(GAME_WINDOW_HEIGHT / 2));
-	// gameEngine.getRenderingSystem()->setWindowAspectCorrectionState(0);
-	// gameEngine.getRenderingSystem()->initialize();
+	gameEngine->getRenderingSystem()->setRenderingContext(GE_CONTEXT_2D);
+	gameEngine->getRenderingSystem()->setViewportWidth(GAME_WINDOW_WIDTH);
+	gameEngine->getRenderingSystem()->setViewportHeight(GAME_WINDOW_HEIGHT);
+	gameEngine->getRenderingSystem()->setWorldLeft(-(GAME_WINDOW_WIDTH / 2));
+	gameEngine->getRenderingSystem()->setWorldRight(GAME_WINDOW_WIDTH / 2);
+	gameEngine->getRenderingSystem()->setWorldTop(GAME_WINDOW_HEIGHT / 2);
+	gameEngine->getRenderingSystem()->setWorldBottom(-(GAME_WINDOW_HEIGHT / 2));
+	gameEngine->getRenderingSystem()->setWindowAspectCorrectionState(0);
+	gameEngine->getRenderingSystem()->initialize();
 
 	gameEngine->getGameWindow()->showWindow();
 
 	// STARTING GAME LOOP
-	std::cout << "@DEBUG | frame time limit: " << (gameEngine->getApiWrapper()->getHighResolutionTimerFrequency() / 60) << std::endl;
-
-	gameEngine->getTimeHandler()->setFrameTimeLimit(gameEngine->getApiWrapper()->getHighResolutionTimerFrequency() / 60);
+	gameEngine->setFrameRate(120);
 	gameEngine->startMainLoop();
 
 	// RELEASE GAME ENGINE

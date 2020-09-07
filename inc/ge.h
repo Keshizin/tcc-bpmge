@@ -53,6 +53,7 @@ public:
 	void stopMainLoop();
 	void pauseGameLoop();
 	void resumeGameLoop();
+	void setFrameRate(int framePerSecond);
 
 	// getters and setters
 	GEApiWrapper *getApiWrapper();
