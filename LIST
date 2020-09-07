@@ -11,32 +11,13 @@ SPRINT #3 - (criação de entidades, sistema de colisão) (13/mar ~ 6/abr)
 - Contexto de jogo 2d ou 3d (perspectiva)
 - Cálculo  de FPS (18/mar)
 - Implementação de Frame-Rate-Governing
-
-? Timer interno deve ser reinicializado no resume?
-? O timer deve obter a diferença de tempo para a próximo timer
-? Implementação do (game time) que é atualizado de forma independente de real time (global). Talvez incluir uma nova variaveç como intertimer mas para gameTimer na classe TimeHandler. ()
-? record-andplayback feature (game feature, testing or debugging tool)
-  |- To implement record and playback, we make note of every relevant event
-that occurs during gameplay, saving each one in a list along with an accurate
-time stamp. The list of events can then be replayed with exactly the same timing, using the same initial conditions and an identical initial random seed. In
-theory, doing this should produce a gameplay experience that is indistinguishable from the original playthrough.
-? tratamento do frametime se o loop principal parar por conta de debug
-? Imprimir informações com frame time limit no diag
-
-
-  |- Animation typically needs to be updated at a rate of 30 or 60 Hz, in synchronization with the rendering subsystem.
-
-  |- However, a dynamics (physics) simulation may actually require more frequent updates (e.g., 120 Hz).
-
-  |- Higher-level systems, like AI, might only need to be serviced once or twice per second, and they needn’t necessarily be synchronized with the rendering loop at all.
-
-
 - Inclusão da classe Keyboard
+
+??
 - Sistema de colisões entre objetos e o mundo
 - Inclusão da classe Sprite
 
 
-|- Inclusão do parser de arquivos JPG
 
 
 #SPRINT 4 (7/abr ~ 20/abr)
@@ -59,6 +40,7 @@ Apresentar uma versão do motor de jogo com a integração do Parser BPMN Java (
 - animação basica
 - Inclusão da classe GEJNIWrapper
 - Inclusão do código fonte em Java (BPMNParser)
+|- Inclusão do parser de arquivos JPG
 
 É necessário tornar a linkagem da JNI mais portável
 
@@ -166,11 +148,16 @@ sistema de colisão
 |- loop na lista de sprites
 |- oportunidade de paralelização
 
-
-
-
-
-
+? Timer interno deve ser reinicializado no resume?
+? O timer deve obter a diferença de tempo para a próximo timer
+? Implementação do (game time) que é atualizado de forma independente de real time (global). Talvez incluir uma nova variaveç como intertimer mas para gameTimer na classe TimeHandler. ()
+? record-andplayback feature (game feature, testing or debugging tool)
+  |- To implement record and playback, we make note of every relevant event
+that occurs during gameplay, saving each one in a list along with an accurate
+time stamp. The list of events can then be replayed with exactly the same timing, using the same initial conditions and an identical initial random seed. In
+theory, doing this should produce a gameplay experience that is indistinguishable from the original playthrough.
+? tratamento do frametime se o loop principal parar por conta de debug
+? Imprimir informações com frame time limit no diag
 
 ===============================================================================
 ISSUES:
