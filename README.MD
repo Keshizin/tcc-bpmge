@@ -1,4 +1,4 @@
-<img src="docs/img/logo1.png" alt="BPM Game Engine Logo" align="right" width=100 />
+<img src="docs/img/logo.png" alt="BPM Game Engine Logo" align="right" width=100 />
 
 # BPM Game Engine
 

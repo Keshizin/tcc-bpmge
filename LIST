@@ -2,24 +2,6 @@
 ÚLTIMA ALTERAÇÃO: 6/ABRIL
 ===============================================================================
 
-SPRINT #3 - (criação de entidades, sistema de colisão) (13/mar ~ 6/abr)
-- ativação e desativação de vsync via OpenGL (função wglSwapIntervalEXT)
-- Inclusão da classe Object
-- Inclusão do modo DEBUG através do makefile.
-- Inclusão da função pause e resume
-- Modo DEBUG (makefile)
-- Contexto de jogo 2d ou 3d (perspectiva)
-- Cálculo  de FPS (18/mar)
-- Implementação de Frame-Rate-Governing
-- Inclusão da classe Keyboard
-
-??
-- Sistema de colisões entre objetos e o mundo
-- Inclusão da classe Sprite
-
-
-
-
 #SPRINT 4 (7/abr ~ 20/abr)
 OBJETIVO: Versão exibindo a criação de entidades, animação básica e o sistema de colisão
 Apresentar uma versão do motor de jogo com a integração do Parser BPMN Java (Camunda)
@@ -43,6 +25,12 @@ Apresentar uma versão do motor de jogo com a integração do Parser BPMN Java (
 |- Inclusão do parser de arquivos JPG
 
 É necessário tornar a linkagem da JNI mais portável
+
+??
+- Sistema de colisões entre objetos e o mundo
+- Inclusão da classe Sprite
+- ativação e desativação de vsync via OpenGL (função wglSwapIntervalEXT)
+- desenho de objetos
 
 ===============================================================================
 NEXT:

@@ -1,8 +1,6 @@
 <img src="img/logo.png" alt="BPM Game Engine Logo" align="right" width=100 />
 
-# BPM Game Engine
-
-## Softrware Specification
+# Software Specification - BPM Game Engine
 
 ## Table of content
 
@@ -18,8 +16,29 @@
 - [Garantia de Qualidade](#quality-assurance)
 
 ## Introdução
+Este documento tem como objetivo descrever em detalhes a especificação de projeto de BPM Game Engine, um motor de jogo para desenvolvimento de jogos baseados em processos de negócio.
+
+Esta especificação está dividida em dez capítulos, incluindo a descrição geral de BPM Game Engine e as suas principais funcionalidades, os processos de software aplicados neste projeto, a engenharia de requisitos, arquitetura de software e a sua modelagem conceitual, visão geral das ferramentas utilizadas no desenvolvimento, gerência de configuração e, por fim, a descrição do plano de testes e a garantia de qualidade.
+
+Esta especificação é apenas um de vários de documentos relacionados ao projeto. Existem outros documentos que abrangem outros aspectos do projeto como: o guia de desenvolvimento, listagem de requisitos, planos de testes, guia de usuário e avaliação de desempenho.
+
+Este documento está destinado a todas as pessoas envolvidas no projeto BPM Game Engine.
 
 ## Descrição Geral
+
+BPM Game Engine é um motor de jogo que surgiu para apoiar a criação e desenvolvimento de jogos digitais baseados em processos de negócio. Jogos digitais baseados em processos de negócio são caracterizados por jogos que apresentam um processo de negócio de forma ludificada permitindo assim, a compreensão e a aprendizagem do seu funcionamento de forma divertida e engajante.
+
+Além do suporte completo para o desenvolvimento de jogos baseados em processos de negócio, este motor de jogo também pode ser utilizado para criar jogos de diferentes gêneros e propósitos.
+
+Segue a lista das principais funcionalidades de BPM Game Engine:
+
+- Multiplataforma (Windows, Linux e Android)
+- Criação e gerenciamento de diferentes estilos de janelas de aplicação
+- Tratamento de entrada do jogador com teclado, mouse e controle
+- Renderização de objetos 2D (sprites) e objetos 3D (wireframes)
+- Simulação de física e sistema de detecção de colisão
+- Gerenciamento de recursos externos (BMP, PNG e OBJ)
+- Mapeamento de elementos de processos de negócio em elementos de jogos
 
 ## 3. Processos de Software
 
@@ -61,9 +80,16 @@ Implementação do loop principal, cálculo da duração de cada quadro e o cont
 - Inclusão da classe GEMouse
 
 #### Sprint #3 - 13/03 to 06/04
-Criação de entidades, criação de níveis e sistema de colisão.
+Configuração do sistema de renderização: contextos 2D ou 3D, tipos de projeção, definição de window e viewport e controle avançado do loop game com frame-rate-governing e funções de pause e resume
 
--
+- Inclusão da classe Object
+- Inclusão do modo DEBUG através do makefile.
+- Inclusão da função pause e resume
+- Contexto de jogo 2D ou 3D (perspectiva)
+- Atualização no cálculo de FPS
+- Implementação de Frame-Rate-Governing
+- Inclusão da classe Keyboard
+- Atualização dos documentos
 
 #### Sprint #4 - 07/04 to 20/04
 Animação básica, integração com BPMN Parser (java).

@@ -102,6 +102,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 void UserEventHandler::frameEvent()
 {
+	// glClear(GL_COLOR_BUFFER);
 }
 
 void UserEventHandler::mouseEvent(int button, int state, int x, int y)
