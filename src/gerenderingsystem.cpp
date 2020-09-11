@@ -26,15 +26,39 @@
 #include <iostream>
 #include <gerenderingsystem.h>
 
-// #include <GL/gl.h>
-// #include <GL/glu.h>
-
 // ----------------------------------------------------------------------------
 //  HELP METHODS
 // ----------------------------------------------------------------------------
 void glClearColorHex(int r, int g, int b, int a)
 {
 	glClearColor(r / 255.0, g / 255.0, b / 255.0, a / 255.0);
+}
+
+void drawGEModel(MODEL *model)
+{
+	if(model)
+	{
+		glBegin(GL_LINE_LOOP);
+
+		for(int faces = 0; faces < model->total; faces++)
+		{			
+			for(int vertex = 0; vertex < model->faces[faces].total; vertex++)
+			{
+				// std::cout << "@debug | glVertex3D[" << vertex << "]: "
+				// 	<< model->vertices[model->faces[faces].vertex_index[vertex]].x << " "
+				// 	<< model->vertices[model->faces[faces].vertex_index[vertex]].y << " "
+				// 	<< model->vertices[model->faces[faces].vertex_index[vertex]].z << "\n" << std::endl;
+
+				glVertex3d(
+					model->vertices[model->faces[faces].vertex_index[vertex]].x,
+					model->vertices[model->faces[faces].vertex_index[vertex]].y,
+					model->vertices[model->faces[faces].vertex_index[vertex]].z
+				);
+			}
+		}
+
+		glEnd();
+	}
 }
 
 // ----------------------------------------------------------------------------
@@ -132,7 +156,7 @@ void GERenderingSystem::setProjection()
 				right *= windowAspectCorrection;
 			}
 		}
-
+ 
 		gluOrtho2D(left, right, bottom, top);
 	}
 	else if(renderingContext == GE_CONTEXT_3D)
@@ -157,6 +181,7 @@ void GERenderingSystem::renderFrame()
 	// UPDATE SCENE ELEMENTS
 	// RENDER SCENE
 	// SWAP BUFFERS
+
 	this->apiWrapper->swapBuffers();
 }
 

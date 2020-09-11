@@ -28,11 +28,36 @@
 
 #include <ge.h>
 
+#ifndef SPRITE_2D_SIZE
+#define SPRITE_2D_SIZE 16
+#endif
+
+VERTEX sprite2D_vertices[] = {
+	{-SPRITE_2D_SIZE,  SPRITE_2D_SIZE, 0.0},
+	{ SPRITE_2D_SIZE,  SPRITE_2D_SIZE, 0.0},
+	{-SPRITE_2D_SIZE, -SPRITE_2D_SIZE, 0.0},
+	{ SPRITE_2D_SIZE, -SPRITE_2D_SIZE, 0.0}
+};
+
+FACE sprite2D_faces[] = {
+	{3, {0, 1, 2}},
+	{3, {1, 3, 2}}
+};
+
+MODEL sprite2D_model = {
+	sprite2D_vertices, sprite2D_faces, 2
+};
+
 // ----------------------------------------------------------------------------
 //  GLOBAL ESCOPE
 // ----------------------------------------------------------------------------
-#define GAME_WINDOW_WIDTH 640
-#define GAME_WINDOW_HEIGHT 480
+#define GAME_WINDOW_WIDTH 800
+#define GAME_WINDOW_HEIGHT 800
+
+#define WORLD_LEFT   -1000
+#define WORLD_RIGHT   1000
+#define WORLD_TOP     1000
+#define WORLD_BOTTOM -1000
 
 GameEngine *gameEngine = 0;
 
@@ -67,8 +92,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameEngine = new GameEngine(&eventHandler);
 
 	// SETTING UP WINDOW GAME
-	gameEngine->getGameWindow()->setWidth(640);
-	gameEngine->getGameWindow()->setHeight(480);
+	gameEngine->getGameWindow()->setWidth(GAME_WINDOW_WIDTH);
+	gameEngine->getGameWindow()->setHeight(GAME_WINDOW_HEIGHT);
 	gameEngine->getGameWindow()->setX(0);
 	gameEngine->getGameWindow()->setY(0);
 	gameEngine->getGameWindow()->setStyle(GE_WIN_COMPLETE);
@@ -76,15 +101,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// SETTING UP RENDERING ENGINE
 	gameEngine->getRenderingSystem()->setRenderingContext(GE_CONTEXT_2D);
-	gameEngine->getRenderingSystem()->setViewportWidth(GAME_WINDOW_WIDTH);
-	gameEngine->getRenderingSystem()->setViewportHeight(GAME_WINDOW_HEIGHT);
-	gameEngine->getRenderingSystem()->setWorldLeft(-(GAME_WINDOW_WIDTH / 2));
-	gameEngine->getRenderingSystem()->setWorldRight(GAME_WINDOW_WIDTH / 2);
-	gameEngine->getRenderingSystem()->setWorldTop(GAME_WINDOW_HEIGHT / 2);
-	gameEngine->getRenderingSystem()->setWorldBottom(-(GAME_WINDOW_HEIGHT / 2));
-	gameEngine->getRenderingSystem()->setWindowAspectCorrectionState(0);
+	gameEngine->getRenderingSystem()->setViewport(0, 0, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
+
+	gameEngine->getRenderingSystem()->setWorldLeft(WORLD_LEFT);
+	gameEngine->getRenderingSystem()->setWorldRight(WORLD_RIGHT);
+	gameEngine->getRenderingSystem()->setWorldTop(WORLD_TOP);
+	gameEngine->getRenderingSystem()->setWorldBottom(WORLD_BOTTOM);
+	
+	gameEngine->getRenderingSystem()->setWindowAspectCorrectionState(true);
 	gameEngine->getRenderingSystem()->initialize();
 
+	gameEngine->getRenderingSystem()->setProjection();
 	gameEngine->getGameWindow()->showWindow();
 
 	// STARTING GAME LOOP
@@ -102,7 +129,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 void UserEventHandler::frameEvent()
 {
-	// glClear(GL_COLOR_BUFFER);
+	glClearColor(1.0, 1.0, 1.0, 0.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+	
+	glColor3f(1.0f, 0.0f, 0.0f);
+	drawGEModel(&sprite2D_model);
 }
 
 void UserEventHandler::mouseEvent(int button, int state, int x, int y)
@@ -115,6 +146,10 @@ void UserEventHandler::mouseMotionEvent(int x, int y)
 
 void UserEventHandler::keyboardEvent(unsigned char key, int state)
 {
+	if(key == 27)
+	{
+		gameEngine->stopMainLoop();
+	}
 }
 
 void UserEventHandler::keyboardSpecialEvent(unsigned char key, int state)
@@ -123,6 +158,12 @@ void UserEventHandler::keyboardSpecialEvent(unsigned char key, int state)
 
 void UserEventHandler::resizeWindowEvent(int width, int height)
 {
+	gameEngine->getRenderingSystem()->setViewport(0, 0, width, height);
+	// gameEngine->getRenderingSystem()->setWorldLeft(-width);
+	// gameEngine->getRenderingSystem()->setWorldRight(width);
+	// gameEngine->getRenderingSystem()->setWorldTop(height);
+	// gameEngine->getRenderingSystem()->setWorldBottom(-height);
+	gameEngine->getRenderingSystem()->setProjection();
 }
 
 void UserEventHandler::finishAfterEvent()
