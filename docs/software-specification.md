@@ -4,8 +4,8 @@
 
 ## Table of content
 
-- [Introdução](#introduction)
-- [Descrição Geral](#general-description)
+- [1. Introdução](#introduction)
+- [2. Descrição Geral](#general-description)
 - [Processos de Software](#software-process)
 - [Engenharia de Requisitos](#requirements-engineering)
 - [Modelagem Conceitual](#conceptual-model)
@@ -15,7 +15,7 @@
 - [Cronograma do Projeto](#project-schedule)
 - [Garantia de Qualidade](#quality-assurance)
 
-## Introdução
+## 1. Introdução
 Este documento tem como objetivo descrever em detalhes a especificação de projeto de BPM Game Engine, um motor de jogo para desenvolvimento de jogos baseados em processos de negócio.
 
 Esta especificação está dividida em dez capítulos, incluindo a descrição geral de BPM Game Engine e as suas principais funcionalidades, os processos de software aplicados neste projeto, a engenharia de requisitos, arquitetura de software e a sua modelagem conceitual, visão geral das ferramentas utilizadas no desenvolvimento, gerência de configuração e, por fim, a descrição do plano de testes e a garantia de qualidade.
@@ -24,7 +24,7 @@ Esta especificação é apenas um de vários de documentos relacionados ao proje
 
 Este documento está destinado a todas as pessoas envolvidas no projeto BPM Game Engine.
 
-## Descrição Geral
+## 2. Descrição Geral
 
 BPM Game Engine é um motor de jogo que surgiu para apoiar a criação e desenvolvimento de jogos digitais baseados em processos de negócio. Jogos digitais baseados em processos de negócio são caracterizados por jogos que apresentam um processo de negócio de forma ludificada permitindo assim, a compreensão e a aprendizagem do seu funcionamento de forma divertida e engajante.
 
@@ -39,6 +39,10 @@ Segue a lista das principais funcionalidades de BPM Game Engine:
 - Simulação de física e sistema de detecção de colisão
 - Gerenciamento de recursos externos (BMP, PNG e OBJ)
 - Mapeamento de elementos de processos de negócio em elementos de jogos
+
+### Limitações
+
+- Jogos online
 
 ## 3. Processos de Software
 

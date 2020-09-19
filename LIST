@@ -6,14 +6,26 @@
 OBJETIVO: Versão exibindo a criação de entidades, animação básica e o sistema de colisão
 Apresentar uma versão do motor de jogo com a integração do Parser BPMN Java (Camunda)
 
+|- (ok) estrutura de dados para armazenar modelos tridimensionais
+|- (ok) função genérica de desenho de modelos tridimensionais
+
+
+
+
+|- Inclusão de JNI
+|- Integração de BPMN Parser
+
+
 |- Inclusão de Travis CI
 |- Ter um documento para reportar erros e problemas
-|- Integração de BPMN Parser
 |- Estudo do mapeamento PYP (processos macro e subdivisões )
 |- Incluir diagramas de componentes
-|- Inclusão de JNI
+
 |- Inclusão do projeto BPMNParser
 |- Inclusão do assets .BPMN
+
+
+
 - Sistema de fisica
 - Sistema de entidades
 - renderização de uma imagem bitmap
