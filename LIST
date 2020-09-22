@@ -8,23 +8,23 @@ Apresentar uma versão do motor de jogo com a integração do Parser BPMN Java (
 
 |- (ok) estrutura de dados para armazenar modelos tridimensionais
 |- (ok) função genérica de desenho de modelos tridimensionais
+|- Inclusão da classe Sprite
 
-
-
+|- SpriteManager
+  - Criação de sprites
+  - Destrução de sprites
 
 |- Inclusão de JNI
 |- Integração de BPMN Parser
-
 
 |- Inclusão de Travis CI
 |- Ter um documento para reportar erros e problemas
 |- Estudo do mapeamento PYP (processos macro e subdivisões )
 |- Incluir diagramas de componentes
+|- Criação de uma struct RECT
 
 |- Inclusão do projeto BPMNParser
 |- Inclusão do assets .BPMN
-
-
 
 - Sistema de fisica
 - Sistema de entidades
@@ -40,12 +40,12 @@ Apresentar uma versão do motor de jogo com a integração do Parser BPMN Java (
 
 ??
 - Sistema de colisões entre objetos e o mundo
-- Inclusão da classe Sprite
 - ativação e desativação de vsync via OpenGL (função wglSwapIntervalEXT)
 - desenho de objetos
 
 ===============================================================================
 NEXT:
+|- ICONE DA JANELA WINDOWS
 - Inclusão do parser de arquivos PNG
 - Inclusão do parser de arquivos OBJ
 - Definição de um formato proprietário para imagens/texturas utilizados no motor de jogo
@@ -136,11 +136,6 @@ NEXT:
 DIFERENTES POR EXEMPLO) mESMA FUNÇÃO PODE SER UTILIZADA PARA
 DESENHAR EM DOIS VIEWPORTS DIFERENTES
 
-- sprites
-posicao
-velocidade
-zorder
-transparencia
 teste de colisão (quadrado, area de colisão do sprite)
 colisão retangulo
 colisão pixels por pixels (paralelização)
@@ -330,9 +325,6 @@ ERROS QUE PODEM OCORRER (MAIS GRAVE PARA O MAIS LEVE)
     |- Movimento continuo
     |- Movimento acelerado (com limite e sem limite de velocidade)
     |- Posição X, Y
-
-  - Criação de sprites
-  - Destrução de sprites
  
  - Fisize
    |- gravidade

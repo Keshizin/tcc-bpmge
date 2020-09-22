@@ -92,6 +92,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameEngine = new GameEngine(&eventHandler);
 
 	// SETTING UP WINDOW GAME
+	gameEngine->getGameWindow()->setName("BPM Game Engine - DEMO");
 	gameEngine->getGameWindow()->setWidth(GAME_WINDOW_WIDTH);
 	gameEngine->getGameWindow()->setHeight(GAME_WINDOW_HEIGHT);
 	gameEngine->getGameWindow()->setX(0);
@@ -132,8 +133,8 @@ void UserEventHandler::frameEvent()
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 	
-	glColor3f(1.0f, 0.0f, 0.0f);
-	drawGEModel(&sprite2D_model);
+	// glColor3f(1.0f, 0.0f, 0.0f);
+	// drawGEModel(&sprite2D_model);
 }
 
 void UserEventHandler::mouseEvent(int button, int state, int x, int y)
