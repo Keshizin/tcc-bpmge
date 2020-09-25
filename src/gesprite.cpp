@@ -24,12 +24,44 @@
 */
 
 #include <gesprite.h>
+#include <iostream>
+
+#include <GL/gl.h>
+#include <GL/glu.h>
+
+GESprite::GESprite()
+{
+	this->model = 0;
+	this->visible = true;
+}
+
+GESprite::GESprite(MODEL *model)
+{
+	this->model = model;
+	this->visible = true;
+}
 
 void GESprite::draw()
 {
 	if(visible)
 	{
-		
+		// if (model)
+		// {
+		// 	drawGEModel(model);
+		// }
+
+		glBegin(GL_LINES);
+		// glColor3fv(&color[0]);
+		glVertex2i(position_x, position_y);
+		glVertex2i(position_x + width, position_y);
+		glVertex2i(position_x, position_y + height);
+		glVertex2i(position_x + width, position_y + height);
+		// glColor3fv(&color[0]);
+		glVertex2i(position_x, position_y);
+		glVertex2i(position_x, position_y + height);
+		glVertex2i(position_x + width, position_y);
+		glVertex2i(position_x + width, position_y + height);
+		glEnd();
 	}
 }
 

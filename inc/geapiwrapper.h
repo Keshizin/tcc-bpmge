@@ -52,6 +52,7 @@ public:
 	// OPENGL REDENRING's stuff
 	virtual int initializeRenderingSystem() { return 1; }
 	virtual int swapBuffers() { return 1; }
+	virtual int setVSync(int vsync) { return 1; }
 };
 
 #endif

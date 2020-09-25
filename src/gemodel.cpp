@@ -1,5 +1,5 @@
 /*
-	Game Engine Win32 API Wrapper
+	Game Engine Model
 	This file is part of the BPM Game Engine.
 
 	Copyright (C) 2020 Fabio Takeshi Ishikawa
@@ -23,44 +23,33 @@
 	SOFTWARE.
 */
 
-#ifndef GAME_ENGINE_WIN_API_WRAPPER_CLASS_H
-#define GAME_ENGINE_WIN_API_WRAPPER_CLASS_H
+#include <gemodel.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 
-#include <windows.h>
-#include <geapiwrapper.h>
-
-class GEWinApiWrapper : public GEApiWrapper
+void drawGEModel(MODEL *model)
 {
-public:
-	GEWinApiWrapper();
-	~GEWinApiWrapper();
+	if(model)
+	{
+		glBegin(GL_LINE_LOOP);
 
-	void setGlobalEventHandler(GEEventHandler *eventHandler);
-	
-	// CPU's stuff
-	unsigned long long getHighResolutionTimerCounter();
-	unsigned long long getHighResolutionTimerFrequency();
+		for(int faces = 0; faces < model->total; faces++)
+		{			
+			for(int vertex = 0; vertex < model->faces[faces].total; vertex++)
+			{
+				// std::cout << "@debug | glVertex3D[" << vertex << "]: "
+				// 	<< model->vertices[model->faces[faces].vertex_index[vertex]].x << " "
+				// 	<< model->vertices[model->faces[faces].vertex_index[vertex]].y << " "
+				// 	<< model->vertices[model->faces[faces].vertex_index[vertex]].z << "\n" << std::endl;
 
-	// WINDOW SYSTEM's stuff
-	int registerWindow();
-	int createWindow(int x, int y, int width, int height, std::string name, unsigned int style);
-	int destroyWindow();
-	int showWindow();
+				glVertex3d(
+					model->vertices[model->faces[faces].vertex_index[vertex]].x,
+					model->vertices[model->faces[faces].vertex_index[vertex]].y,
+					model->vertices[model->faces[faces].vertex_index[vertex]].z
+				);
+			}
+		}
 
-	// SO MESSAGE's stuff
-	void handleSystemMessages();
-
-	// RENDERING SYSTEM's stuff
-	int initializeRenderingSystem();
-	int swapBuffers();
-	int setVSync(int vsync);
-
-private:
-	HWND hWindow;
-	HDC hDC;
-	HGLRC hRC;
-};
-
-LRESULT CALLBACK windowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-#endif
+		glEnd();
+	}
+}

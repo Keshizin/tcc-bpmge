@@ -30,6 +30,7 @@
 #include <GL/glu.h>
 #include <geapiwrapper.h>
 #include <gemodel.h>
+// #include <windows.h>
 
 // #define GE_BKG_COLOR_WHITE 1
 // #define GE_BKG_COLOR_BLACK 2
@@ -49,7 +50,6 @@
 //  HELP METHODS
 // ----------------------------------------------------------------------------
 void glClearColorHex(int r, int g, int b, int a);
-void drawGEModel(MODEL *model);
 
 // ----------------------------------------------------------------------------
 //  Rendering System class

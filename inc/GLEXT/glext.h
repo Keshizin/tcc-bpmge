@@ -6,28 +6,9 @@ extern "C" {
 #endif
 
 /*
-** Copyright (c) 2013-2018 The Khronos Group Inc.
+** Copyright 2013-2020 The Khronos Group Inc.
+** SPDX-License-Identifier: MIT
 **
-** Permission is hereby granted, free of charge, to any person obtaining a
-** copy of this software and/or associated documentation files (the
-** "Materials"), to deal in the Materials without restriction, including
-** without limitation the rights to use, copy, modify, merge, publish,
-** distribute, sublicense, and/or sell copies of the Materials, and to
-** permit persons to whom the Materials are furnished to do so, subject to
-** the following conditions:
-**
-** The above copyright notice and this permission notice shall be included
-** in all copies or substantial portions of the Materials.
-**
-** THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-** EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-** MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-** IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-** CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-** TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-** MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
-*/
-/*
 ** This header is generated from the Khronos OpenGL / OpenGL ES XML
 ** API Registry. The current version of the Registry, generator scripts
 ** used to make the header, and the header can be found at
@@ -51,7 +32,7 @@ extern "C" {
 #define GLAPI extern
 #endif
 
-#define GL_GLEXT_VERSION 20200423
+#define GL_GLEXT_VERSION 20200814
 
 #include <KHR/khrplatform.h>
 
@@ -10296,6 +10277,20 @@ GLAPI void APIENTRY glNamedBufferAttachMemoryNV (GLuint buffer, GLuint memory, G
 #endif
 #endif /* GL_NV_memory_attachment */
 
+#ifndef GL_NV_memory_object_sparse
+#define GL_NV_memory_object_sparse 1
+typedef void (APIENTRYP PFNGLBUFFERPAGECOMMITMENTMEMNVPROC) (GLenum target, GLintptr offset, GLsizeiptr size, GLuint memory, GLuint64 memOffset, GLboolean commit);
+typedef void (APIENTRYP PFNGLTEXPAGECOMMITMENTMEMNVPROC) (GLenum target, GLint layer, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLuint memory, GLuint64 offset, GLboolean commit);
+typedef void (APIENTRYP PFNGLNAMEDBUFFERPAGECOMMITMENTMEMNVPROC) (GLuint buffer, GLintptr offset, GLsizeiptr size, GLuint memory, GLuint64 memOffset, GLboolean commit);
+typedef void (APIENTRYP PFNGLTEXTUREPAGECOMMITMENTMEMNVPROC) (GLuint texture, GLint layer, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLuint memory, GLuint64 offset, GLboolean commit);
+#ifdef GL_GLEXT_PROTOTYPES
+GLAPI void APIENTRY glBufferPageCommitmentMemNV (GLenum target, GLintptr offset, GLsizeiptr size, GLuint memory, GLuint64 memOffset, GLboolean commit);
+GLAPI void APIENTRY glTexPageCommitmentMemNV (GLenum target, GLint layer, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLuint memory, GLuint64 offset, GLboolean commit);
+GLAPI void APIENTRY glNamedBufferPageCommitmentMemNV (GLuint buffer, GLintptr offset, GLsizeiptr size, GLuint memory, GLuint64 memOffset, GLboolean commit);
+GLAPI void APIENTRY glTexturePageCommitmentMemNV (GLuint texture, GLint layer, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLuint memory, GLuint64 offset, GLboolean commit);
+#endif
+#endif /* GL_NV_memory_object_sparse */
+
 #ifndef GL_NV_mesh_shader
 #define GL_NV_mesh_shader 1
 #define GL_MESH_SHADER_NV                 0x9559
@@ -11260,6 +11255,23 @@ GLAPI void APIENTRY glTextureImage3DMultisampleCoverageNV (GLuint texture, GLenu
 #define GL_SIGNED_HILO8_NV                0x885F
 #define GL_FORCE_BLUE_TO_ONE_NV           0x8860
 #endif /* GL_NV_texture_shader3 */
+
+#ifndef GL_NV_timeline_semaphore
+#define GL_NV_timeline_semaphore 1
+#define GL_TIMELINE_SEMAPHORE_VALUE_NV    0x9595
+#define GL_SEMAPHORE_TYPE_NV              0x95B3
+#define GL_SEMAPHORE_TYPE_BINARY_NV       0x95B4
+#define GL_SEMAPHORE_TYPE_TIMELINE_NV     0x95B5
+#define GL_MAX_TIMELINE_SEMAPHORE_VALUE_DIFFERENCE_NV 0x95B6
+typedef void (APIENTRYP PFNGLCREATESEMAPHORESNVPROC) (GLsizei n, GLuint *semaphores);
+typedef void (APIENTRYP PFNGLSEMAPHOREPARAMETERIVNVPROC) (GLuint semaphore, GLenum pname, const GLint *params);
+typedef void (APIENTRYP PFNGLGETSEMAPHOREPARAMETERIVNVPROC) (GLuint semaphore, GLenum pname, GLint *params);
+#ifdef GL_GLEXT_PROTOTYPES
+GLAPI void APIENTRY glCreateSemaphoresNV (GLsizei n, GLuint *semaphores);
+GLAPI void APIENTRY glSemaphoreParameterivNV (GLuint semaphore, GLenum pname, const GLint *params);
+GLAPI void APIENTRY glGetSemaphoreParameterivNV (GLuint semaphore, GLenum pname, GLint *params);
+#endif
+#endif /* GL_NV_timeline_semaphore */
 
 #ifndef GL_NV_transform_feedback
 #define GL_NV_transform_feedback 1

@@ -27,26 +27,7 @@
 #include <iostream>
 
 #include <ge.h>
-
-#ifndef SPRITE_2D_SIZE
-#define SPRITE_2D_SIZE 16
-#endif
-
-VERTEX sprite2D_vertices[] = {
-	{-SPRITE_2D_SIZE,  SPRITE_2D_SIZE, 0.0},
-	{ SPRITE_2D_SIZE,  SPRITE_2D_SIZE, 0.0},
-	{-SPRITE_2D_SIZE, -SPRITE_2D_SIZE, 0.0},
-	{ SPRITE_2D_SIZE, -SPRITE_2D_SIZE, 0.0}
-};
-
-FACE sprite2D_faces[] = {
-	{3, {0, 1, 2}},
-	{3, {1, 3, 2}}
-};
-
-MODEL sprite2D_model = {
-	sprite2D_vertices, sprite2D_faces, 2
-};
+#include <gesprite.h>
 
 // ----------------------------------------------------------------------------
 //  GLOBAL ESCOPE
@@ -59,6 +40,9 @@ MODEL sprite2D_model = {
 #define WORLD_TOP     1000
 #define WORLD_BOTTOM -1000
 
+#define SPRITE_COUNTING 50000
+
+GESprite *sprites;
 GameEngine *gameEngine = 0;
 
 class UserEventHandler : public GEEventHandler
@@ -76,7 +60,7 @@ class UserEventHandler : public GEEventHandler
 	void beforeMainLoopEvent();
 };
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------
 //  MAIN APPLICATION
 // ----------------------------------------------------------------------------
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -111,12 +95,26 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	
 	gameEngine->getRenderingSystem()->setWindowAspectCorrectionState(true);
 	gameEngine->getRenderingSystem()->initialize();
+	gameEngine->getApiWrapper()->setVSync(0);
 
 	gameEngine->getRenderingSystem()->setProjection();
 	gameEngine->getGameWindow()->showWindow();
 
 	// STARTING GAME LOOP
-	gameEngine->setFrameRate(120);
+	gameEngine->setFrameRate(0);
+
+	// SETTING UP SPRITES
+	sprites = new GESprite[SPRITE_COUNTING];
+
+	for(int i = 0; i < SPRITE_COUNTING; i++)
+	{
+		int x = rand() % (GAME_WINDOW_WIDTH - 32);
+		int y = rand() % (GAME_WINDOW_HEIGHT - 32);
+
+		sprites[i].setPosition(x, y);
+		sprites[i].setSize(32, 32);
+	}
+
 	gameEngine->startMainLoop();
 
 	// RELEASE GAME ENGINE
@@ -132,9 +130,13 @@ void UserEventHandler::frameEvent()
 {
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
-	
-	// glColor3f(1.0f, 0.0f, 0.0f);
-	// drawGEModel(&sprite2D_model);
+
+	glColor3f(1.0f, 0.0f, 0.0f);
+
+	for(int i = 0; i < SPRITE_COUNTING; i++)
+	{
+		sprites[i].draw();
+	}
 }
 
 void UserEventHandler::mouseEvent(int button, int state, int x, int y)

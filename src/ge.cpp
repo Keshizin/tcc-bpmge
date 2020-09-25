@@ -96,7 +96,7 @@ void GameEngine::startMainLoop()
 		// ********************************************************************
 		// START GAME LOOP EXECUTION HERE!
 		// ********************************************************************
-		// std::cout << "FPS: " << diag->getFramesPerSecond() << " | " << timeHandler->getFrameTime() << std::endl;;
+		std::cout << "FPS: " << diag->getFramesPerSecond() << " | " << timeHandler->getFrameTime() << std::endl;;
 
 		// CONTROLE DO GAME LOOP ATRAVÉS DE UM PRÓPRIO TIMER (GAME TIME)
 
@@ -145,7 +145,10 @@ void GameEngine::resumeGameLoop()
 
 void GameEngine::setFrameRate(int framePerSecond)
 {
-	timeHandler->setFrameTimeLimit(apiWrapper->getHighResolutionTimerFrequency() / framePerSecond);
+	if(!framePerSecond)
+		timeHandler->setFrameTimeLimit(0);
+	else
+		timeHandler->setFrameTimeLimit(apiWrapper->getHighResolutionTimerFrequency() / framePerSecond);
 }
 
 // ----------------------------------------------------------------------------

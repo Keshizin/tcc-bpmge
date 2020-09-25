@@ -24,9 +24,12 @@
 */
 
 #include <iostream>
-#include <GL/gl.h>
+
 #include <gewinapiwrapper.h>
 #include <gewindowsystem.h>
+
+#include <GL/gl.h>
+#include <GLEXT/wglext.h>
 
 #define WINDOWCLASSNAME LPCSTR("GEWINDOWCLASS")
 
@@ -480,6 +483,19 @@ int GEWinApiWrapper::swapBuffers()
 	}
 	
 	return 0;
+}
+
+int GEWinApiWrapper::setVSync(int vsync)
+{
+	PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC) wglGetProcAddress("wglSwapIntervalEXT");
+
+	if (wglSwapIntervalEXT)
+	{
+	    wglSwapIntervalEXT(vsync);
+		return 1;
+	}
+	else
+		return 0;
 }
 
 // ----------------------------------------------------------------------------

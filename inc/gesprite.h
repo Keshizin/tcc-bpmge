@@ -27,10 +27,15 @@
 #define GAME_ENGINE_SPRITE_H
 
 #include <geobject.h>
+#include <gemodel.h>
 
 class GESprite : public GEObject
 {
 public:
+	// constructors
+	GESprite();
+	GESprite(MODEL *model);
+
 	// public methods
 	virtual void update() {}
 	void draw();
@@ -73,6 +78,7 @@ private:
 	int speed_y;
 	int zOrder;
 	bool visible;
+	MODEL *model;
 	// RETÂNGULO DE COLISÃO
 	// RETÂNGULO DE BOUNDING
 	// AÇÕES DE BOUNDING
