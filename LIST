@@ -10,6 +10,7 @@ Apresentar uma versão do motor de jogo com a integração do Parser BPMN Java (
 |- (ok) função genérica de desenho de modelos tridimensionais
 |- (ok) Inclusão da classe Sprite
 |- (ok) ativação e desativação de vsync (função wglSwapIntervalEXT)
+|- (ok) desenho dos eixos x e y para orientação
 
 |- SpriteManager
   - Criação de sprites

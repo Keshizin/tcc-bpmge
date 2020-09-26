@@ -41,7 +41,7 @@
 #define WORLD_TOP     1000
 #define WORLD_BOTTOM -1000
 
-#define SPRITE_COUNTING 100000
+#define SPRITE_COUNTING 1000
 
 GESprite *sprites;
 GameEngine *gameEngine = 0;
