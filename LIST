@@ -8,7 +8,8 @@ Apresentar uma versão do motor de jogo com a integração do Parser BPMN Java (
 
 |- (ok) estrutura de dados para armazenar modelos tridimensionais
 |- (ok) função genérica de desenho de modelos tridimensionais
-|- Inclusão da classe Sprite
+|- (ok) Inclusão da classe Sprite
+|- (ok) ativação e desativação de vsync (função wglSwapIntervalEXT)
 
 |- SpriteManager
   - Criação de sprites
@@ -40,7 +41,6 @@ Apresentar uma versão do motor de jogo com a integração do Parser BPMN Java (
 
 ??
 - Sistema de colisões entre objetos e o mundo
-- ativação e desativação de vsync via OpenGL (função wglSwapIntervalEXT)
 - desenho de objetos
 
 ===============================================================================
@@ -348,17 +348,7 @@ ERROS QUE PODEM OCORRER (MAIS GRAVE PARA O MAIS LEVE)
   //  std::cout << "JVM was not destroyed" << std::endl;
   // ------------------------------------------------------------------------
 
-  ATIVAR VSYNC
-  // typedef BOOL(APIENTRY *PFNWGLSWAPINTERVALPROC)(int);
-  // PFNWGLSWAPINTERVALPROC wglSwapIntervalEXT = NULL;
-
-  // wglSwapIntervalEXT = (PFNWGLSWAPINTERVALPROC) wglGetProcAddress("wglSwapIntervalEXT");
-
-  // if (wglSwapIntervalEXT) {
-  //     wglSwapIntervalEXT(1);
-  // }
-
-  -----------------------------------------------------------------------------
+  ---------------------------------------------------------------------------
   - incluir ícone da jenal de aplicação configurável
 
 

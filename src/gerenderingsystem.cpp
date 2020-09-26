@@ -158,6 +158,18 @@ void GERenderingSystem::renderFrame()
 	this->apiWrapper->swapBuffers();
 }
 
+void GERenderingSystem::drawWorldAxis()
+{
+	glBegin(GL_LINES);
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(worldLeft, 0.0f, 0.0f);
+	glVertex3f(worldRight, 0.0f, 0.0f);
+	glColor3f(0.0, 1.0f, 0.0f);
+	glVertex3f(0.0f, worldTop, 0.0f);
+	glVertex3f(0.0f, worldBottom, 0.0f);
+	glEnd();	
+}
+
 // ----------------------------------------------------------------------------
 //  GERenderingSystem setters and getters
 // ----------------------------------------------------------------------------
@@ -201,6 +213,14 @@ void GERenderingSystem::setWorldBottom(GLdouble worldBottom)
 	this->worldBottom = worldBottom;
 }
 
+void GERenderingSystem::setWorld(GLdouble left, GLdouble right, GLdouble top, GLdouble bottom)
+{
+	this->worldLeft = left;
+	this->worldRight = right;
+	this->worldTop = top;
+	this->worldBottom = bottom;
+}
+
 void GERenderingSystem::setWindowAspectCorrection(GLdouble windowAspectCorrection)
 {
 	this->windowAspectCorrection = windowAspectCorrection;
@@ -224,6 +244,11 @@ void GERenderingSystem::setProjectionFOVY(GLdouble fovy)
 void GERenderingSystem::setWindowAspectCorrectionState(int state)
 {
 	this->windowAspectCorrectionState = state;
+}
+
+void GERenderingSystem::setWorldAxisState(int state)
+{
+	this->worldAxisState = state;
 }
 
 int GERenderingSystem::getRenderingContext()
@@ -289,4 +314,9 @@ GLdouble GERenderingSystem::getProjectionFOVY()
 int GERenderingSystem::getWindowAspectCorrectionState()
 {
 	return windowAspectCorrectionState;
+}
+
+int GERenderingSystem::getWorldAxisState()
+{
+	return this->worldAxisState;
 }

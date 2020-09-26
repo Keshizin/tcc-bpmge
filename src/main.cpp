@@ -25,6 +25,7 @@
 
 #include <windows.h>
 #include <iostream>
+#include <ctime>
 
 #include <ge.h>
 #include <gesprite.h>
@@ -40,7 +41,7 @@
 #define WORLD_TOP     1000
 #define WORLD_BOTTOM -1000
 
-#define SPRITE_COUNTING 50000
+#define SPRITE_COUNTING 100000
 
 GESprite *sprites;
 GameEngine *gameEngine = 0;
@@ -65,6 +66,8 @@ class UserEventHandler : public GEEventHandler
 // ----------------------------------------------------------------------------
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	srand(time(0));
+
 	std::cout << "> HELLO BPM Game Engine" << std::endl;
 
 	#ifdef GEDEBUG
@@ -87,13 +90,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// SETTING UP RENDERING ENGINE
 	gameEngine->getRenderingSystem()->setRenderingContext(GE_CONTEXT_2D);
 	gameEngine->getRenderingSystem()->setViewport(0, 0, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
-
-	gameEngine->getRenderingSystem()->setWorldLeft(WORLD_LEFT);
-	gameEngine->getRenderingSystem()->setWorldRight(WORLD_RIGHT);
-	gameEngine->getRenderingSystem()->setWorldTop(WORLD_TOP);
-	gameEngine->getRenderingSystem()->setWorldBottom(WORLD_BOTTOM);
-	
+	gameEngine->getRenderingSystem()->setWorld(WORLD_LEFT, WORLD_RIGHT, WORLD_TOP, WORLD_BOTTOM);
 	gameEngine->getRenderingSystem()->setWindowAspectCorrectionState(true);
+	// gameEngine->getRenderingSystem()->setWorldAxisSate(true);
 	gameEngine->getRenderingSystem()->initialize();
 	gameEngine->getApiWrapper()->setVSync(0);
 
@@ -108,8 +107,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	for(int i = 0; i < SPRITE_COUNTING; i++)
 	{
-		int x = rand() % (GAME_WINDOW_WIDTH - 32);
-		int y = rand() % (GAME_WINDOW_HEIGHT - 32);
+		int x = (rand() % (WORLD_RIGHT * 2 - 32)) + WORLD_LEFT;
+		int y = (rand() % (WORLD_TOP * 2 - 32)) + WORLD_BOTTOM;
 
 		sprites[i].setPosition(x, y);
 		sprites[i].setSize(32, 32);
@@ -131,7 +130,12 @@ void UserEventHandler::frameEvent()
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
+	// gameEngine->getRenderingSystem()->drawWorldAxis();
+
 	glColor3f(1.0f, 0.0f, 0.0f);
+
+	// updating sprites
+	// drawing sprites
 
 	for(int i = 0; i < SPRITE_COUNTING; i++)
 	{

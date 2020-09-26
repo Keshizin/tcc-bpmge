@@ -60,12 +60,19 @@ public:
 	GERenderingSystem();
 	GERenderingSystem(GEApiWrapper *apiWrapper);
 
+	// ----------------------------------------------------------------------------
+	//  Public Methods
+	// ----------------------------------------------------------------------------
 	int initialize();
 	void setViewport(int x, int y);
 	void setViewport(int x, int y, int width, int height);
 	void setProjection();
 	void renderFrame();
+	void drawWorldAxis();
 
+	// ----------------------------------------------------------------------------
+	//  Getters and Setters
+	// ----------------------------------------------------------------------------
 	void setRenderingContext(int renderingContext);
 	void setApiWrapper(GEApiWrapper *apiWrapper);
 	void setViewportWidth(int viewportWidth);
@@ -74,11 +81,13 @@ public:
 	void setWorldRight(GLdouble worldRight);
 	void setWorldTop(GLdouble worldTop);
 	void setWorldBottom(GLdouble worldBottom);
+	void setWorld(GLdouble left, GLdouble right, GLdouble top, GLdouble bottom);
 	void setWindowAspectCorrection(GLdouble windowAspectCorrection);
 	void setProjectionZNear(GLdouble projectionZNear);
 	void setProjectionZFar(GLdouble projectionZFar);
 	void setProjectionFOVY(GLdouble fovy);
 	void setWindowAspectCorrectionState(int state);
+	void setWorldAxisState(int state);
 
 	int getRenderingContext();
 	GEApiWrapper *getApiWrapper();
@@ -93,6 +102,7 @@ public:
 	GLdouble getProjectionZFar();
 	GLdouble getProjectionFOVY();
 	int getWindowAspectCorrectionState();
+	int getWorldAxisState();
 
 private:
 	int renderingContext;
@@ -110,8 +120,10 @@ private:
 	GLdouble projectionZNear;
 	GLdouble projectionZFar;
 	GLdouble projectionFOVY;
-	
+
 	int windowAspectCorrectionState;
+	int worldAxisState;
+	
 };
 
 #endif
