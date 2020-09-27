@@ -41,6 +41,12 @@ GESprite::GESprite(MODEL *model)
 	this->visible = true;
 }
 
+void GESprite::update()
+{
+	for (int i = 0; i < 9; i++)
+		color[i] = (rand() % 255) / 255.0;
+}
+
 void GESprite::draw()
 {
 	if(visible)
@@ -50,17 +56,14 @@ void GESprite::draw()
 		// 	drawGEModel(model);
 		// }
 
-		glBegin(GL_LINES);
-		// glColor3fv(&color[0]);
-		glVertex2i(position_x, position_y);
-		glVertex2i(position_x + width, position_y);
+		glBegin(GL_LINE_LOOP);
+		glColor3fv(&color[0]);
 		glVertex2i(position_x, position_y + height);
 		glVertex2i(position_x + width, position_y + height);
-		// glColor3fv(&color[0]);
 		glVertex2i(position_x, position_y);
-		glVertex2i(position_x, position_y + height);
-		glVertex2i(position_x + width, position_y);
 		glVertex2i(position_x + width, position_y + height);
+		glVertex2i(position_x + width, position_y);
+		glVertex2i(position_x, position_y);
 		glEnd();
 	}
 }

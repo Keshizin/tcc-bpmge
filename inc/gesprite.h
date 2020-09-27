@@ -37,7 +37,7 @@ public:
 	GESprite(MODEL *model);
 
 	// public methods
-	virtual void update() {}
+	void update();
 	void draw();
 
 	void setPosition(int x, int y);
@@ -78,6 +78,8 @@ private:
 	int speed_y;
 	int zOrder;
 	bool visible;
+	float color[9]; // ela deverá ser removida
+
 	MODEL *model;
 	// RETÂNGULO DE COLISÃO
 	// RETÂNGULO DE BOUNDING

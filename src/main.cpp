@@ -42,6 +42,7 @@
 #define WORLD_BOTTOM -1000
 
 #define SPRITE_COUNTING 1000
+#define SPRITE_SIZE 32
 
 GESprite *sprites;
 GameEngine *gameEngine = 0;
@@ -107,11 +108,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	for(int i = 0; i < SPRITE_COUNTING; i++)
 	{
-		int x = (rand() % (WORLD_RIGHT * 2 - 32)) + WORLD_LEFT;
-		int y = (rand() % (WORLD_TOP * 2 - 32)) + WORLD_BOTTOM;
+		int x = (rand() % (WORLD_RIGHT * 2 - SPRITE_SIZE)) + WORLD_LEFT;
+		int y = (rand() % (WORLD_TOP * 2 - SPRITE_SIZE)) + WORLD_BOTTOM;
 
 		sprites[i].setPosition(x, y);
-		sprites[i].setSize(32, 32);
+		sprites[i].setSize(SPRITE_SIZE, SPRITE_SIZE);
 	}
 
 	gameEngine->startMainLoop();
@@ -130,13 +131,15 @@ void UserEventHandler::frameEvent()
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	// gameEngine->getRenderingSystem()->drawWorldAxis();
-
-	glColor3f(1.0f, 0.0f, 0.0f);
+	gameEngine->getRenderingSystem()->drawWorldAxis();
 
 	// updating sprites
-	// drawing sprites
+	for(int i = 0; i < SPRITE_COUNTING; i++)
+	{
+		sprites[i].update();
+	}
 
+	// drawing sprites
 	for(int i = 0; i < SPRITE_COUNTING; i++)
 	{
 		sprites[i].draw();
@@ -153,6 +156,12 @@ void UserEventHandler::mouseMotionEvent(int x, int y)
 
 void UserEventHandler::keyboardEvent(unsigned char key, int state)
 {
+	if(key == '1' && state == 0)
+	{
+		for (int i = 0; i < SPRITE_COUNTING; i++)
+			sprites[i].setVisible(!sprites[i].getVisible());
+	}
+
 	if(key == 27)
 	{
 		gameEngine->stopMainLoop();
