@@ -62,14 +62,7 @@ unsigned long long GETimeHandler::getInternalTimer()
 
 void GETimeHandler::setFrameTimeLimit(unsigned long long frameTimeLimit)
 {
-	if (!frameTimeLimit)
-	{
-		this->frameTimeLimit = 0;
-	}
-	else
-	{
-		this->frameTimeLimit = perfomanceFrequency / frameTimeLimit;
-	}
+	this->frameTimeLimit = frameTimeLimit;
 }
 
 unsigned long long GETimeHandler::getFrameTimeLimit()
