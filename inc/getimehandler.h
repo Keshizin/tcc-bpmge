@@ -29,18 +29,26 @@
 class GETimeHandler
 {
 public:
+	double getFrameTimeInSeconds();
+
 	void setFrameTime(unsigned long long frameTime);
 	unsigned long long getFrameTime();
+
 	void setInternalTimer(unsigned long long internalTimer);
 	unsigned long long getInternalTimer();
 	void updateInternalTimer();
+
 	void setFrameTimeLimit(unsigned long long frameTimeLimit);
 	unsigned long long getFrameTimeLimit();
+
+	void setPerfomanceFrequency(unsigned long long perfomanceFrequency);
+	unsigned long long getPerfomanceFrequency();
 
 private:
 	unsigned long long frameTime;
 	unsigned long long internalTimer;
 	unsigned long long frameTimeLimit;
+	unsigned long long perfomanceFrequency;
 };
 
 #endif

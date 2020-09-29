@@ -24,6 +24,7 @@
 */
 
 #include <getimehandler.h>
+#include <iostream>
 
 // ----------------------------------------------------------------------------
 //  GETimeHandler CLASS METHODS DEFINITION
@@ -37,6 +38,11 @@ void GETimeHandler::setFrameTime(unsigned long long frameTime)
 unsigned long long GETimeHandler::getFrameTime()
 {
 	return frameTime;
+}
+
+double GETimeHandler::getFrameTimeInSeconds()
+{
+	return static_cast<double>(frameTime) / static_cast<double>(perfomanceFrequency);
 }
 
 void GETimeHandler::setInternalTimer(unsigned long long internalTimer)
@@ -56,10 +62,27 @@ unsigned long long GETimeHandler::getInternalTimer()
 
 void GETimeHandler::setFrameTimeLimit(unsigned long long frameTimeLimit)
 {
-	this->frameTimeLimit = frameTimeLimit;
+	if (!frameTimeLimit)
+	{
+		this->frameTimeLimit = 0;
+	}
+	else
+	{
+		this->frameTimeLimit = perfomanceFrequency / frameTimeLimit;
+	}
 }
 
 unsigned long long GETimeHandler::getFrameTimeLimit()
 {
 	return frameTimeLimit;
+}
+
+void GETimeHandler::setPerfomanceFrequency(unsigned long long perfomanceFrequency)
+{
+	this->perfomanceFrequency = perfomanceFrequency;
+}
+
+unsigned long long GETimeHandler::getPerfomanceFrequency()
+{
+	return this->perfomanceFrequency;
 }

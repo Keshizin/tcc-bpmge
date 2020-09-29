@@ -29,6 +29,8 @@
 #include <geobject.h>
 #include <gemodel.h>
 
+enum BOUNDSACTION { BA_STOP = 0, BA_WRAP, BA_BOUNCE, BA_DIE };
+
 class GESprite : public GEObject
 {
 public:
@@ -37,7 +39,7 @@ public:
 	GESprite(MODEL *model);
 
 	// public methods
-	void update();
+	void update(double frameTime);
 	void draw();
 
 	void setPosition(int x, int y);
@@ -69,6 +71,11 @@ public:
 	void setVisible(bool visible);
 	bool getVisible();
 
+	void setBounding(double left, double right, double top, double bottom);
+
+	void setBoundsAction(BOUNDSACTION boundsAction);
+	BOUNDSACTION getBoundsAction();
+
 private:
 	int position_x;
 	int position_y;
@@ -81,6 +88,8 @@ private:
 	float color[9]; // ela deverá ser removida
 
 	MODEL *model;
+	GERECT bounding;
+	BOUNDSACTION boundsAction;
 	// RETÂNGULO DE COLISÃO
 	// RETÂNGULO DE BOUNDING
 	// AÇÕES DE BOUNDING

@@ -41,8 +41,8 @@
 #define WORLD_TOP     1000
 #define WORLD_BOTTOM -1000
 
-#define SPRITE_COUNTING 1000
-#define SPRITE_SIZE 32
+#define SPRITE_COUNTING 1
+#define SPRITE_SIZE 64
 
 GESprite *sprites;
 GameEngine *gameEngine = 0;
@@ -108,11 +108,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	for(int i = 0; i < SPRITE_COUNTING; i++)
 	{
-		int x = (rand() % (WORLD_RIGHT * 2 - SPRITE_SIZE)) + WORLD_LEFT;
-		int y = (rand() % (WORLD_TOP * 2 - SPRITE_SIZE)) + WORLD_BOTTOM;
+		// int x = (rand() % (WORLD_RIGHT * 2 - SPRITE_SIZE)) + WORLD_LEFT;
+		// int y = (rand() % (WORLD_TOP * 2 - SPRITE_SIZE)) + WORLD_BOTTOM;
+
+		// sprites[i].setPosition(x, y);
+		// sprites[i].setSize(SPRITE_SIZE, SPRITE_SIZE);
+
+		int x = WORLD_LEFT;
+		int y = 0;
 
 		sprites[i].setPosition(x, y);
+		sprites[i].setSpeed(1, 0);
 		sprites[i].setSize(SPRITE_SIZE, SPRITE_SIZE);
+		sprites[i].setBoundsAction(BA_WRAP);
+		// sprites[i].setBoundsAction(BA_WRAP);
+		sprites[i].setBounding(WORLD_LEFT, WORLD_TOP, WORLD_TOP, WORLD_BOTTOM);
 	}
 
 	gameEngine->startMainLoop();
@@ -136,7 +146,7 @@ void UserEventHandler::frameEvent()
 	// updating sprites
 	for(int i = 0; i < SPRITE_COUNTING; i++)
 	{
-		sprites[i].update();
+		sprites[i].update(gameEngine->getTimeHandler()->getFrameTimeInSeconds());
 	}
 
 	// drawing sprites

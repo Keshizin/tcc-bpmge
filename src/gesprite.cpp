@@ -41,10 +41,56 @@ GESprite::GESprite(MODEL *model)
 	this->visible = true;
 }
 
-void GESprite::update()
+void GESprite::update(double frameTime)
 {
 	for (int i = 0; i < 9; i++)
 		color[i] = (rand() % 255) / 255.0;
+
+	std::cout << "@frametime: " << frameTime << std::endl;
+
+	this->position_x += speed_x * frameTime;
+
+	// CHECK COLLISION WITH YOUR BOUNDARY
+	if(this->boundsAction == BA_STOP)
+	{
+		if(position_x + width > bounding.right)
+		{
+			position_x = bounding.right - width;
+			speed_x = -speed_x;
+		}
+		else if(position_x < bounding.left)
+		{
+			position_x = bounding.left;
+		}
+	}
+	else if(this->boundsAction == BA_WRAP)
+	{
+		if(position_x + width > bounding.right)
+		{
+			position_x = bounding.left;
+		}
+		else if(position_x < bounding.left)
+		{
+			position_x = bounding.right - width;
+		}
+	}
+	if(this->boundsAction == BA_BOUNCE)
+	{
+		if(position_x + width > bounding.right)
+		{
+			position_x = bounding.right - width;
+			speed_x = -speed_x;
+		}
+		else if(position_x < bounding.left)
+		{
+			position_x = bounding.left;
+			speed_x = -speed_x;
+		}
+	}
+	if(this->boundsAction == BA_DIE)
+	{
+
+	}
 }
 
 void GESprite::draw()
@@ -164,4 +210,22 @@ void GESprite::setVisible(bool visible)
 bool GESprite::getVisible()
 {
 	return visible;
+}
+
+void GESprite::setBounding(double left, double right, double top, double bottom)
+{
+	this->bounding.left = left;
+	this->bounding.right = right;
+	this->bounding.top = top;
+	this->bounding.bottom = bottom;
+}
+
+void GESprite::setBoundsAction(BOUNDSACTION boundsAction)
+{
+	this->boundsAction = boundsAction;
+}
+
+BOUNDSACTION GESprite::getBoundsAction()
+{
+	return this->boundsAction;
 }

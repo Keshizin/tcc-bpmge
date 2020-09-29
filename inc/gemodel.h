@@ -41,6 +41,13 @@ typedef struct {
 	int total;
 } MODEL;
 
+typedef struct {
+	double left;
+	double right;
+	double top;
+	double bottom;
+} GERECT;
+
 void drawGEModel(MODEL *model);
 
 // ----------------------------------------------------------------------------
