@@ -46,10 +46,7 @@ void GESprite::update(double frameTime)
 	for (int i = 0; i < 9; i++)
 		color[i] = (rand() % 255) / 255.0;
 
-	this->position_x += speed_x * frameTime;
-	// std::cout << "@position x: " << this->position_x  << std::endl;
-	// std::cout << "@speed_x: " << speed_x  << std::endl;
-	// std::cout << "@frameTime: " << frameTime << std::endl << std::endl;
+	this->position_x += static_cast<double>(speed_x) * frameTime;
 
 	// CHECK COLLISION WITH YOUR BOUNDARY
 	if(this->boundsAction == BA_STOP)

@@ -77,8 +77,8 @@ public:
 	BOUNDSACTION getBoundsAction();
 
 private:
-	int position_x;
-	int position_y;
+	double position_x;
+	double position_y;
 	int width;
 	int height;
 	int speed_x;

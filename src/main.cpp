@@ -118,7 +118,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		int y = 0;
 
 		sprites[i].setPosition(x, y);
-		sprites[i].setSpeed(1, 0);
+		sprites[i].setSpeed(150, 0);
 		sprites[i].setSize(SPRITE_SIZE, SPRITE_SIZE);
 		sprites[i].setBoundsAction(BA_WRAP);
 		// sprites[i].setBoundsAction(BA_WRAP);
