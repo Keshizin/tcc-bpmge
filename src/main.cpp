@@ -114,15 +114,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// sprites[i].setPosition(x, y);
 		// sprites[i].setSize(SPRITE_SIZE, SPRITE_SIZE);
 
-		int x = WORLD_LEFT;
+		int x = WORLD_RIGHT;
 		int y = 0;
 
 		sprites[i].setPosition(x, y);
-		sprites[i].setSpeed(150, 0);
+		sprites[i].setSpeed(-500, 0);
 		sprites[i].setSize(SPRITE_SIZE, SPRITE_SIZE);
-		sprites[i].setBoundsAction(BA_WRAP);
-		// sprites[i].setBoundsAction(BA_WRAP);
-		sprites[i].setBounding(WORLD_LEFT, WORLD_TOP, WORLD_TOP, WORLD_BOTTOM);
+		sprites[i].setBoundsAction(BA_BOUNCE);
+		sprites[i].setBounding(WORLD_LEFT, WORLD_RIGHT, WORLD_TOP, WORLD_BOTTOM);
 	}
 
 	gameEngine->startMainLoop();

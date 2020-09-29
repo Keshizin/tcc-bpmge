@@ -47,6 +47,7 @@ API Wrapper é responsável por abstrair as funções específicas dos sistemas 
 - Configuração da Viewport e de Window
 - Configuração da projeção (Ortográfica ou Perspectiva)
 - Configuração do mundo do jogo (definição das paredes e o chão)
+- Ativação do v-sync para OpenGL
 
 ### Core
 
@@ -89,8 +90,11 @@ API Wrapper é responsável por abstrair as funções específicas dos sistemas 
   - Velocidade no eixo X e Y
   - Tamanho (largura e altura em pixels)
   - Visibilidade
-  - Retângulo de colisão
-  - Raio (círculo) de colisão
+  - movimentação 2D: x = x + v.t (formula independente do numero de quadros)
+  - BOUNDING (LIMITADOR RETANGULAR DE MOVIMENTO DO SPRITE NOS EIXOS X E Y)
+
+  - Retângulo de colisão (X)
+  - Raio (círculo) de colisão (X)
 
 - Gerenciamento de sprites através de uma lista ligada
 

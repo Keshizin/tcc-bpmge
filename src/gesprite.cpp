@@ -54,7 +54,6 @@ void GESprite::update(double frameTime)
 		if(position_x + width > bounding.right)
 		{
 			position_x = bounding.right - width;
-			speed_x = -speed_x;
 		}
 		else if(position_x < bounding.left)
 		{
