@@ -47,6 +47,7 @@ void GESprite::update(double frameTime)
 		color[i] = (rand() % 255) / 255.0;
 
 	this->position_x += static_cast<double>(speed_x) * frameTime;
+	this->position_y += static_cast<double>(speed_y) * frameTime;
 
 	// CHECK COLLISION WITH YOUR BOUNDARY
 	if(this->boundsAction == BA_STOP)
@@ -59,6 +60,15 @@ void GESprite::update(double frameTime)
 		{
 			position_x = bounding.left;
 		}
+
+		if(position_y + height > bounding.top)
+		{
+			position_y = bounding.top - height;
+		}
+		else if(position_y < bounding.bottom)
+		{
+			position_y = bounding.bottom;
+		}
 	}
 	else if(this->boundsAction == BA_WRAP)
 	{
@@ -69,6 +79,15 @@ void GESprite::update(double frameTime)
 		else if(position_x < bounding.left)
 		{
 			position_x = bounding.right - width;
+		}
+
+		if(position_y + height > bounding.top)
+		{
+			position_y = bounding.bottom;
+		}
+		else if(position_y < bounding.bottom)
+		{
+			position_y = bounding.top - height;
 		}
 	}
 	if(this->boundsAction == BA_BOUNCE)
@@ -82,6 +101,17 @@ void GESprite::update(double frameTime)
 		{
 			position_x = bounding.left;
 			speed_x = -speed_x;
+		}
+
+		if(position_y + height > bounding.top)
+		{
+			position_y = bounding.top - height;
+			speed_y = -speed_y;
+		}
+		else if(position_y < bounding.bottom)
+		{
+			position_y = bounding.bottom;
+			speed_y = -speed_y;
 		}
 	}
 	if(this->boundsAction == BA_DIE)

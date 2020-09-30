@@ -41,8 +41,8 @@
 #define WORLD_TOP     1000
 #define WORLD_BOTTOM -1000
 
-#define SPRITE_COUNTING 1
-#define SPRITE_SIZE 64
+#define SPRITE_COUNTING 1000
+#define SPRITE_SIZE 32
 
 GESprite *sprites;
 GameEngine *gameEngine = 0;
@@ -92,7 +92,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameEngine->getRenderingSystem()->setRenderingContext(GE_CONTEXT_2D);
 	gameEngine->getRenderingSystem()->setViewport(0, 0, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
 	gameEngine->getRenderingSystem()->setWorld(WORLD_LEFT, WORLD_RIGHT, WORLD_TOP, WORLD_BOTTOM);
-	gameEngine->getRenderingSystem()->setWindowAspectCorrectionState(true);
+	gameEngine->getRenderingSystem()->setWindowAspectCorrectionState(false);
 	// gameEngine->getRenderingSystem()->setWorldAxisSate(true);
 	gameEngine->getRenderingSystem()->initialize();
 	gameEngine->getApiWrapper()->setVSync(0);
@@ -108,17 +108,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	for(int i = 0; i < SPRITE_COUNTING; i++)
 	{
-		// int x = (rand() % (WORLD_RIGHT * 2 - SPRITE_SIZE)) + WORLD_LEFT;
-		// int y = (rand() % (WORLD_TOP * 2 - SPRITE_SIZE)) + WORLD_BOTTOM;
+		int x = (rand() % (WORLD_RIGHT * 2 - SPRITE_SIZE)) + WORLD_LEFT;
+		int y = (rand() % (WORLD_TOP * 2 - SPRITE_SIZE)) + WORLD_BOTTOM;
 
-		// sprites[i].setPosition(x, y);
-		// sprites[i].setSize(SPRITE_SIZE, SPRITE_SIZE);
-
-		int x = WORLD_RIGHT;
-		int y = 0;
+		int speed_x = (rand() % 1000) -500;
+		int speed_y = (rand() % 1000) -500;
 
 		sprites[i].setPosition(x, y);
-		sprites[i].setSpeed(-500, 0);
+		sprites[i].setSpeed(speed_x, speed_y);
 		sprites[i].setSize(SPRITE_SIZE, SPRITE_SIZE);
 		sprites[i].setBoundsAction(BA_BOUNCE);
 		sprites[i].setBounding(WORLD_LEFT, WORLD_RIGHT, WORLD_TOP, WORLD_BOTTOM);
