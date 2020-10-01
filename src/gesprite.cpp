@@ -49,7 +49,7 @@ void GESprite::update(double frameTime)
 	this->position_x += static_cast<double>(speed_x) * frameTime;
 	this->position_y += static_cast<double>(speed_y) * frameTime;
 
-	// CHECK COLLISION WITH YOUR BOUNDARY
+	// CHECK COLLISION WITH YOUR RECTANGLE BOUNDARY
 	if(this->boundsAction == BA_STOP)
 	{
 		if(position_x + width > bounding.right)
