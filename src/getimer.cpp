@@ -48,6 +48,7 @@ void GETimer::start()
 
 int GETimer::isDone()
 {
+	// retornar o tempo excedente do timer
 	if(timeHandler->getInternalTimer() - startTimer >= stopTime)
 		return 1;
 	else

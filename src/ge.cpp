@@ -97,7 +97,7 @@ void GameEngine::startMainLoop()
 		// ********************************************************************
 		// START GAME LOOP EXECUTION HERE!
 		// ********************************************************************
-		std::cout << "FPS: " << diag->getFramesPerSecond() << " | " << timeHandler->getFrameTime() << std::endl;;
+		// std::cout << "FPS: " << diag->getFramesPerSecond() << " | " << timeHandler->getFrameTime() << std::endl;;
 
 		// CONTROLE DO GAME LOOP ATRAVÉS DE UM PRÓPRIO TIMER (GAME TIME)
 

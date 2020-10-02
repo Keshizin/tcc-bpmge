@@ -2,16 +2,8 @@
 ÚLTIMA ALTERAÇÃO: 6/ABRIL
 ===============================================================================
 
-#SPRINT 4 (7/abr ~ 20/abr)
-OBJETIVO: Versão exibindo a criação de entidades, animação básica e o sistema de colisão
-Apresentar uma versão do motor de jogo com a integração do Parser BPMN Java (Camunda)
-
-|- (ok) estrutura de dados para armazenar modelos tridimensionais
-|- (ok) função genérica de desenho de modelos tridimensionais
-|- (ok) Inclusão da classe Sprite
-|- (ok) ativação e desativação de vsync (função wglSwapIntervalEXT)
-|- (ok) desenho dos eixos x e y para orientação
-|- (ok) Cálculo da movimentação dos sprites independente da taxa de quadros
+- Sistema de Animação
+- Integração Camunda (java)
 
 |- SpriteManager
   - Criação de sprites
@@ -40,10 +32,10 @@ Apresentar uma versão do motor de jogo com a integração do Parser BPMN Java (
 |- Inclusão do parser de arquivos JPG
 
 É necessário tornar a linkagem da JNI mais portável
-
-??
-- Sistema de colisões entre objetos e o mundo
-- desenho de objetos
+- Inclusão de joystick
+- Sistema de Audio
+- icone normal e icone pequeno
+- Compilação em diferentes compiladores
 
 ===============================================================================
 NEXT:
@@ -59,16 +51,12 @@ NEXT:
 - sistema de log
 - Informações do sistema
 - Gerenciador de assets
-- COnfiguração de viewport (OpenGL / Sistema de renderização)
-- Inicialização do sistema de renderização
 - Método para redimensionar a janela programaticamente
 - Método para reposicionar a janela programaticamente
 - Inclusão de renderização de fontes e textos
-- Inclusão de joystick
 - Inclusão de scripts em LUA
 - sistema de partículas
 - sistema de IA
-- Sistema de Audio
 - Criação de múltiplas janelas (é necessário uma estrutura de dados para manter uma arvore de janelas)
   |- Verificar o endereço de HDC para criações de múltiplas janelas
 - Sistema de renderização: transparencia
@@ -93,8 +81,6 @@ NEXT:
 - eVENTOS:
   |- BOOL GameInitialize(HINSTANCE hInstance); void GameStart(HWND hWindow); void GameEnd(); void GameActivate(HWND hWindow); void GameDeactivate(HWND hWindow); void GamePaint(HDC hDC); void GameCycle();
 
-- icone normal e icone pequeno
-- Compilação em diferentes compiladores
 
 - Visão preliminar do sistema de niveis
 |- Main
@@ -106,10 +92,7 @@ NEXT:
            |- TimeAcculator
            |- Animation
      |- Image
-|- Sistema de Entidades
-   |- objetos (classe base) - Jogo pausado não é necessário atualizar os objetos
-      |- Update()
-      |- Draw()
+
 |- Desenho 2D (ordem dos objetos - z-)
 |- Modos de video (resolução, formato bits por pixel, fps)
 |- Gerenciador de recursos
@@ -120,7 +103,7 @@ NEXT:
 - mostrar/esconder o console
  |_ // ShowWindow (GetConsoleWindow(), SW_HIDE);
 
- - configurar Timer com milissegundos (timeHandler deve possuir a frequencia)
+ - configurar Timer com milissegundos
 
  - Engine Version (major, minor, revision)
    |- Constante simbolica (talvez colocar no makefile)
@@ -134,13 +117,15 @@ NEXT:
     #define K_NO_BUFFER      0x00
     #define K_DEPTH_BUFFER   0x01
     #define K_STENCIL_BUFFER 0x02
+
 - DESENHO DE MULTIPLAS FRAMES (USAR MULTIPLOS VIEWPORT DE TAMANHOS
 DIFERENTES POR EXEMPLO) mESMA FUNÇÃO PODE SER UTILIZADA PARA
 DESENHAR EM DOIS VIEWPORTS DIFERENTES
 
-teste de colisão (quadrado, area de colisão do sprite)
+teste de colisão entre sprites
 colisão retangulo
 colisão pixels por pixels (paralelização)
+
 sistema de colisão
 |- loop na lista de sprites
 |- oportunidade de paralelização
