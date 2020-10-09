@@ -82,20 +82,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// SETTING UP SPRITES
 	sprites = new GESprite[SPRITE_COUNTING];
 
-	for(int i = 0; i < SPRITE_COUNTING; i++)
-	{
-		int speed_x = (rand() % 1000) - 500;
-		int speed_y = (rand() % 1000) - 500;
-
-		sprites[i].setPosition(0, 0);
-		sprites[i].setSpeed(speed_x, speed_y);
-		sprites[i].setSize(SPRITE_SIZE, SPRITE_SIZE);
-		sprites[i].setBoundsAction(BA_BOUNCE);
-		sprites[i].setBounding(WORLD_LEFT, WORLD_RIGHT, WORLD_TOP, WORLD_BOTTOM);
-	}
-
 	// SETTING UP WINDOW GAME
-	gameEngine->getGameWindow()->setName("BPM Game Engine - SPRITE TESTING - BOUNDING COLLISION!");
+	gameEngine->getGameWindow()->setName("Game Engine - BOUNDING COLLISION TEST!");
 	gameEngine->getGameWindow()->setWidth(GAME_WINDOW_WIDTH);
 	gameEngine->getGameWindow()->setHeight(GAME_WINDOW_HEIGHT);
 	gameEngine->getGameWindow()->setX(960 - (GAME_WINDOW_WIDTH / 2));
@@ -118,14 +106,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// SETTING UP SPRITES
 	for(int i = 0; i < SPRITE_COUNTING; i++)
 	{
-		int speed_x = (rand() % 1000) - 500;
-		int speed_y = (rand() % 1000) - 500;
+		int speed_x = (rand() % 800) - 400;
+		int speed_y = (rand() % 800) - 400;
 
 		sprites[i].setPosition(0, 0);
 		sprites[i].setSpeed(speed_x, speed_y);
 		sprites[i].setSize(SPRITE_SIZE, SPRITE_SIZE);
 		sprites[i].setBoundsAction(BA_BOUNCE);
-		sprites[i].setBounding(WORLD_LEFT, WORLD_RIGHT, WORLD_TOP, WORLD_BOTTOM);
+		sprites[i].setBounding(WORLD_LEFT / 2, WORLD_RIGHT / 2, WORLD_TOP / 2, WORLD_BOTTOM / 2);
 	}
 
 	// STARTING GAME LOOP
@@ -144,10 +132,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 void UserEventHandler::frameEvent()
 {
 	// glClearColor(1.0, 1.0, 1.0, 0.0);
-	glClearColor(0.0, 0.0, 0.0, 0.0);
+	// glClearColor(0.0, 0.0, 0.0, 0.0);
+	glClearColorHex(28, 29, 23, 0.0);
+
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	gameEngine->getRenderingSystem()->drawWorldAxis();
+	// gameEngine->getRenderingSystem()->drawWorldAxis();
 
 	// updating sprites
 	for(int i = 0; i < SPRITE_COUNTING; i++)
@@ -210,9 +200,39 @@ void UserEventHandler::keyboardEvent(unsigned char key, int state)
 	{
 		for(int i = 0; i < SPRITE_COUNTING; i++)
 		{
-			int speed_x = (rand() % 1000) - 500;
-			int speed_y = (rand() % 1000) - 500;
+			int speed_x = (rand() % 800) - 400;
+			int speed_y = (rand() % 800) - 400;
 			sprites[i].setSpeed(speed_x, speed_y);
+		}
+	}
+
+	if(key == '6' && state == 0)
+	{
+		for(int i = 0; i < SPRITE_COUNTING; i++)
+		{
+			sprites[i].setBounding(-1920, 1920, 1017, -1017);
+		}
+	}
+
+	if(key == '7' && state == 0)
+	{
+		for(int i = 0; i < SPRITE_COUNTING; i++)
+		{
+			int speed_x = (rand() % 800) - 400;
+			int speed_y = (rand() % 800) - 400;
+
+			sprites[i].setPosition(0, 0);
+			sprites[i].setSpeed(speed_x, speed_y);
+			sprites[i].setBounding(WORLD_LEFT / 2, WORLD_RIGHT / 2, WORLD_TOP / 2, WORLD_BOTTOM / 2);
+		}
+	}
+
+	if(key == '8' && state == 0)
+	{
+		for(int i = 0; i < SPRITE_COUNTING; i++)
+		{
+			sprites[i].setPosition(0, 0);
+			sprites[i].setSpeed(0, 0);
 		}
 	}
 

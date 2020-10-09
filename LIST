@@ -2,25 +2,30 @@
 ÚLTIMA ALTERAÇÃO: 6/ABRIL
 ===============================================================================
 
-- Sistema de Animação
-- Integração Camunda (java)
+---> MASTER
+Objetivo:
+|- (ok) Criação de uma struct RECT
 
-|- SpriteManager
-  - Criação de sprites
-  - Destrução de sprites
+- Gerenciamento dos sprites pela engine (criação, destruição, lista de sprites)
+- Aplicação de textura
+- Refatorar testes de unidades
+- Inclusão de joystick
+- ZOOM 2D (aumenta ou diminui o tamanho da window gluOrtho2D)
+- ZOOM 3D (aumenta ou diminui fovy da projeção)
+- PAN 2D (deslocar a window gluOrtho2D)
+- PAN 3D (deslocar a camera (viewing transformation)
 
-|- Inclusão de JNI
-|- Integração de BPMN Parser
+---> PYP
+Objetivo:
+- Integração JNI
+- Integração Camunda
+- Integração de BPMN Parser
 
-|- Inclusão de Travis CI
-|- Ter um documento para reportar erros e problemas
-|- Estudo do mapeamento PYP (processos macro e subdivisões )
-|- Incluir diagramas de componentes
-|- Criação de uma struct RECT
 
-|- Inclusão do projeto BPMNParser
-|- Inclusão do assets .BPMN
-
+- Inclusão de Travis CI
+- Ter um documento para reportar erros e problemas
+- Inclusão do projeto BPMNParser
+- Inclusão do assets .BPMN
 - Sistema de fisica
 - Sistema de entidades
 - renderização de uma imagem bitmap
@@ -29,10 +34,9 @@
 - animação basica
 - Inclusão da classe GEJNIWrapper
 - Inclusão do código fonte em Java (BPMNParser)
-|- Inclusão do parser de arquivos JPG
+- Inclusão do parser de arquivos JPG
 
 É necessário tornar a linkagem da JNI mais portável
-- Inclusão de joystick
 - Sistema de Audio
 - icone normal e icone pequeno
 - Compilação em diferentes compiladores
@@ -199,18 +203,6 @@ double calculateAngle(double size, double distance) {    double radtheta, degthe
     - fovy, znear e zfar
 
 Exibição de textoc
-
-ZOOM 2D
-aumenta ou diminui o tamanho da window gluOrtho2D
-
-ZOOM 3D
-aumenta ou diminui fovy da projeção
-
-PAN 2D
-deslocar a window gluOrtho2D
-
-PAN 3D
-deslocar a camera (viewing transformation)
 
 ===============================================================================
  N E X T
