@@ -74,7 +74,7 @@ void GameEngine::startMainLoop()
 	timeHandler->setInternalTimer(0);
 	timeHandler->setPerfomanceFrequency(apiWrapper->getHighResolutionTimerFrequency());
 	endTime = apiWrapper->getHighResolutionTimerCounter();
-	diag->start(apiWrapper->getHighResolutionTimerFrequency());
+	diag->start(1000);
 
 	if(!eventHandler)
 	{

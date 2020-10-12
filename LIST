@@ -5,6 +5,7 @@
 ---> MASTER
 Objetivo:
 |- (ok) Criação de uma struct RECT
+|- (ok) Configurando o timer como millisegundos e não por ciclos por CPU
 
 - Gerenciamento dos sprites pela engine (criação, destruição, lista de sprites)
 - Aplicação de textura
@@ -20,7 +21,6 @@ Objetivo:
 - Integração JNI
 - Integração Camunda
 - Integração de BPMN Parser
-
 
 - Inclusão de Travis CI
 - Ter um documento para reportar erros e problemas
@@ -337,3 +337,101 @@ ERROS QUE PODEM OCORRER (MAIS GRAVE PARA O MAIS LEVE)
 - Refatorar a classe GERenderingSystem
 - incluir novo macro para definição de cor de background (255, hex, %, 0-1)
 - Criações de demos
+
+void CheckJoystick()
+{
+  // if (m_uiJoystickID == JOYSTICKID1)
+  // {
+    // JOYINFO jiInfo;
+    //JOYSTATE jsJoystickState = 0;
+
+    // if (joyGetPos(JOYSTICKID1, &jiInfo) == JOYERR_NOERROR)
+    // {
+      // Check horizontal movement
+      // if(jiInfo.wXpos < 32767)
+      //  std::cout << "@debug | CheckJoystick | HORIZONTAL: " << jiInfo.wXpos << std::endl;
+  
+      // // Check vertical movement
+      // if(jiInfo.wYpos < 32767)
+      //  std::cout << "@debug | CheckJoystick | VERTICAL: " << jiInfo.wYpos << std::endl;
+
+      // std::cout << "@debug | CheckJoystick | Z-AXIS: " << jiInfo.wZpos << std::endl;
+
+      // Check buttons
+    //  if(jiInfo.wButtons & JOY_BUTTON1)
+    //    // jsJoystickState |= JOY_FIRE1;
+    //    std::cout << "@debug | CheckJoystick | JOY_FIRE1" << std::endl;
+
+    //  if(jiInfo.wButtons & JOY_BUTTON2)
+    //    // jsJoystickState |= JOY_FIRE2;
+    //    std::cout << "@debug | CheckJoystick | JOY_FIRE2" << std::endl;
+
+    //  if(jiInfo.wButtons & JOY_BUTTON3)
+    //    // jsJoystickState |= JOY_FIRE2;
+    //    std::cout << "@debug | CheckJoystick | JOY_FIRE3" << std::endl;
+
+    //  if(jiInfo.wButtons & JOY_BUTTON4)
+    //    // jsJoystickState |= JOY_FIRE2;
+    //    std::cout << "@debug | CheckJoystick | JOY_FIRE4" << std::endl;
+    // }
+
+    // Allow the game to handle the joystick
+    // HandleJoystick(jsJoystickState);
+  // }
+}
+
+  // UINT uiNumJoysticks = joyGetNumDevs();
+
+  // JOYINFO jiInfo;
+
+  // MMRESULT r = joyGetPos(JOYSTICKID1, &jiInfo);
+
+  // if(r == MMSYSERR_NODRIVER)
+  // {
+  //  std::cout << "@debug | MMSYSERR_NODRIVER: " << r << std::endl; 
+  // }
+  // else if(r == MMSYSERR_INVALPARAM)
+  // {
+  //  std::cout << "@debug | MMSYSERR_INVALPARAM: " << r << std::endl; 
+  // }
+  // else if(r == JOYERR_UNPLUGGED)
+  // {
+  //  std::cout << "@debug | JOYERR_UNPLUGGED: " << r << std::endl; 
+  // }
+
+  // UINT m_uiJoystickID = JOYSTICKID1;
+
+  // JOYCAPS jcCaps;
+  // joyGetDevCaps(m_uiJoystickID, &jcCaps, sizeof(JOYCAPS));
+
+  // std::cout << "@debug | wXmin: " << jcCaps.wXmin << std::endl; 
+  // std::cout << "@debug | wXmax: " << jcCaps.wXmax << std::endl; 
+  // std::cout << "@debug | wYmin: " << jcCaps.wYmin << std::endl; 
+  // std::cout << "@debug | wYmax: " << jcCaps.wYmax << std::endl; 
+
+  // r = joySetCapture(hWindow, m_uiJoystickID, 0, TRUE);
+
+  // if(r == JOYERR_NOERROR)
+  // {
+  //  std::cout << "@debug | controller connected: " << std::endl; 
+  // }
+  // else if(r == MMSYSERR_NODRIVER)
+  // {
+  //  std::cout << "@debug | MMSYSERR_NODRIVER: " << r << std::endl; 
+  // }
+  // else if(r == MMSYSERR_INVALPARAM)
+  // {
+  //  std::cout << "@debug | MMSYSERR_INVALPARAM: " << r << std::endl; 
+  // }
+  // else if(r == JOYERR_NOCANDO)
+  // {
+  //  std::cout << "@debug | JOYERR_NOCANDO: " << r << std::endl; 
+  // }
+  // else if(r == JOYERR_UNPLUGGED)
+  // {
+  //  std::cout << "@debug | JOYERR_UNPLUGGED: " << r << std::endl; 
+  // }
+  // else if(r == JOYERR_PARMS)
+  // {
+  //  std::cout << "@debug | JOYERR_PARMS: " << r << std::endl; 
+  // }

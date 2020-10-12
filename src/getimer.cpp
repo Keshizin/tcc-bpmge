@@ -38,7 +38,10 @@ GETimer::GETimer(GETimeHandler *timeHandler)
 // ----------------------------------------------------------------------------
 void GETimer::setTimer(unsigned long long stopTime)
 {
-	this->stopTime = stopTime;
+	if (stopTime < 1000)
+		this->stopTime = stopTime * timeHandler->getPerfomanceFrequency();
+	else
+		this->stopTime = (stopTime / 1000) * timeHandler->getPerfomanceFrequency();
 }
 
 void GETimer::start()
