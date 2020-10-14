@@ -41,11 +41,8 @@
 #define WORLD_TOP     1000
 #define WORLD_BOTTOM -1000
 
-#define SPRITE_COUNTING 1000
-#define SPRITE_SIZE 32
-
-GESprite *sprites;
 GameEngine *gameEngine = 0;
+GETimer *timer = 0;
 
 class UserEventHandler : public GEEventHandler
 {
@@ -79,9 +76,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	UserEventHandler eventHandler;
 	gameEngine = new GameEngine(&eventHandler);
 
-	// SETTING UP SPRITES
-	sprites = new GESprite[SPRITE_COUNTING];
-
 	// SETTING UP WINDOW GAME
 	gameEngine->getGameWindow()->setName("Game Engine - BOUNDING COLLISION TEST!");
 	gameEngine->getGameWindow()->setWidth(GAME_WINDOW_WIDTH);
@@ -103,18 +97,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameEngine->getRenderingSystem()->setProjection();
 	gameEngine->getGameWindow()->showWindow();
 
-	// SETTING UP SPRITES
-	for(int i = 0; i < SPRITE_COUNTING; i++)
-	{
-		int speed_x = (rand() % 800) - 400;
-		int speed_y = (rand() % 800) - 400;
-
-		sprites[i].setPosition(0, 0);
-		sprites[i].setSpeed(speed_x, speed_y);
-		sprites[i].setSize(SPRITE_SIZE, SPRITE_SIZE);
-		sprites[i].setBoundsAction(BA_BOUNCE);
-		sprites[i].setBounding(WORLD_LEFT / 2, WORLD_RIGHT / 2, WORLD_TOP / 2, WORLD_BOTTOM / 2);
-	}
+	timer = new GETimer(gameEngine->getTimeHandler());
 
 	// STARTING GAME LOOP
 	gameEngine->setFrameRate(0);
@@ -122,6 +105,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// RELEASE GAME ENGINE
 	delete gameEngine;
+	delete timer;
 
 	std::cout << "> BYE BPM Game Engine" << std::endl;
 	return 1;
@@ -131,24 +115,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 void UserEventHandler::frameEvent()
 {
-	// glClearColor(1.0, 1.0, 1.0, 0.0);
-	// glClearColor(0.0, 0.0, 0.0, 0.0);
-	glClearColorHex(28, 29, 23, 0.0);
-
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	// gameEngine->getRenderingSystem()->drawWorldAxis();
-
-	// updating sprites
-	for(int i = 0; i < SPRITE_COUNTING; i++)
+	if(timer->isDone())
 	{
-		sprites[i].update(gameEngine->getTimeHandler()->getFrameTimeInSeconds());
-	}
+		std::cout << "timer is done" << std::endl;
 
-	// drawing sprites
-	for(int i = 0; i < SPRITE_COUNTING; i++)
-	{
-		sprites[i].draw();
+		GLfloat red = (rand() % 256) / 255.0;
+		GLfloat green = (rand() % 256) / 255.0;
+		GLfloat blue = (rand() % 256) / 255.0;
+
+		glClearColor(red, green, blue, 1.0f);
+
+		timer->start();
 	}
 }
 
@@ -162,78 +141,10 @@ void UserEventHandler::mouseMotionEvent(int x, int y)
 
 void UserEventHandler::keyboardEvent(unsigned char key, int state)
 {
-	if(key == '0' && state == 0)
+	if(key == '1' && state)
 	{
-		for (int i = 0; i < SPRITE_COUNTING; i++)
-			sprites[i].setVisible(!sprites[i].getVisible());
-	}
-
-	if(key == '1' && state == 0)
-	{
-		for (int i = 0; i < SPRITE_COUNTING; i++)
-			sprites[i].setBoundsAction(BA_STOP);
-	}
-
-	if(key == '2' && state == 0)
-	{
-		for (int i = 0; i < SPRITE_COUNTING; i++)
-			sprites[i].setBoundsAction(BA_WRAP);
-	}
-
-	if(key == '3' && state == 0)
-	{
-		for (int i = 0; i < SPRITE_COUNTING; i++)
-			sprites[i].setBoundsAction(BA_BOUNCE);
-	}
-
-	if(key == '4' && state == 0)
-	{
-		for(int i = 0; i < SPRITE_COUNTING; i++)
-		{
-			int x = (rand() % (WORLD_RIGHT * 2 - SPRITE_SIZE)) + WORLD_LEFT;
-			int y = (rand() % (WORLD_TOP * 2 - SPRITE_SIZE)) + WORLD_BOTTOM;
-			sprites[i].setPosition(x, y);
-		}
-	}
-
-	if(key == '5' && state == 0)
-	{
-		for(int i = 0; i < SPRITE_COUNTING; i++)
-		{
-			int speed_x = (rand() % 800) - 400;
-			int speed_y = (rand() % 800) - 400;
-			sprites[i].setSpeed(speed_x, speed_y);
-		}
-	}
-
-	if(key == '6' && state == 0)
-	{
-		for(int i = 0; i < SPRITE_COUNTING; i++)
-		{
-			sprites[i].setBounding(-1920, 1920, 1017, -1017);
-		}
-	}
-
-	if(key == '7' && state == 0)
-	{
-		for(int i = 0; i < SPRITE_COUNTING; i++)
-		{
-			int speed_x = (rand() % 800) - 400;
-			int speed_y = (rand() % 800) - 400;
-
-			sprites[i].setPosition(0, 0);
-			sprites[i].setSpeed(speed_x, speed_y);
-			sprites[i].setBounding(WORLD_LEFT / 2, WORLD_RIGHT / 2, WORLD_TOP / 2, WORLD_BOTTOM / 2);
-		}
-	}
-
-	if(key == '8' && state == 0)
-	{
-		for(int i = 0; i < SPRITE_COUNTING; i++)
-		{
-			sprites[i].setPosition(0, 0);
-			sprites[i].setSpeed(0, 0);
-		}
+		std::cout << "start timer" << std::endl;
+		timer->start();
 	}
 
 	if(key == 27)
@@ -254,11 +165,6 @@ void UserEventHandler::resizeWindowEvent(int width, int height)
 	gameEngine->getRenderingSystem()->setWorldTop(height);
 	gameEngine->getRenderingSystem()->setWorldBottom(-height);
 	gameEngine->getRenderingSystem()->setProjection();
-
-	for(int i = 0; i < SPRITE_COUNTING; i++)
-	{
-		sprites[i].setBounding(-width, width, height, -height);
-	}
 }
 
 void UserEventHandler::finishAfterEvent()
@@ -283,4 +189,6 @@ void UserEventHandler::pauseEvent()
 
 void UserEventHandler::beforeMainLoopEvent()
 {
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0);
+	timer->setTimer(3000);
 }
