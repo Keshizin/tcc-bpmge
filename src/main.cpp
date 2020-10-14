@@ -29,20 +29,25 @@
 
 #include <ge.h>
 #include <gesprite.h>
+#include <diblib.h>
 
 // ----------------------------------------------------------------------------
 //  GLOBAL ESCOPE
 // ----------------------------------------------------------------------------
-#define GAME_WINDOW_WIDTH 800
-#define GAME_WINDOW_HEIGHT 800
+#define GAME_WINDOW_WIDTH 640
+#define GAME_WINDOW_HEIGHT 480
 
-#define WORLD_LEFT   -1000
-#define WORLD_RIGHT   1000
-#define WORLD_TOP     1000
-#define WORLD_BOTTOM -1000
+#define WORLD_LEFT   -1
+#define WORLD_RIGHT   640
+#define WORLD_TOP     480
+#define WORLD_BOTTOM -1
 
 GameEngine *gameEngine = 0;
 GETimer *timer = 0;
+
+#define NUMBER_OF_SPRITES 15
+DIB image;
+GESprite sprites[NUMBER_OF_SPRITES];
 
 class UserEventHandler : public GEEventHandler
 {
@@ -82,7 +87,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameEngine->getGameWindow()->setHeight(GAME_WINDOW_HEIGHT);
 	gameEngine->getGameWindow()->setX(960 - (GAME_WINDOW_WIDTH / 2));
 	gameEngine->getGameWindow()->setY(540 - (GAME_WINDOW_HEIGHT / 2));
-	gameEngine->getGameWindow()->setStyle(GE_WIN_COMPLETE);
+	gameEngine->getGameWindow()->setStyle(GE_WIN_DEFAULT);
 	gameEngine->getGameWindow()->createWindow();
 
 	// SETTING UP RENDERING ENGINE
@@ -119,13 +124,24 @@ void UserEventHandler::frameEvent()
 
 	if(timer->isDone())
 	{
-		GLfloat red = (rand() % 256) / 255.0;
-		GLfloat green = (rand() % 256) / 255.0;
-		GLfloat blue = (rand() % 256) / 255.0;
+		// GLfloat red = (rand() % 256) / 255.0;
+		// GLfloat green = (rand() % 256) / 255.0;
+		// GLfloat blue = (rand() % 256) / 255.0;
 
-		glClearColor(red, green, blue, 1.0f);
+		// glClearColor(red, green, blue, 1.0f);
+
+		for(int i = 0; i < NUMBER_OF_SPRITES; i++)
+		{
+			sprites[i].setSpeed(-(rand() % 1000), 0);
+		}
 
 		timer->start();
+	}
+
+	for(int i = 0; i < NUMBER_OF_SPRITES; i++)
+	{
+		sprites[i].update(gameEngine->getTimeHandler()->getFrameTimeInSeconds());
+		sprites[i].draw();
 	}
 }
 
@@ -187,5 +203,30 @@ void UserEventHandler::pauseEvent()
 void UserEventHandler::beforeMainLoopEvent()
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0);
-	timer->setTimer(100);
+	timer->setTimer(1000);
+
+	image.loadFile("assets/anta.bmp", 1);
+
+	for(int i = 0; i < NUMBER_OF_SPRITES; i++)
+	{
+		sprites[i].setPosition(0, i * image.getHeight());
+		sprites[i].setSpeed(-(rand() % 1000), 0);
+
+		sprites[i].setSize(image.getWidth(), image.getHeight());
+		sprites[i].setBoundsAction(BA_WRAP);
+		sprites[i].setBounding(-1, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT, -1);
+
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+		GLuint textureID;
+		glGenTextures(1, &textureID);
+		glBindTexture(GL_TEXTURE_2D, textureID);
+
+		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGB, image.getWidth(), image.getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, image.getColorIndex());
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		sprites[i].setTextureID(textureID);
+	}
+	
+	image.release();
 }

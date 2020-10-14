@@ -129,15 +129,35 @@ void GESprite::draw()
 		// 	drawGEModel(model);
 		// }
 
-		glBegin(GL_LINE_LOOP);
-		glColor3fv(&color[0]);
-		glVertex2i(position_x, position_y + height);
-		glVertex2i(position_x + width, position_y + height);
-		glVertex2i(position_x, position_y);
-		glVertex2i(position_x + width, position_y + height);
-		glVertex2i(position_x + width, position_y);
-		glVertex2i(position_x, position_y);
-		glEnd();
+		if(textureID)
+		{
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, textureID);
+
+			glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f);
+			glVertex2i(position_x, position_y);
+			glTexCoord2f(1.0f, 0.0f);
+			glVertex2i(position_x + width, position_y);
+			glTexCoord2f(1.0f, 1.0f);
+			glVertex2i(position_x + width, position_y + height);
+			glTexCoord2f(0, 1.0f);
+			glVertex2i(position_x, position_y + height);
+			glEnd();
+			glDisable(GL_TEXTURE_2D);
+		}
+		else
+		{
+			glBegin(GL_LINE_LOOP);
+			glColor3fv(&color[0]);
+			glVertex2i(position_x, position_y + height);
+			glVertex2i(position_x + width, position_y + height);
+			glVertex2i(position_x, position_y);
+			glVertex2i(position_x + width, position_y + height);
+			glVertex2i(position_x + width, position_y);
+			glVertex2i(position_x, position_y);
+			glEnd();
+		}
 	}
 }
 
@@ -255,4 +275,14 @@ void GESprite::setBoundsAction(BOUNDSACTION boundsAction)
 BOUNDSACTION GESprite::getBoundsAction()
 {
 	return this->boundsAction;
+}
+
+void GESprite::setTextureID(unsigned int textureID)
+{
+	this->textureID = textureID;
+}
+
+unsigned int GESprite::getTextureID()
+{
+	return this->textureID;
 }

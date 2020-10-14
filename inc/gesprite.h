@@ -76,6 +76,9 @@ public:
 	void setBoundsAction(BOUNDSACTION boundsAction);
 	BOUNDSACTION getBoundsAction();
 
+	void setTextureID(unsigned int textureID);
+	unsigned int getTextureID();
+
 private:
 	double position_x;
 	double position_y;
@@ -86,6 +89,7 @@ private:
 	int zOrder;
 	bool visible;
 	float color[9]; // ela deverá ser removida
+	unsigned int textureID;
 
 	MODEL *model;
 	GERECT bounding;
