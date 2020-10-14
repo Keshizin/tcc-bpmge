@@ -119,8 +119,6 @@ void UserEventHandler::frameEvent()
 
 	if(timer->isDone())
 	{
-		std::cout << "timer is done" << std::endl;
-
 		GLfloat red = (rand() % 256) / 255.0;
 		GLfloat green = (rand() % 256) / 255.0;
 		GLfloat blue = (rand() % 256) / 255.0;
@@ -143,7 +141,6 @@ void UserEventHandler::keyboardEvent(unsigned char key, int state)
 {
 	if(key == '1' && state)
 	{
-		std::cout << "start timer" << std::endl;
 		timer->start();
 	}
 
@@ -190,5 +187,5 @@ void UserEventHandler::pauseEvent()
 void UserEventHandler::beforeMainLoopEvent()
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0);
-	timer->setTimer(3000);
+	timer->setTimer(100);
 }

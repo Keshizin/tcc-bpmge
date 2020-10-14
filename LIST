@@ -6,6 +6,7 @@
 Objetivo:
 |- (ok) Criação de uma struct RECT
 |- (ok) Configurando o timer como millisegundos e não por ciclos por CPU
+|- (ok) Correção no timer e inclusão da possibilitar o eventHandler
 
 - Gerenciamento dos sprites pela engine (criação, destruição, lista de sprites)
 - Aplicação de textura
