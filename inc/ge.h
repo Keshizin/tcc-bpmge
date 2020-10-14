@@ -62,6 +62,8 @@ public:
 	GEDiag *getDiag();
 	GERenderingSystem *getRenderingSystem();
 
+	void setEventHandler(GEEventHandler *eventHandler);
+
 private:
 	int runningStatus;
 

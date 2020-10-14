@@ -183,3 +183,9 @@ GEDiag *GameEngine::getDiag()
 {
 	return diag;
 }
+
+void setEventHandler(GEEventHandler *eventHandler)
+{
+	this->eventHandler = eventHandler;
+	this->apiWrapper->setGlobalEventHandler = eventHandler;
+}
