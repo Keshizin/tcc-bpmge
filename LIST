@@ -1,15 +1,18 @@
 ===============================================================================
 ÚLTIMA ALTERAÇÃO: 6/ABRIL
 ===============================================================================
+desenhar curvas parametricas com pontos de controle gerado aleatoriamente
+gerar curvas parametricas a partir da sequencia de fibonacci
+- testes de movimentação de objetos com transformações geometricas (dois objetos na tela, 1-move squerda, 2 move direita, 3 move ambos)gl PopMatrix, glPushMatrix
 
 ---> MASTER
 Objetivo:
 |- (ok) Criação de uma struct RECT
 |- (ok) Configurando o timer como millisegundos e não por ciclos por CPU
 |- (ok) Correção no timer e inclusão da possibilitar o eventHandler
+|- (ok) Aplicação de textura
 
 - Gerenciamento dos sprites pela engine (criação, destruição, lista de sprites)
-- Aplicação de textura
 - Refatorar testes de unidades
 - Inclusão de joystick
 - ZOOM 2D (aumenta ou diminui o tamanho da window gluOrtho2D)

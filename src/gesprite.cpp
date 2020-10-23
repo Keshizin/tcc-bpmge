@@ -33,6 +33,11 @@ GESprite::GESprite()
 {
 	this->model = 0;
 	this->visible = true;
+	this->boundsAction = BA_STOP;
+	this->bounding.left = 0;
+	this->bounding.right = 0;
+	this->bounding.top = 0;
+	this->bounding.bottom = 0;
 }
 
 GESprite::GESprite(MODEL *model)
