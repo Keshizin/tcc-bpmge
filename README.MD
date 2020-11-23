@@ -6,11 +6,13 @@
 
 The BPM Game Engine consists of a set of runtime components, including a real-time rendering engine in OpenGL, a platform-independent window-system and user input, physics simulation and collision detection system, animation system, and the gameplay foundation layer which supports the creation of game objects and gameplay mechanics. However, its greatest advantage lies in its ability to extract information from business process models and transform them into data structures which represent a sequence of player objectives and game objects.
 
-###### BPM Game Engine Architecture
-
-<img src="docs/img/bpmge-architecture.png" alt="BPM Game Engine Logo" align="center" />
-
 ## Getting Starting
+
+This project can be compiled using the following compilers:
+
+* GCC
+* Microsoft Visual Studio
+* MinGW
 
 1. Go to https://github.com/Keshizin/tcc-bpmge to clone BPM Game Engine repo.
 
@@ -21,12 +23,6 @@ The BPM Game Engine consists of a set of runtime components, including a real-ti
          $ make all
 
 This will generate static library `bpmge.lib` that you can use to link to your game project. For more details, check the development guide (inside the `docs` directory) to find out how to create games using BPM Game Engine.
-
-This project can be compiled using the following compilers:
-
-* GCC
-* Microsoft Visual Studio
-* MinGW
 
 ## Documentation
 

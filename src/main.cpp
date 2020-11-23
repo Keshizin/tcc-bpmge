@@ -40,16 +40,10 @@
 #define WORLD_RIGHT   640
 #define WORLD_TOP     480
 #define WORLD_BOTTOM -1
+
 // ----------------------------------------------------------------------------
 //  GLOBAL ESCOPE
 // ----------------------------------------------------------------------------
-
-GameEngine *gameEngine = 0;
-
-DIB splashImage;
-GESprite splashSprite;
-
-GETimer *timer = 0;
 
 class SplashEventHandler : public GEEventHandler
 {
@@ -80,6 +74,12 @@ class GameEventHandler : public GEEventHandler
 	void pauseEvent();
 	void beforeMainLoopEvent();
 };
+
+GameEngine *gameEngine = 0;
+
+DIB splashImage;
+GESprite splashSprite;
+GETimer *timer = 0;
 
 // ----------------------------------------------------------------------------
 //  MAIN APPLICATION
@@ -127,7 +127,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// RELEASE GAME ENGINE
 	delete gameEngine;
-	delete timer;
+	// delete timer;
 
 	std::cout << "> BYE BPM Game Engine" << std::endl;
 	return 1;
