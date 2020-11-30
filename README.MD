@@ -1,5 +1,3 @@
-<img src="docs/img/logo.png" alt="BPM Game Engine Logo" align="right" width=100 />
-
 # BPM Game Engine
 
 **BPM Game Engine** is a open source game engine written in C++ that emerged to support the development of digital games based on business process. Business process-based games are characterized by games that present a business process in a playful way, thus allowing the understanding and learning of its operation in a fun and engaging way.

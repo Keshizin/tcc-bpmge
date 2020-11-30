@@ -45,21 +45,6 @@
 //  GLOBAL ESCOPE
 // ----------------------------------------------------------------------------
 
-class SplashEventHandler : public GEEventHandler
-{
-	void frameEvent();
-	void mouseEvent(int button, int state, int x, int y);
-	void mouseMotionEvent(int x, int y);
-	void keyboardEvent(unsigned char key, int state);
-	void keyboardSpecialEvent(unsigned char key, int state);
-	void resizeWindowEvent(int width, int height);
-	void finishAfterEvent();
-	void finishBeforeEvent();
-	void resumeEvent();
-	void pauseEvent();
-	void beforeMainLoopEvent();
-};
-
 class GameEventHandler : public GEEventHandler
 {
 	void frameEvent();
@@ -77,10 +62,6 @@ class GameEventHandler : public GEEventHandler
 
 GameEngine *gameEngine = 0;
 
-DIB splashImage;
-GESprite splashSprite;
-GETimer *timer = 0;
-
 // ----------------------------------------------------------------------------
 //  MAIN APPLICATION
 // ----------------------------------------------------------------------------
@@ -95,7 +76,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	#endif
 
 	// START UP GAME ENGINE
-	SplashEventHandler eventHandler;
+	GameEventHandler eventHandler;
 	gameEngine = new GameEngine(&eventHandler);
 
 	// SETTING UP WINDOW GAME
@@ -119,15 +100,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameEngine->getRenderingSystem()->setProjection();
 	gameEngine->getGameWindow()->showWindow();
 
-	timer = new GETimer(gameEngine->getTimeHandler());
-
 	// STARTING GAME LOOP
 	gameEngine->setFrameRate(0);
 	gameEngine->startMainLoop();
 
 	// RELEASE GAME ENGINE
 	delete gameEngine;
-	// delete timer;
 
 	std::cout << "> BYE BPM Game Engine" << std::endl;
 	return 1;
@@ -136,95 +114,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 // ----------------------------------------------------------------------------
 //  SPLASH EVENT DECLARATION
 // ----------------------------------------------------------------------------
-void SplashEventHandler::frameEvent()
-{
-	glClear(GL_COLOR_BUFFER_BIT);
-	splashSprite.draw();
-}
-
-void SplashEventHandler::mouseEvent(int button, int state, int x, int y)
-{
-}
-
-void SplashEventHandler::mouseMotionEvent(int x, int y)
-{
-}
-
-void SplashEventHandler::keyboardEvent(unsigned char key, int state)
-{
-	if(key == '1' && state)
-	{
-		timer->start();
-	}
-
-	if(key == 27)
-	{
-		gameEngine->stopMainLoop();
-	}
-}
-
-void SplashEventHandler::keyboardSpecialEvent(unsigned char key, int state)
-{
-}
-
-void SplashEventHandler::resizeWindowEvent(int width, int height)
-{
-	gameEngine->getRenderingSystem()->setViewport(0, 0, width, height);
-	gameEngine->getRenderingSystem()->setWorldLeft(-width);
-	gameEngine->getRenderingSystem()->setWorldRight(width);
-	gameEngine->getRenderingSystem()->setWorldTop(height);
-	gameEngine->getRenderingSystem()->setWorldBottom(-height);
-	gameEngine->getRenderingSystem()->setProjection();
-}
-
-void SplashEventHandler::finishAfterEvent()
-{
-	gameEngine->stopMainLoop();
-}
-
-void SplashEventHandler::finishBeforeEvent()
-{
-	gameEngine->getGameWindow()->destroyWindow();
-}
-
-void SplashEventHandler::resumeEvent()
-{
-	gameEngine->resumeGameLoop();
-}
-
-void SplashEventHandler::pauseEvent()
-{
-	gameEngine->pauseGameLoop();
-}
-
-void SplashEventHandler::beforeMainLoopEvent()
-{
-	glClearColorHex(0xF7, 0xC2, 0x17, 1);
-	timer->setTimer(1000);
-
-	splashImage.loadFile("assets/logo.bmp", 1);
-	
-	splashSprite.setPosition((GAME_SPLASH_WINDOW_WIDTH - splashImage.getWidth()) / 2, (GAME_SPLASH_WINDOW_HEIGHT - splashImage.getHeight()) / 2);
-	splashSprite.setSpeed(0, 0);
-	splashSprite.setSize(splashImage.getWidth(), splashImage.getHeight());
-
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-	GLuint textureID;
-	glGenTextures(1, &textureID);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGB, splashImage.getWidth(), splashImage.getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, splashImage.getColorIndex());
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	splashSprite.setTextureID(textureID);
-	
-	splashImage.release();
-}
-
-// ----------------------------------------------------------------------------
-//  GAME EVENT DECLARATION
-// ----------------------------------------------------------------------------
 void GameEventHandler::frameEvent()
 {
+	glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void GameEventHandler::mouseEvent(int button, int state, int x, int y)
@@ -237,6 +129,10 @@ void GameEventHandler::mouseMotionEvent(int x, int y)
 
 void GameEventHandler::keyboardEvent(unsigned char key, int state)
 {
+	if(key == 27)
+	{
+		gameEngine->stopMainLoop();
+	}
 }
 
 void GameEventHandler::keyboardSpecialEvent(unsigned char key, int state)
@@ -245,24 +141,35 @@ void GameEventHandler::keyboardSpecialEvent(unsigned char key, int state)
 
 void GameEventHandler::resizeWindowEvent(int width, int height)
 {
+	gameEngine->getRenderingSystem()->setViewport(0, 0, width, height);
+	gameEngine->getRenderingSystem()->setWorldLeft(-width);
+	gameEngine->getRenderingSystem()->setWorldRight(width);
+	gameEngine->getRenderingSystem()->setWorldTop(height);
+	gameEngine->getRenderingSystem()->setWorldBottom(-height);
+	gameEngine->getRenderingSystem()->setProjection();
 }
 
 void GameEventHandler::finishAfterEvent()
 {
+	gameEngine->stopMainLoop();
 }
 
 void GameEventHandler::finishBeforeEvent()
 {
+	gameEngine->getGameWindow()->destroyWindow();
 }
 
 void GameEventHandler::resumeEvent()
 {
+	gameEngine->resumeGameLoop();
 }
 
 void GameEventHandler::pauseEvent()
 {
+	gameEngine->pauseGameLoop();
 }
 
 void GameEventHandler::beforeMainLoopEvent()
 {
+	glClearColorHex(0xF7, 0xC2, 0x17, 1);
 }
